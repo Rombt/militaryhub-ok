@@ -1,0 +1,216 @@
+/*=============  products_text.tpl    ============*/
+
+.rmbt-boxed .heading_label{
+    display: block;
+    margin-bottom: 15px;
+}
+
+.rmbt-boxed{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.rmbt-boxed .heading_box{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.rmbt-boxed .heading_box .rmbt-notes{
+    text-align: center;
+    flex-grow: 1;
+}
+
+.rmbt-boxed .heading_box .rmbt-notes span{
+    font-weight: 700;
+}
+
+.rmbt-prompt textarea{
+    height: 120px;
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.rmbt-date  input,
+.rmbt-products-id textarea{
+    width: 100%;
+}
+
+.rmbt-gpt-results-heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 15px;
+}
+
+.rmbt-gpt-results-heading .rmbt-notes{
+    margin-bottom: 0px !important;
+}
+
+.rmbt-total-token{
+    margin-bottom: 0 !important;
+}
+
+.generation-name{
+    margin-bottom: 0 !important;
+}
+
+#rmbt-gpt-results{
+    width: 100%;
+}
+
+.table-result{
+    margin: 0 auto;
+}
+
+.table-result th,
+.table-result td,
+.table-logs th,
+.table-logs td{
+    text-align: center;
+    padding: 10px;
+}
+
+.table-logs td button:not(:last-of-type){
+    margin-right: 15px;
+}
+
+/* .rmbt-hide{
+    display: none;
+} */
+
+.rmbt-submit{
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.rmbt-loading {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rmbt-spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ccc;
+    border-top: 3px solid #2b7cff;
+    border-radius: 50%;
+    animation: rmbt-spin 0.8s linear infinite;
+}
+
+@keyframes rmbt-spin {
+    to { transform: rotate(360deg); }
+}
+
+.rmbt-hide {
+    display: none;
+}
+
+.rmbt-tabs{
+    border:none !important;
+}
+
+.rmbt-tab-list{
+    list-style: none;
+    display: flex;
+    column-gap: 10px;
+    margin-bottom: 0 !important;
+
+}
+
+.rmbt-tab-list .rmbt-tab{
+    color: #ffffff;
+    background-color: #767676b3;
+
+    padding: 5px 15px;
+    font-size: 14px;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 34px;
+    border-radius: 5px 5px 0px 0px;
+
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* По горизонтали */
+
+    cursor: pointer;
+
+}
+
+.rmbt-tab-list .rmbt-tab[aria-selected="false"]{
+
+background-color: #76767666;
+}
+
+/*=============  products_image.tpl    ============*/
+
+.rmbt-heading{
+    column-gap: 30px;
+}
+
+.rmbt-heading_page{
+    flex-grow: 1;
+}
+
+.rmbt-products-image-data-fields{
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0px;
+    margin-bottom: 10px;
+
+}
+
+/* .rmbt-products-image-data-fields .rmbt-date,
+.rmbt-products-image-data-fields .rmbt-products-id,
+.rmbt-products-image-data-fields .rmbt-brands{
+
+} */
+
+
+.rmbt-brands{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.rmbt-task-results{
+    width: 100%;
+}
+
+.rmbt-task-results pre{
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0 auto;
+    width: 600px;
+}
+
+.rmbt-task-results code{
+    display: block;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 1em;
+
+    background-color: #f6f8fa;
+    color: #24292e;
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+}
+
+.rmbt-task-name{
+    flex-grow: 10;
+    text-align: center;
+    margin-bottom: 0 !important;
+}
+
+

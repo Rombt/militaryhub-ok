@@ -1,0 +1,6 @@
+order deny,allow 
+deny from all
+
+<Files "rozetka.php">
+    Allow from all
+</Files>

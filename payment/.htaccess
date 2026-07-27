@@ -1,0 +1,12 @@
+Order Deny,Allow
+Deny from all
+
+#<Files callback.php>
+#    Order Allow,Deny
+#    Allow from all
+#</Files>
+
+<FilesMatch "^[\w_]*callback\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

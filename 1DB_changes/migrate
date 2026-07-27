@@ -1,0 +1,47 @@
+#!/usr/bin/env php
+<?php
+
+chdir(dirname(__DIR__));
+require_once('api/Config.php');
+require_once('api/Okay.php');
+require_once('api/Migrations.php');
+error_reporting(1);
+class Migration extends Migrations {
+
+    private $config;
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->config = new Config();
+    }
+
+    public function fetch() {
+        $sqlFolder = dirname(dirname(__FILE__)) . "/1DB_changes/migrations/";
+        $allFiles = $exists_migrations = [];
+        foreach (glob($sqlFolder . '*.sql') as $item) {
+            $allFiles[] = pathinfo($item, PATHINFO_FILENAME);
+        }
+        $query = $this->db->placehold('SHOW TABLES LIKE ?', $this->config->db_prefix . 'migrations');
+        $this->db->query($query);
+        $cnt = $this->db->num_rows();
+        if ($cnt > 0) {
+            $exists_migrations = $this->get_items(array('limit' => count($allFiles)));
+            foreach (array_diff($allFiles, $exists_migrations) as $migration) {
+                $this->db->query('SET AUTOCOMMIT = 0');
+                if ($this->db->restore($sqlFolder . "$migration.sql")) {
+                    $this->db->query('SET AUTOCOMMIT = 1');
+                    $this->add_item(array('name' => $migration));
+                    print "\n"."Migration $migration completed successfully."."\n";
+                }
+            }
+            $this->settings->last_migrate_date = date('Y-m-d H:i:s');
+        }
+
+        return true;
+    }
+}
+
+$results = new Migration();
+$results->fetch();
+exit();

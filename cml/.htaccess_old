@@ -1,0 +1,10 @@
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+RewriteCond %{SERVER_PORT} 80
+
+RewriteCond %{HTTPS} on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+
+RewriteCond %{REQUEST_URI} !^/home/sportfly/web/sportfly.com.ua/public_html/cml/1c_exchange.php
+RewriteRule ^.*$ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

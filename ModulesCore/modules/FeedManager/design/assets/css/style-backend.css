@@ -1,0 +1,125 @@
+#rmbt-feed-rozetka-constraints .rmbt-field-wrap{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 20px;
+
+
+}
+
+#rmbt-feed-rozetka-constraints .rmbt-list-row{
+
+padding: 15px;
+display: flex;
+column-gap: 20px;
+/* flex-wrap: wrap; */
+align-items: center;
+justify-content: space-between;
+
+}
+
+.rmbt-list-row label span{
+    line-height: 200%;
+}
+
+#rmbt-feed-rozetka-constraints .rmbt-submit{
+    margin-left: 0px;
+    height: auto;
+}
+
+#rmbt-feed-rozetka-constraints .heading_label{
+    
+    font-size: 16px;
+
+}
+
+#rmbt-feed-rozetka-constraints .rmbt-hide {
+    display: none;
+}
+
+#rmbt-feed-rozetka-abbreviations.boxed{
+}
+
+#rmbt-feed-rozetka-abbreviations .heading_box{
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+#rmbt-feed-rozetka-abbreviations .row{
+    
+    display: flex;
+    align-items:flex-start;
+    justify-content: space-between;
+    column-gap: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 15px;
+    
+    
+    min-height: 100px;
+    /* border: 1px solid #000; */
+}
+
+#rmbt-feed-rozetka-abbreviations .two-col{
+    flex-basis: 50%;
+    /* border: 1px solid #000; */
+}
+
+.property-values{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+}
+
+.property-values .rmbt-values-without-match{
+    display: flex;
+    column-gap: 15px;
+
+}
+.property-values .rmbt-values-without-match > label{
+    flex-basis: 60%;
+}
+
+.property-values .main_list_status{
+    display: flex;
+    justify-content: center;
+    flex-basis: 30%;
+
+
+}
+
+.property-values textarea{
+    width: 100%;       /* Растянуть на всю ширину родительского контейнера */
+    min-height: 200px;
+    flex-grow: 1;
+    border: 1px solid #ccc;
+
+}
+.property-values button{
+    align-self:flex-end;
+    width: max-content;
+}
+
+.property-values .rmbt-limitation-elements{
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+
+}
+.property-values .rmbt-limitation-elements .heading_box{
+    flex-basis: 100%;
+    
+}
+.property-values .rmbt-limitation-elements label{
+   
+    flex: 1;
+    align-self: flex-start;
+
+    
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		PrivatBank PayParts2
+	</name>
+	<settings>
+		<variable>privatbank_store_id</variable>
+		<name>Ідентифікатор магазину</name>
+	</settings>
+	<settings>
+		<variable>privatbank_password</variable>
+		<name>Пароль магазину</name>
+	</settings>
+	<settings>
+		<variable>privatbank_min_parts_count</variable>
+		<name>Мінімальна кількість частин, на які ділиться сума транзакції</name>
+	</settings>
+	<settings>
+		<variable>privatbank_max_parts_count</variable>
+		<name>Максимальна кількість частин, на які ділиться сума транзакції</name>
+	</settings>
+    <settings>
+		<variable>privatbank_merchant_type</variable>
+		<name>Тип кредиту</name>
+        <options>
+            <name>Миттєва розстрочка</name>
+            <value>II</value>
+        </options>
+		<options>
+			<name>Оплата частинами</name>
+			<value>PP</value>
+		</options>
+	</settings>
+</module>

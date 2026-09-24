@@ -1,11 +1,13 @@
 <?php
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
-class Banners extends Okay {
+class Banners extends Okay
+{
 
     /*Выбираем все слайды*/
-    public function get_banners_images($filter = array(), $count = false) {
+    public function get_banners_images($filter = array(), $count = false)
+    {
         $limit = 100;  // По умолчанию
         $page = 1;
         $joins = '';
@@ -48,9 +50,9 @@ class Banners extends Okay {
         
         if(!empty($filter['sort'])) {
             switch ($filter['sort']) {
-                case 'position':
-                    $order = 'bi.position DESC';
-                    break;
+            case 'position':
+                $order = 'bi.position DESC';
+                break;
             }
         }
 
@@ -65,7 +67,8 @@ class Banners extends Okay {
             $sql_limit  = '';
         }
         
-        $query = $this->db->placehold("SELECT $select
+        $query = $this->db->placehold(
+            "SELECT $select
             FROM __banners_images bi
             $lang_sql->join
             $joins
@@ -74,7 +77,8 @@ class Banners extends Okay {
                 $group_by
                 $order 
                 $sql_limit
-        ");
+        "
+        );
         
         $this->db->query($query);
         if ($count === true) {
@@ -85,19 +89,22 @@ class Banners extends Okay {
     }
 
     /*Подсчитываем количество найденных слайдов*/
-    public function count_banners_images($filter = array()) {
+    public function count_banners_images($filter = array())
+    {
         return $this->get_banners_images($filter, true);
     }
 
     /*Выбираем конкретный слайд*/
-    public function get_banners_image($id) {
+    public function get_banners_image($id)
+    {
         if(!is_int($id)) {
-           return false;
+            return false;
         }
         $banner_id_filter = $this->db->placehold("AND bi.id=?", intval($id));
         
         $lang_sql = $this->languages->get_query(array('object'=>'banner_image', 'px'=>'bi'));
-        $query = $this->db->placehold("SELECT 
+        $query = $this->db->placehold(
+            "SELECT 
                 bi.id, 
                 bi.banner_id, 
                 bi.image, 
@@ -110,14 +117,16 @@ class Banners extends Okay {
                 1 
                 $banner_id_filter
             LIMIT 1
-        ", $id);
+        ", $id
+        );
         $this->db->query($query);
         $banners_image = $this->db->result();
         return $banners_image;
     }
 
     /*Добавление слайда*/
-    public function add_banners_image($banners_image) {
+    public function add_banners_image($banners_image)
+    {
         $banners_image = (object)$banners_image;
         // Проверяем есть ли мультиязычность и забираем описания для перевода
         $result = $this->languages->get_description($banners_image, 'banner_image');
@@ -137,7 +146,8 @@ class Banners extends Okay {
     }
 
     /*Обновление слайда*/
-    public function update_banners_image($id, $banners_image) {
+    public function update_banners_image($id, $banners_image)
+    {
         $banners_image = (object)$banners_image;
         // Проверяем есть ли мультиязычность и забираем описания для перевода
         $result = $this->languages->get_description($banners_image, 'banner_image');
@@ -155,7 +165,8 @@ class Banners extends Okay {
     }
 
     /*Удаление слайда*/
-    public function delete_banners_image($id) {
+    public function delete_banners_image($id)
+    {
         if(!empty($id)) {
             $this->image->delete_image((int)$id, 'image', 'banners_images', $this->config->banners_images_dir, $this->config->resized_banners_images_dir);
             $query = $this->db->placehold("DELETE FROM __banners_images WHERE id=? LIMIT 1", intval($id));
@@ -168,7 +179,8 @@ class Banners extends Okay {
     }
 
     /*Выбираем все группы баннеров*/
-    public function get_banners($filter = array(), $count = false) {
+    public function get_banners($filter = array(), $count = false)
+    {
         $limit = 100;  // По умолчанию
         $page = 1;
         $joins = '';
@@ -212,7 +224,8 @@ class Banners extends Okay {
             $sql_limit  = '';
         }
 
-        $query = $this->db->placehold("SELECT $select
+        $query = $this->db->placehold(
+            "SELECT $select
             FROM __banners b
             $joins
             WHERE 
@@ -220,7 +233,8 @@ class Banners extends Okay {
                 $group_by
                 $order 
                 $sql_limit
-        ");
+        "
+        );
 
         $this->db->query($query);
         if ($count === true) {
@@ -234,12 +248,14 @@ class Banners extends Okay {
         }
     }
 
-    public function count_banners($filter = array()) {
+    public function count_banners($filter = array())
+    {
         return $this->get_banners($filter, true);
     }
     
     /*Выбираем определенную группу баннеров*/
-    public function get_banner($id, $visible = false, $show_filter_array = array()) {
+    public function get_banner($id, $visible = false, $show_filter_array = array())
+    {
         if (empty($id)) {
             return false;
         }
@@ -263,10 +279,10 @@ class Banners extends Okay {
                     unset($show_filter_array[$k]);
                     continue;
                 }
-                $show_filter_array[$k] = $this->db->placehold($k." regexp '[[:<:]](?)[[:>:]]'", intval($show_filter_array[$k]));
+                $show_filter_array[$k] = $this->db->placehold($k." REGEXP '(^|[^[:alnum:]_])(?)([^[:alnum:]_]|$)'", intval($show_filter_array[$k]));
             }
             $show_filter_array[] = "show_all_pages=1";
-            $show_filter = 'AND (' . implode(' OR ',$show_filter_array) . ')';
+            $show_filter = 'AND (' . implode(' OR ', $show_filter_array) . ')';
         }
         
         $query = $this->db->placehold("SELECT * FROM __banners WHERE 1 $banner_id_filter $is_visible $show_filter LIMIT 1");
@@ -276,7 +292,8 @@ class Banners extends Okay {
     }
 
     /*Обновляем группу баннеров*/
-    public function update_banner($id, $banner) {
+    public function update_banner($id, $banner)
+    {
         $query = $this->db->placehold("UPDATE __banners SET ?% WHERE id in (?@) LIMIT ?", $banner, (array)$id, count((array)$id));
         if($this->db->query($query)) {
             return $id;
@@ -286,7 +303,8 @@ class Banners extends Okay {
     }
 
     /*Добавляем группу баннеров*/
-    public function add_banner($banner) {
+    public function add_banner($banner)
+    {
         $banner = (array) $banner;
         
         if($this->db->query("INSERT INTO __banners SET ?%", $banner)) {
@@ -299,7 +317,8 @@ class Banners extends Okay {
     }
 
     /*Удаляем группу баннеров*/
-    public function delete_banner($id) {
+    public function delete_banner($id)
+    {
         if(!empty($id)) {
             $this->db->query("SELECT id FROM __banners_images where banner_id=?", intval($id));
             $banners_images_ids = $this->db->results('id');

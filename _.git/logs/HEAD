@@ -1,0 +1,52 @@
+0000000000000000000000000000000000000000 2d88e8f3e14133e56f095984caf5406bf44f24da Andrii K <andrey.kovt@gmail.com> 1577277064 +0200	commit (initial): Init
+2d88e8f3e14133e56f095984caf5406bf44f24da c5ed79c6339404ce03aa66e23e46ad31d8a0bfb6 Andrii K <andrey.kovt@gmail.com> 1580296216 +0200	commit: +
+c5ed79c6339404ce03aa66e23e46ad31d8a0bfb6 2bc8c24639c2adf42f0bacb60eed79de11891e5f Andrii K <andrey.kovt@gmail.com> 1580296825 +0200	pull: Merge made by the 'recursive' strategy.
+2bc8c24639c2adf42f0bacb60eed79de11891e5f 1e2d13071f6a3b665aaf0520cf3ffeee96700d00 Andrii K <andrey.kovt@gmail.com> 1580386316 +0200	commit: .
+1e2d13071f6a3b665aaf0520cf3ffeee96700d00 70e1ff31f56ea602f68cf41fc876d77569a1bb8f Andrii K <andrey.kovt@gmail.com> 1580386524 +0200	commit: db
+70e1ff31f56ea602f68cf41fc876d77569a1bb8f 80c2cc5f25e0858e8995d1c885378f88ba7f8177 Andrii K <andrey.kovt@gmail.com> 1580909626 +0200	commit: +
+80c2cc5f25e0858e8995d1c885378f88ba7f8177 5020d0aa21c241274208ca6caba4a2d5134b2c3c Andrii K <andrey.kovt@gmail.com> 1583536834 +0200	commit: rozetka & fix by sago
+5020d0aa21c241274208ca6caba4a2d5134b2c3c 5c4417f394115e9a125511cbe715779c7b786785 Andrii K <andrey.kovt@gmail.com> 1584044159 +0200	commit: rozetks
+5c4417f394115e9a125511cbe715779c7b786785 9a5597f2157ed56119e27e4717c908dc745a323a Andrii K <andrey.kovt@gmail.com> 1584044266 +0200	commit: composer
+9a5597f2157ed56119e27e4717c908dc745a323a ee786ff0f1d35c4412b2eb3794370989d0c6f3be Andrii K <andrey.kovt@gmail.com> 1613549357 +0200	commit: prod 17.02
+ee786ff0f1d35c4412b2eb3794370989d0c6f3be b992ffd2c6fc0d27fbdc19813547a02bcf2b33ae Andrii K <andrey.kovt@gmail.com> 1614780849 +0200	pull: Fast-forward
+b992ffd2c6fc0d27fbdc19813547a02bcf2b33ae 9f2925468f382d412ed608d7e8eb7e9d4134526e Andrii K <andrey.kovt@gmail.com> 1626244438 +0300	commit: rss
+9f2925468f382d412ed608d7e8eb7e9d4134526e faae7a4504d36b932cffc9a400ccc579e01c374c Andrii K <andrey.kovt@gmail.com> 1626244443 +0300	commit: rss
+faae7a4504d36b932cffc9a400ccc579e01c374c f95af5f81637430ab415c9ab6100addb76a76793 Andrii K <andrey.kovt@gmail.com> 1626244459 +0300	commit: robots
+f95af5f81637430ab415c9ab6100addb76a76793 a8ab127447c4d6ffbac2ec9fbbc2c740eede58dc Andrii K <andrey.kovt@gmail.com> 1626329479 +0300	pull: Fast-forward
+a8ab127447c4d6ffbac2ec9fbbc2c740eede58dc b370b12933b2e9761f7961cd4297842c327cf420 Andrii K <andrey.kovt@gmail.com> 1627739000 +0300	commit: prod
+b370b12933b2e9761f7961cd4297842c327cf420 06a7a2f1b17214f66a45a7208d5517f0faf12856 Andrii K <andrey.kovt@gmail.com> 1628063305 +0300	commit: epicentr translate
+06a7a2f1b17214f66a45a7208d5517f0faf12856 1c385d366c306b3001a52ce849d712d517f8d75d Andrii K <andrey.kovt@gmail.com> 1628063318 +0300	commit: design
+1c385d366c306b3001a52ce849d712d517f8d75d 550cc0e26b396968d04911e85559bb878fa758d5 Andrii K <andrey.kovt@gmail.com> 1628063325 +0300	commit: ht
+550cc0e26b396968d04911e85559bb878fa758d5 4565d1f3395f7e19801c7477339cc18dc9fc5dff Andrii K <andrey.kovt@gmail.com> 1628165529 +0300	pull: Fast-forward
+4565d1f3395f7e19801c7477339cc18dc9fc5dff 534de2156c49234d159488817b38e8856202f2ee admin@sportfly.com.ua <sportfly@sportfly-ubuntu2004> 1635932273 +0200	commit: After migrate
+534de2156c49234d159488817b38e8856202f2ee d47f1ac57f10cf8ba6beb3a2cab84be7a3d84cc1 admin <admin@sportfly.com.ua> 1636385280 +0200	pull: Fast-forward
+d47f1ac57f10cf8ba6beb3a2cab84be7a3d84cc1 1435c0817d1c15b7ecf6081e21e21b3c7efc44f7 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645003572 +0200	pull: Fast-forward
+1435c0817d1c15b7ecf6081e21e21b3c7efc44f7 0fbd237be1bf7991fea727db2b48aecaf97d76c6 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645004930 +0200	commit: +
+0fbd237be1bf7991fea727db2b48aecaf97d76c6 f991f0a8eafe0c409e035f40b8faa6a1f7f8274a admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645109981 +0200	commit: https://sg.planfix.ua/task/8648
+f991f0a8eafe0c409e035f40b8faa6a1f7f8274a 2f89f268fb93298d6258354bd94fa371f3fc0735 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645115433 +0200	commit: lang
+2f89f268fb93298d6258354bd94fa371f3fc0735 fa6eb3baafb7cbc2cc7c3cc24e5d1a068deb9ef0 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645115437 +0200	pull: Merge made by the 'recursive' strategy.
+fa6eb3baafb7cbc2cc7c3cc24e5d1a068deb9ef0 f18beb58f6628bc8392c85850e5266b4404f0013 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645119923 +0200	commit: https://sg.planfix.ua/task/8648
+f18beb58f6628bc8392c85850e5266b4404f0013 89bb8a1941a240c4080b0588033a428369f11953 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645182941 +0200	pull: Fast-forward
+89bb8a1941a240c4080b0588033a428369f11953 55ab2211e51b0d644aa27cb6018cd048e190170e admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1645195567 +0200	pull: Fast-forward
+55ab2211e51b0d644aa27cb6018cd048e190170e 7cd13cde9e3bdbb1476b2ce99027f18676a3f5db admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1658833817 +0300	commit: us
+7cd13cde9e3bdbb1476b2ce99027f18676a3f5db ccab936f9a0283df093b9a6c60b3ef28e0d483c6 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1688464324 +0300	commit: 04.07.2023
+ccab936f9a0283df093b9a6c60b3ef28e0d483c6 fbae84448187de7fa2e1b4f6e7e5f9e3801a0a7b admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1688464351 +0300	commit: 04.07.2023-1
+fbae84448187de7fa2e1b4f6e7e5f9e3801a0a7b aefae7c88fcaa9222eb316061e56ee01c99c6833 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1688559993 +0300	pull: Fast-forward
+aefae7c88fcaa9222eb316061e56ee01c99c6833 92923bce731e1be5167555ab46f6174bfb9210d3 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1691677650 +0300	pull: Fast-forward
+92923bce731e1be5167555ab46f6174bfb9210d3 2dce823dcd9a57ca0195901ec37c437e08f1a6ac admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1692099775 +0300	pull: Fast-forward
+2dce823dcd9a57ca0195901ec37c437e08f1a6ac ce9eac44fb8ae0ef429a926690d73d28a9b96bfb admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1754653080 +0300	commit: 08.08.2025
+ce9eac44fb8ae0ef429a926690d73d28a9b96bfb f2d38282c2b1080ff6577bc129cbdeb1c535e7ec admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1755674505 +0300	commit: 20.08
+f2d38282c2b1080ff6577bc129cbdeb1c535e7ec d4fd4ecc357ab7651e5db9380f2da6cba473034a admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1755679102 +0300	commit: design/sportfly_1/css/sportfly.css
+d4fd4ecc357ab7651e5db9380f2da6cba473034a 8a1cc8f7f02adc20f2bdb07a59df84923185c809 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1755679210 +0300	commit (merge): Merge branch 'master' of gitlab.com:iAndriiK/sportfly
+8a1cc8f7f02adc20f2bdb07a59df84923185c809 a353868e059f4bd246da7be5804c7b5ae65cb977 admin@sportfly.com.ua <sportfly@sportfly.com.ua> 1755679294 +0300	commit: files/lang/ru.png
+a353868e059f4bd246da7be5804c7b5ae65cb977 300ad27e37e1ac82b1d5ac6393b6ced85d341151 admin@sportfly.com.ua <sportfly@tempserver> 1771488036 +0200	commit: 19.02
+300ad27e37e1ac82b1d5ac6393b6ced85d341151 bfffb560da206f04a375884911486b8eeced50bd admin@sportfly.com.ua <sportfly@tempserver> 1772097381 +0200	pull: Fast-forward
+bfffb560da206f04a375884911486b8eeced50bd 092a4144d16c94d7d541254314154f5795882b54 admin@sportfly.com.ua <sportfly@tempserver> 1773328270 +0200	commit: bonuses
+092a4144d16c94d7d541254314154f5795882b54 ceb37129203611a2e71d42d57460153ad0717845 admin@sportfly.com.ua <sportfly@tempserver> 1773328341 +0200	commit: rozetka
+ceb37129203611a2e71d42d57460153ad0717845 2975941232717deb66283b82c76c1b0f29056905 admin@sportfly.com.ua <sportfly@tempserver> 1773827427 +0200	pull: Fast-forward
+2975941232717deb66283b82c76c1b0f29056905 25a013048d2a4efc05f545b076320981067124ab admin@sportfly.com.ua <sportfly@tempserver> 1776077932 +0300	commit: 13.04
+25a013048d2a4efc05f545b076320981067124ab cce80796a188b29d3ec41ec32a0610301b6fe364 admin@sportfly.com.ua <sportfly@tempserver> 1776078352 +0300	commit: design/sportfly_installment/
+cce80796a188b29d3ec41ec32a0610301b6fe364 82bf56862fe9fabc0b8fa44ff0306f8a356d4a6c admin@sportfly.com.ua <sportfly@tempserver> 1776242528 +0300	commit: 15.04
+82bf56862fe9fabc0b8fa44ff0306f8a356d4a6c 4b40f50fbb9b7fe0bcbccfc08baa138797d3d6a7 admin@sportfly.com.ua <sportfly@tempserver> 1776249878 +0300	commit: 15.04
+4b40f50fbb9b7fe0bcbccfc08baa138797d3d6a7 a0781f729438dc300a34a66d884c30e37e270a87 admin@sportfly.com.ua <sportfly@tempserver> 1776408889 +0300	commit: ModulesCore
+a0781f729438dc300a34a66d884c30e37e270a87 a782e266d119ce548fdc96ceed4afd8b76dc407b admin@sportfly.com.ua <sportfly@tempserver> 1776408994 +0300	pull: Fast-forward

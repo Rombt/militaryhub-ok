@@ -3,6 +3,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-alter table sfly_orders add bonuses DECIMAL(14,2) default NULL null;
+alter table __orders add bonuses DECIMAL(14,2) default NULL null;
 
 COMMIT;

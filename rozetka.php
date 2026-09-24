@@ -22,7 +22,7 @@ $debug_rejects = $isDebug ? [
 ] : null;
 
 chdir(__DIR__);
-require_once('api/Okay.php');
+require_once 'api/Okay.php';
 $okay = new Okay();
 
 $lang_id  = $okay->languages->lang_id();
@@ -57,7 +57,7 @@ foreach ($currencies as $c) {
 }
 print "\t</currencies>\n";
 print "\t<categories>\n";
-if (empty($featureIdRozetka)){
+if (empty($featureIdRozetka)) {
     print "\t</categories>\n";
     print "\t<offers>\n";
     print "\t</offers>\n";
@@ -65,9 +65,11 @@ if (empty($featureIdRozetka)){
     print "</yml_catalog>\n";
     exit();
 }
-$categories_values = $okay->features_values->get_features_values([
+$categories_values = $okay->features_values->get_features_values(
+    [
     'feature_id' => $featureIdRozetka
-]);
+    ]
+);
 foreach ($categories_values as $category) {
     $categoryName = !empty($category->rozetka_name) ? $category->rozetka_name : $category->value;
     print "\t\t<category id=\"". $category->id . "\">" . htmlspecialchars($categoryName) . "</category>\n";
@@ -80,34 +82,43 @@ if (empty($settings_feed_rozetka_prom)) {
     $whereRozetka = ' AND v.feed_rozetka ';
 } else {
     switch ($settings_feed_rozetka_prom) {
-        case 'from':
-            $whereRozetka = ' AND v.feed_prom = 1 ';
-            break;
-        case 'equal':
-            $whereRozetka = ' AND (v.feed_rozetka = 1 OR v.feed_prom = 1) ';
-            break;
-        case 'to':
-        default:
-            $whereRozetka = ' AND v.feed_rozetka = 1 ';
+    case 'from':
+        $whereRozetka = ' AND v.feed_prom = 1 ';
+        break;
+    case 'equal':
+        $whereRozetka = ' AND (v.feed_rozetka = 1 OR v.feed_prom = 1) ';
+        break;
+    case 'to':
+    default:
+        $whereRozetka = ' AND v.feed_rozetka = 1 ';
     }
 }
 
 // Фильтр по значению коллекции
-$feature_id = array_filter((array)$okay->settings->feature_id, function ($url) { return $url === 'collection'; }, ARRAY_FILTER_USE_KEY);
+$feature_id = array_filter(
+    (array)$okay->settings->feature_id, function ($url) {
+        return $url === 'collection'; 
+    }, ARRAY_FILTER_USE_KEY
+);
 $features = empty($feature_id) ? [] : [ reset($feature_id) => '2025' ];
 if (!empty($features)) {
-    $features = array_map(function ($value, $feature_id) use ($okay) {
-        return $okay->db->placehold("(lfv.feature_id = ? AND CAST(REGEXP_REPLACE(LEFT(lfv.value, 4), '[^[:digit:]]', '') as UNSIGNED) >= ?)", $feature_id, (int)$value);
-    }, $features, array_keys($features));
+    $features = array_map(
+        function ($value, $feature_id) use ($okay) {
+            return $okay->db->placehold("(lfv.feature_id = ? AND CAST(REGEXP_REPLACE(LEFT(lfv.value, 4), '[^[:digit:]]', '') as UNSIGNED) >= ?)", $feature_id, (int)$value);
+        }, $features, array_keys($features)
+    );
     $feature_filter = implode(' AND ', $features);
-    $whereRozetka .= $okay->db->placehold(" AND v.product_id in (SELECT pf.product_id FROM __products_features_values pf
+    $whereRozetka .= $okay->db->placehold(
+        " AND v.product_id in (SELECT pf.product_id FROM __products_features_values pf
         LEFT JOIN __lang_features_values lfv ON lfv.feature_value_id = pf.value_id AND lfv.lang_id = ?
         WHERE $feature_filter
         GROUP BY pf.product_id HAVING COUNT(*) >= ?
-    )", $lang_id, count($features));
+    )", $lang_id, count($features)
+    );
 }
 
-$okay->db->query("
+$okay->db->query(
+    "
     SELECT 
         v.id AS variant_id,
         v.product_id
@@ -125,7 +136,8 @@ $okay->db->query("
         AND c.rozetka_exclude != 1
         AND (p.brand_id IS NULL OR p.brand_id = 0 OR (b.visible = 1 AND b.rozetka_exclude != 1))
     GROUP BY v.id
-");
+"
+);
 $rows = $okay->db->results();
 $productIds = [];
 $variantIds = [];
@@ -139,7 +151,8 @@ $px = ($lang_id ? 'l' : 'p');
 $bx = $lang_id ? 'lb' : 'b';
 $vx = $lang_id ? 'lv' : 'v';
 foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
-    $okay->db->query("
+    $okay->db->query(
+        "
         WITH RECURSIVE cat_tree AS (
             SELECT 
                 c.id,
@@ -208,7 +221,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
             ON c.id = pc.category_id
         
         WHERE p.id IN (?@)
-    ", $chunk, $lang_id, $lang_id, $chunk);
+    ", $chunk, $lang_id, $lang_id, $chunk
+    );
 
     $products = $okay->db->results();
 
@@ -223,7 +237,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
     $imagesVariant = [];
 
     if ($lang_id) {
-        $okay->db->query("
+        $okay->db->query(
+            "
             SELECT 
                 fv.id,
                 fv.feature_id,
@@ -250,10 +265,12 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
                 ON pfv.value_id = fv.id AND pfv.product_id IN (?@)
 
             ORDER BY f.position, fv.position
-        ", $lang_id, $lang_id, $chunk);
+        ", $lang_id, $lang_id, $chunk
+        );
     }
     else {
-        $okay->db->query("
+        $okay->db->query(
+            "
             SELECT 
                 fv.id,
                 fv.feature_id,
@@ -272,20 +289,23 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
                 ON pfv.value_id = fv.id AND pfv.product_id IN (?@)
 
             ORDER BY f.position, fv.position
-        ", $chunk);
+        ", $chunk
+        );
     }
     $values = $okay->db->results();
     foreach ($values as $val) {
         $features_values[$val->id] = $val;
     }
 
-    $okay->db->query("
+    $okay->db->query(
+        "
         SELECT product_id, value_id, fv.feature_id
         FROM __products_features_values pfv
         INNER JOIN __features_values fv
             ON fv.id = pfv.value_id
         WHERE pfv.product_id IN (?@)
-    ", $chunk);
+    ", $chunk
+    );
 
     $rows = $okay->db->results();
 
@@ -308,7 +328,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
 
     $variantsData = [];
 
-    $okay->db->query("
+    $okay->db->query(
+        "
         SELECT 
             v.id,
             v.product_id,
@@ -331,7 +352,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
             ON lv.variant_id = v.id AND lv.lang_id = ?
     
         WHERE v.product_id IN (?@)
-    ", $lang_id, $chunk);
+    ", $lang_id, $chunk
+    );
 
     $vars = $okay->db->results();
 
@@ -351,9 +373,11 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
         $variantsData[$v->id] = $v;
     }
 
-    $part = $okay->products->get_images([
+    $part = $okay->products->get_images(
+        [
         'product_id' => $chunk
-    ]);
+        ]
+    );
 
     foreach ($part as $img) {
         $imagesProduct[$img->product_id][] = $img->filename;
@@ -361,10 +385,12 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
 
     unset($part);
 
-    $part = $okay->variants->get_images([
+    $part = $okay->variants->get_images(
+        [
         'product_id' => $chunk,
         'group_by'   => 'variant'
-    ]);
+        ]
+    );
 
     if ($part) {
         foreach ($part as $img) {
@@ -488,8 +514,7 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
                     $fv = $features_values[$value_id];
 
                     if ($feature_id == $fid_color || $feature_id == $fid_size) {
-                        if (
-                            $fv->translit == $color_translit
+                        if ($fv->translit == $color_translit
                             || $fv->translit == $size_translit
                         ) {
                             $product_variant_name[] = htmlspecialchars($fv->value);
@@ -506,9 +531,11 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
             }
         }
 
-        $name = trim($product->name . (!empty($product_variant_name)
+        $name = trim(
+            $product->name . (!empty($product_variant_name)
                 ? (' ' . implode(', ', $product_variant_name))
-                : ''));
+            : '')
+        );
 
         $pid = $v->product_id;
 
@@ -577,19 +604,22 @@ if ($isDebug && false) {
 
     if (false) {
 
-    $okay->db->query("
+        $okay->db->query(
+            "
         SELECT v.id
-        FROM sfly_variants v
+        FROM __variants v
         WHERE 
             1
             $whereRozetka
             AND v.id NOT IN (?@) 
-    ", $variantIds);
+    ", $variantIds
+        );
 
-    $debugVariantIds = $okay->db->results('id');
+        $debugVariantIds = $okay->db->results('id');
 
-    foreach (array_chunk($debugVariantIds, 300) as $chunk) {
-        $okay->db->query("
+        foreach (array_chunk($debugVariantIds, 300) as $chunk) {
+            $okay->db->query(
+                "
             WITH RECURSIVE cat_tree AS (
                 SELECT 
                     c.id,
@@ -654,60 +684,59 @@ if ($isDebug && false) {
             WHERE v.id IN (?@)
         
             GROUP BY v.id
-        ", $fid_rz_cat, $chunk);
+        ", $fid_rz_cat, $chunk
+            );
 
-        $debugRows = $okay->db->results();
+            $debugRows = $okay->db->results();
 
-        foreach ($debugRows as $row) {
+            foreach ($debugRows as $row) {
 
-            if (!$row->visible) {
-                $debug_rejects['invisible'][] = $row;
-                continue;
+                if (!$row->visible) {
+                    $debug_rejects['invisible'][] = $row;
+                    continue;
+                }
+
+                if ($row->brand_blocked) {
+                    $debug_rejects['brand_blocked'][] = $row;
+                    continue;
+                }
+
+                if ($row->category_blocked) {
+                    $debug_rejects['category_blocked'][] = $row;
+                    continue;
+                }
+
+                if ($row->stock <= 0) {
+                    $debug_rejects['stock_zero'][] = $row;
+                    continue;
+                }
+
+                if ($row->price <= 0) {
+                    $debug_rejects['price_zero'][] = $row;
+                    continue;
+                }
+
+                if (!$row->has_rozetka_feature 
+                    && !$row->direct_rozetka_category_value_id 
+                    && !$row->final_rozetka_category_value_id
+                ) {
+                    $debug_rejects['no_category_match'][] = $row;
+                    continue;
+                }
+
+                if (!$row->direct_rozetka_category_value_id) {
+                    $debug_rejects['no_direct_category_match'][] = $row;
+                }
+
+                if (!$row->final_rozetka_category_value_id 
+                    && $row->direct_rozetka_category_value_id
+                ) {
+                    $debug_rejects['no_final_category_match'][] = $row;
+                }
+
+                $debug_rejects['skipped_sql_other'][] = $row;
             }
-
-            if ($row->brand_blocked) {
-                $debug_rejects['brand_blocked'][] = $row;
-                continue;
-            }
-
-            if ($row->category_blocked) {
-                $debug_rejects['category_blocked'][] = $row;
-                continue;
-            }
-
-            if ($row->stock <= 0) {
-                $debug_rejects['stock_zero'][] = $row;
-                continue;
-            }
-
-            if ($row->price <= 0) {
-                $debug_rejects['price_zero'][] = $row;
-                continue;
-            }
-
-            if (
-                !$row->has_rozetka_feature &&
-                !$row->direct_rozetka_category_value_id &&
-                !$row->final_rozetka_category_value_id
-            ) {
-                $debug_rejects['no_category_match'][] = $row;
-                continue;
-            }
-
-            if (!$row->direct_rozetka_category_value_id) {
-                $debug_rejects['no_direct_category_match'][] = $row;
-            }
-
-            if (
-                !$row->final_rozetka_category_value_id &&
-                $row->direct_rozetka_category_value_id
-            ) {
-                $debug_rejects['no_final_category_match'][] = $row;
-            }
-
-            $debug_rejects['skipped_sql_other'][] = $row;
         }
-    }
     }
 
 
@@ -727,4 +756,3 @@ if ($isDebug && false) {
 print "</yml_catalog>\n";
 
 exit();
-

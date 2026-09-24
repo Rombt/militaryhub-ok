@@ -67,12 +67,22 @@ ModulesCore/
 
 
 ## Подключения ModulesCore 
-  добавить в backend/index.php
+  добавить в backend/index.php обязательно перед require_once 'backend/core/IndexAdmin.php';
     require_once( 'ModulesCore/autoload.php' );
   добавить в index.php
     require_once( 'ModulesCore/autoload.php' );
   заменить файл IndexAdmin.php файлом IndexAdmin_ModulesCore.php
-  
+
+  для  v.2.8.5 обязательно добавить метод BackendTranslations::__set()
+    public function __set($var, $value)
+    {
+        if (!isset($this->lang_translations)) {
+            $this->init_translations();
+        }
+
+        $this->lang_translations->$var = $value;
+    }
+      
 ## Подключение стилей и скриптов в шаблонах `.tpl`
 В нужных местах шаблона (обычно в `index.tpl`, `head.tpl`, `footer.tpl` и аналогичных), вывод подключённых модулем стилей и скриптов осуществляется следующим образом:
 
@@ -141,7 +151,7 @@ if (class_exists('\\ModulesCore\\AssetsManager')) {
   - добавить перевод пунктов меню в modules\ModuleName\langs\ru.php
 7. Для страниц пунктов меню в админке 
   - добавить папку шаблонов модуля в modules_template_dir.php
-8. Пункты меню могут хранится в базе данных sfly_managers.menu 
+8. Пункты меню могут хранится в базе данных __managers.menu 
     для полного удаления модуля из меню нужно удалить их от туда
 ## Планируемые расширения
 - Поддержка зависимостей между модулями.
@@ -153,4 +163,3 @@ if (class_exists('\\ModulesCore\\AssetsManager')) {
 Это базовое описание архитектуры модульной системы для OkayCMS. 
 Проект может расширяться по мере надобности. 
 Вся логика модулей должна быть изолирована и независима от основной логики CMS.
-

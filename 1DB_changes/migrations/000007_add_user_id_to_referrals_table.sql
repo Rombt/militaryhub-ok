@@ -3,6 +3,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-ALTER TABLE `sfly_referrals` ADD `user_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' AFTER `id`, ADD INDEX (`user_id`);
+ALTER TABLE `__referrals` ADD `user_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' AFTER `id`, ADD INDEX (`user_id`);
 
 COMMIT;

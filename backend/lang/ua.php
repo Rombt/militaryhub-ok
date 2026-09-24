@@ -1312,6 +1312,13 @@ $backend_translations->settings_products_bonuses = 'Бонусов по умол
 $backend_translations->settings_users_bonuses_on = 'Разрешить накопление бонусов';
 $backend_translations->settings_cart_bonuses_on = 'Разрешить оплату бонусами';
 
+//!! rmbt bonuses_without_discount_only
+$backend_translations->settings_cart_bonuses_without_discount_only = 'Використовувати бонуси лише для товарів без знижок';
+
 $backend_translations->general_featured_category = 'Обрана категорія';
 $backend_translations->settings_restricted_categories_bonuses = 'Не нараховувати / не списувати на категорії';
 $backend_translations->payment_method_max_discount_value = 'Максимально допустиме значення знижки, %';
+$backend_translations->orders_sort_set_default = 'За замовчуванням (Спочатку нові)';
+$backend_translations->orders_sort_subtotal_asc = 'Від найдорожних до найдешевших';
+$backend_translations->orders_sort_subtotal_desc = 'Від найдешевших до найдорожних';
+

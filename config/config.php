@@ -15,7 +15,7 @@ db_password = ""
 db_name = 
 
 ;Префикс для таблиц
-db_prefix = sfly_
+db_prefix = mh_
 
 ;Кодировка базы данных
 db_charset = utf8

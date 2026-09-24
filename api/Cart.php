@@ -5,13 +5,15 @@
  * Time: 12:33:00
  */
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
-class Cart extends Okay {
+class Cart extends Okay
+{
     public $timeout = 30 * 24 * 2600;
 
     /*Выбираем содержимое корзины*/
-    public function get_cart($shopping_cart = array()) {
+    public function get_cart($shopping_cart = array())
+    {
         $cart = new stdClass();
         $cart->purchases = array();
         $cart->total_price = 0;
@@ -100,9 +102,10 @@ class Cart extends Okay {
                             if ($users_bonuses_on === true) {
                                 $cart->bonuses += ($item->variant->bonuses * $item->amount);
                             }
+
                             if ($cart_bonuses_on === true) {
-                                $cart->total_bonuses_price += ($item->variant->price * $item->amount);
-                                $cart->total_bonuses_products += $item->amount;
+                                    $cart->total_bonuses_price += ($item->variant->price * $item->amount);
+                                    $cart->total_bonuses_products += $item->amount;
                             }
                         }
                     }
@@ -125,7 +128,7 @@ class Cart extends Okay {
                             // Абсолютная скидка не более суммы заказа
                             $cart->coupon_discount = $cart->total_price>$cart->coupon->value?$cart->coupon->value:$cart->total_price;
                             $cart->total_price = max(0, $cart->total_price-$cart->coupon->value);
-                            $cart->coupon->coupon_percent = round(100-($cart->total_price*100)/($cart->total_price+$cart->coupon->value),2);
+                            $cart->coupon->coupon_percent = round(100-($cart->total_price*100)/($cart->total_price+$cart->coupon->value), 2);
                         } else {
                             $cart->coupon->coupon_percent = $cart->coupon->value;
                             $cart->coupon_discount = $cart->total_price * ($cart->coupon->value)/100;
@@ -158,6 +161,14 @@ class Cart extends Okay {
                     }
 
                     $cart_bonuses_on = (boolean)$this->settings->cart_bonuses_on;
+
+                    //!! rmbt bonuses_without_discount_only
+                    if ($this->settings->bonuses_without_discount_only && $purchase->discount > 0) {
+                        $cart_bonuses_on = false;
+                        $cart->max_bonuses = 0;
+                    }
+
+
                     $cart_min_total_price = (int)$this->settings->orders_total_price_bonuses;
                     if ($cart_bonuses_on === true) {
                         $cart->max_bonuses = min($cart->total_bonuses_price * (intval($this->settings->max_bonuses_orders) / 100), $user->bonuses);
@@ -173,7 +184,8 @@ class Cart extends Okay {
     }
 
     /*Добавление товара в корзину*/
-    public function add_item($variant_id, $amount = 1) {
+    public function add_item($variant_id, $amount = 1)
+    {
         // Выберем товар из базы, заодно убедившись в его существовании
         $variant = $this->variants->get_variant($variant_id);
         // Если товар существует, добавим его в корзину
@@ -193,7 +205,8 @@ class Cart extends Okay {
     }
 
     /*Обновление товара в корзине*/
-    public function update_item($variant_id, $amount = 1) {
+    public function update_item($variant_id, $amount = 1)
+    {
         // Выберем товар из базы, заодно убедившись в его существовании
         $variant = $this->variants->get_variant($variant_id);
         // Если товар существует, добавим его в корзину
@@ -210,7 +223,8 @@ class Cart extends Okay {
     }
 
     /*Удаление товара из корзины*/
-    public function delete_item($variant_id) {
+    public function delete_item($variant_id)
+    {
         unset($_SESSION['shopping_cart'][$variant_id]);
 
         if (isset($_SESSION['user_id'])) {
@@ -219,7 +233,8 @@ class Cart extends Okay {
     }
 
     /*Очистка корзины*/
-    public function empty_cart() {
+    public function empty_cart()
+    {
         unset($_SESSION['shopping_cart']);
         unset($_SESSION['coupon_code']);
 
@@ -229,7 +244,8 @@ class Cart extends Okay {
     }
 
     /*Применение купона в корзине*/
-    public function apply_coupon($coupon_code) {
+    public function apply_coupon($coupon_code)
+    {
         $coupon = $this->coupons->get_coupon((string)$coupon_code);
         if ($coupon && $coupon->valid) {
             $_SESSION['coupon_code'] = $coupon->code;
@@ -238,8 +254,10 @@ class Cart extends Okay {
         }
     }
 
-    public function update_items_api($user_id, $shopping_cart = array()) {
-        if (!$user_id) return false;
+    public function update_items_api($user_id, $shopping_cart = array())
+    {
+        if (!$user_id) { return false;
+        }
 
         $shopping_cart = !is_array($shopping_cart) ? array() : $shopping_cart;
 
@@ -251,34 +269,42 @@ class Cart extends Okay {
         return $shopping_cart;
     }
 
-    public function delete_item_api($user_id, $variant_id) {
-        if (!$user_id || !$variant_id) return false;
+    public function delete_item_api($user_id, $variant_id)
+    {
+        if (!$user_id || !$variant_id) { return false;
+        }
 
         $this->db->query("DELETE FROM __cart WHERE user_id=? AND variant_id=?", $user_id, $variant_id);
         
         return $variant_id;
     }
 
-    public function empty_cart_api($user_id) {
-        if (!$user_id) return false;
+    public function empty_cart_api($user_id)
+    {
+        if (!$user_id) { return false;
+        }
 
         $this->db->query("DELETE FROM __cart WHERE user_id=?", intval($user_id));
     }
 
-    public function sync_cart($user_id, $shopping_cart = array()) {
-        if (!$user_id) return false;
+    public function sync_cart($user_id, $shopping_cart = array())
+    {
+        if (!$user_id) { return false;
+        }
 
         $cart = array();
         $time = time();
         $last_modify = $time;
         
-        $query = $this->db->placehold("SELECT 
+        $query = $this->db->placehold(
+            "SELECT 
             c.variant_id,
             c.amount
         FROM __cart c
         LEFT JOIN __users u ON c.user_id=u.id
         WHERE c.user_id=?
-        ORDER BY c.last_modify DESC", intval($user_id));
+        ORDER BY c.last_modify DESC", intval($user_id)
+        );
         $this->db->query($query);
         if ($results = $this->db->results()) {
             foreach ($results as $c) {
@@ -308,8 +334,10 @@ class Cart extends Okay {
         return $shopping_cart;
     }
 
-    private function cart_item_user($user_id, $variant_id, $amount = 1) {
-        if (!$user_id) return false;
+    private function cart_item_user($user_id, $variant_id, $amount = 1)
+    {
+        if (!$user_id) { return false;
+        }
 
         $this->db->query("SELECT id FROM __cart WHERE user_id=? AND variant_id=?", intval($user_id), $variant_id);
         if (!$cart_id = $this->db->result('id')) {

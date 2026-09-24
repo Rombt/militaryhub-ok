@@ -259,7 +259,9 @@ $lang['selected_features_heading'] = "Активні фільтри";
 $lang['selected_features_reset'] = "Очистити все";
 $lang['all_brands_link'] = "Всі бренди";
 $lang['military_hub_link'] = "перейти до каталогу";
-$lang['latest_sizes_title'] = "Останні розміри";
+//!! rmbt
+$lang['latest_sizes_title'] = "Обмежена кількість";
+// $lang['latest_sizes_title'] = "Останні розміри";
 $lang['main_reviews_title'] = "Відгуки";
 $lang['social_line_text'] = "Слідкуйте за нами в соц. мережах та залишайте відгуки";
 $lang['our_shops_content_text'] = "Магазини партнери <br>по Україні";

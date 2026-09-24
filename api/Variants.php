@@ -5,7 +5,7 @@
  * Time: 17:46:59
  */
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
 class Variants extends Okay
 {
@@ -21,7 +21,8 @@ class Variants extends Okay
         $group_by = '';
         $order = 'v.position, v.id';
         $lang_sql = $this->languages->get_query(array('object' => 'variant'));
-        $select = $this->db->placehold("v.id, 
+        $select = $this->db->placehold(
+            "v.id, 
                 v.product_id,
                 v.weight,
                 v.size,
@@ -45,7 +46,8 @@ class Variants extends Okay
                 c.rate_to,
                 ROUND(IF(?, IF(p.bonuses > 0, p.bonuses, IFNULL(v.price, 0)*?/100), 0), 2) as bonuses,
                 p.main_category_id,
-                $lang_sql->fields", $this->settings->max_order_amount, $this->settings->users_bonuses_on, (float)$this->settings->products_bonuses);
+                $lang_sql->fields", $this->settings->max_order_amount, $this->settings->users_bonuses_on, (float)$this->settings->products_bonuses
+        );
 
         if ($count === true) {
             $select = "COUNT(DISTINCT v.id) as count";
@@ -97,14 +99,14 @@ class Variants extends Okay
 
         if (!empty($filter['sort'])) {
             switch ($filter['sort']) {
-                case 'position':
-                    $order = 'v.position';
-                    break;
-                case 'image':
-                    $order = '(SELECT count(distinct i.id) > 0 FROM sfly_images i WHERE i.variant_id = v.id LIMIT 1) DESC, IF(stock=0, 0, 1) DESC, v.position, v.id';
-                    break;
-                default:
-                    $order = 'IF(stock=0, 0, 1) DESC, v.position, v.id';
+            case 'position':
+                $order = 'v.position';
+                break;
+            case 'image':
+                $order = '(SELECT count(distinct i.id) > 0 FROM __images i WHERE i.variant_id = v.id LIMIT 1) DESC, IF(stock=0, 0, 1) DESC, v.position, v.id';
+                break;
+            default:
+                $order = 'IF(stock=0, 0, 1) DESC, v.position, v.id';
             }
         }
 
@@ -119,7 +121,8 @@ class Variants extends Okay
             $sql_limit = '';
         }
 
-        $query = $this->db->placehold("SELECT $select
+        $query = $this->db->placehold(
+            "SELECT $select
             FROM __variants v
             LEFT JOIN __products p ON p.id = v.product_id 
             $lang_sql->join
@@ -129,7 +132,8 @@ class Variants extends Okay
                 $group_by
                 $order 
                 $sql_limit
-        ");
+        "
+        );
         $this->db->query($query);
         if ($count === true) {
             return $this->db->result('count');
@@ -162,7 +166,8 @@ class Variants extends Okay
         $variant_id_filter = $this->db->placehold('AND v.id=?', intval($id));
 
         $lang_sql = $this->languages->get_query(array('object' => 'variant'));
-        $query = $this->db->placehold("SELECT 
+        $query = $this->db->placehold(
+            "SELECT 
                 v.id, 
                 v.product_id,
                 v.weight,
@@ -194,7 +199,8 @@ class Variants extends Okay
                 1 
                 $variant_id_filter 
             LIMIT 1
-        ", $this->settings->max_order_amount, $this->settings->users_bonuses_on, (float)$this->settings->products_bonuses);
+        ", $this->settings->max_order_amount, $this->settings->users_bonuses_on, (float)$this->settings->products_bonuses
+        );
 
         $this->db->query($query);
         $variant = $this->db->result();
@@ -275,7 +281,8 @@ class Variants extends Okay
 
     public function get_images($filter = array())
     {
-        if (!$filter['product_id']) return false;
+        if (!$filter['product_id']) { return false;
+        }
 
         $where = '1';
         $group_by = 'i.id';
@@ -295,12 +302,12 @@ class Variants extends Okay
 
         if (isset($filter['group_by'])) {
             switch ($filter['group_by']) {
-                case 'variant':
-                    $group_by = 'i.id, v.id';
-                    break;
-                case 'variant_color':
-                    $group_by = 'v.id';
-                    break;
+            case 'variant':
+                $group_by = 'i.id, v.id';
+                break;
+            case 'variant_color':
+                $group_by = 'v.id';
+                break;
             }
         }
 
@@ -312,7 +319,8 @@ class Variants extends Okay
             $order = "ORDER BY $order";
         }
 
-        $query = $this->db->placehold("SELECT
+        $query = $this->db->placehold(
+            "SELECT
             DISTINCT i.id,
             i.name,
             i.product_id,
@@ -327,7 +335,7 @@ class Variants extends Okay
                 (i.variant_id = 0 OR i.variant_id IS NULL)
                 AND v.position = (
                     SELECT MIN(v2.position)
-                    FROM sfly_variants v2
+                    FROM __variants v2
                     WHERE v2.product_id = v.product_id
                 )
             )
@@ -335,7 +343,8 @@ class Variants extends Okay
         WHERE $where
         $group_by
         $order
-        ");
+        "
+        );
         $this->db->query($query);
         return $this->db->results();
     }

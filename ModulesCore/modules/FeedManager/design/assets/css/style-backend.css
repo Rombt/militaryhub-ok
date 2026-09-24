@@ -1,4 +1,5 @@
-#rmbt-feed-rozetka-constraints .rmbt-field-wrap{
+#rmbt-feed-rozetka-constraints .rmbt-field-wrap,
+#rmbt-feed-discount-box .rmbt-field-wrap{
 
     display: flex;
     justify-content: space-between;
@@ -117,9 +118,10 @@ justify-content: space-between;
     
 }
 .property-values .rmbt-limitation-elements label{
-   
     flex: 1;
     align-self: flex-start;
+}
 
-    
+#rmbt-feed-discount-box .input-group .input-group-addon{
+    line-height: 160%;
 }

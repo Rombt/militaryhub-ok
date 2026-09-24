@@ -39,9 +39,10 @@ $featureIdRozetka = $okay->settings->feature_id['category_rozetka'];
 $fid_size   = $okay->settings->feature_id['size'] ?? null;
 $fid_color  = $okay->settings->feature_id['color'] ?? null;
 $fid_rz_cat = $okay->settings->feature_id['category_rozetka'] ?? null;
-
-
-//!!  rmbt FeedManager замена сокращений
+        
+//!! rmbt FeedManager
+$feed_rozetka_discount = $okay->settings->feed_rozetka_discount ?? null;
+$feed_rozetka_min_discount = $okay->settings->feed_rozetka_min_discount ?? null;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ModulesCore/modules/FeedManager/controllers/FeedRozetka.php';
 
 
@@ -71,12 +72,22 @@ if (empty($featureIdRozetka)) {
 }
 $categories_values = $okay->features_values->get_features_values(
     [
-    'feature_id' => $featureIdRozetka,
-    'rozetka_exclude' => 0,    
+    'feature_id' => $featureIdRozetka
     ]
 );
+
 foreach ($categories_values as $category) {
-    
+
+    //!! это условие приводит к тому что в фиде нет ни одной категории!
+    // условие 
+    // $category->rozetka_exclude === null
+    // защита от "висячих" категорий 
+    // т.е. тех категорий Розетки для которых не установленна хотя бы одна связь с категориями сайта
+    // if ((int)$category->rozetka_exclude === 1 || $category->rozetka_exclude === null) {
+    //     continue;
+    // }
+                
+
     $categoryName = !empty($category->rozetka_name) ? $category->rozetka_name : $category->value;
     print "\t\t<category id=\"". $category->id . "\">" . htmlspecialchars($categoryName) . "</category>\n";
 }
@@ -100,50 +111,6 @@ if (empty($settings_feed_rozetka_prom)) {
     }
 }
 
-// Фильтр по значению коллекции
-// $feature_id = array_filter(
-//     (array)$okay->settings->feature_id, function ($url) {
-//         return $url === 'collection'; 
-//     }, ARRAY_FILTER_USE_KEY
-// );
-// $features = empty($feature_id) ? [] : [ reset($feature_id) => '2025' ];
-// if (!empty($features)) {
-//     $features = array_map(
-//         function ($value, $feature_id) use ($okay) {
-//             return $okay->db->placehold("(lfv.feature_id = ? AND CAST(REGEXP_REPLACE(LEFT(lfv.value, 4), '[^[:digit:]]', '') as UNSIGNED) >= ?)", $feature_id, (int)$value);
-//         }, $features, array_keys($features)
-//     );
-//     $feature_filter = implode(' AND ', $features);
-//     $whereRozetka .= $okay->db->placehold(
-//         " AND v.product_id in (SELECT pf.product_id FROM __products_features_values pf
-//         LEFT JOIN __lang_features_values lfv ON lfv.feature_value_id = pf.value_id AND lfv.lang_id = ?
-//         WHERE $feature_filter
-//         GROUP BY pf.product_id HAVING COUNT(*) >= ?
-//     )", $lang_id, count($features)
-//     );
-// }
-
-// $okay->db->query(
-//     "
-//     SELECT 
-//         v.id AS variant_id,
-//         v.product_id
-//     FROM __variants v
-//     INNER JOIN __products p ON p.id = v.product_id
-//     LEFT JOIN __brands b ON b.id = p.brand_id
-//     INNER JOIN __products_categories pc ON pc.product_id = p.id
-//     INNER JOIN __categories c ON c.id = pc.category_id
-//     WHERE 
-//         1
-//         $whereRozetka
-//         AND p.visible
-//         AND (v.stock > 0 OR v.stock is NULL)
-//         AND v.price > 0
-//         AND c.rozetka_exclude != 1
-//         AND (p.brand_id IS NULL OR p.brand_id = 0 OR (b.visible = 1 AND b.rozetka_exclude != 1))
-//     GROUP BY v.id
-// "
-// );
 
 $okay->db->query(
     "
@@ -159,20 +126,10 @@ $okay->db->query(
         1
         $whereRozetka
         AND p.visible
-        AND (v.stock > 0 OR v.stock IS NULL)
+        AND (v.stock > 0 OR v.stock is NULL)
         AND v.price > 0
         AND c.rozetka_exclude != 1
-        AND (
-            p.brand_id IS NULL
-            OR p.brand_id = 0
-            OR (
-                b.visible = 1
-                AND (
-                    b.rozetka_exclude IS NULL
-                    OR b.rozetka_exclude != 1
-                )
-            )
-        )
+        AND (p.brand_id IS NULL OR p.brand_id = 0 OR (b.visible = 1 AND b.rozetka_exclude != 1))
     GROUP BY v.id
 "
 );
@@ -518,6 +475,11 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
             $price_old = round($price_old, 2);
         }
 
+        //!! rmbt 
+        if ($feed_rozetka_discount > 0 && $price_old > 0) {
+            $price = FeedRozetka::reduceDiscount($price_old, $price, $feed_rozetka_discount, $feed_rozetka_min_discount);
+        };
+
         $pictures = [];
 
         if (!empty($imagesVariant[$pid]) && !empty($imagesVariant[$pid][$v->color])) {
@@ -533,8 +495,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
         if (empty($pictures)) {
             if ($isDebug) {
                 $debug_rejects['no_images'][] = [
-                    'pid' => $pid,
-                    'vid' => $variant_id
+                'pid' => $pid,
+                'vid' => $variant_id
                 ];
             }
             continue;
@@ -580,22 +542,25 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
                     }
 
                     $paramName  = htmlspecialchars($fv->feature_name);
-                    
-                    // !! rmbt FeedManager замена сокращений
+
+                    //!! rmbt FeedManager замена сокращений
                     // $paramValue = htmlspecialchars($fv->value);
 
                     if (class_exists(FeedRozetka::class)) {
                         $paramValue = FeedRozetka::normalizeFeatureValue($fv->feature_name, $fv->value, $okay->db);
+
                     } else {
                         $paramValue = htmlspecialchars($fv->value);
                     }
 
                     $productParams .= "\t\t\t<param name=\"{$paramName}\">{$paramValue}</param>\n";
+
+
                 }
             }
         }
 
-        //!! rmbt 
+        //!! rmbt
         $product_name_normalized = preg_replace('/\s+/u', ' ', $product->name);
         
         $name = trim(
@@ -629,13 +594,15 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
 
         print "\t\t<offer id=\"" . $variant_id . "\" available=\"" . $available . "\">\n";
         print "\t\t\t<url>" . htmlspecialchars($variant_url) . "</url>\n";
+       
         print "\t\t\t<price>" . number_format($price, 2, '.', '') . "</price>\n";
+       
         if (!empty($promo_price)) {
             print "\t\t\t<promo_price>" . number_format($promo_price, 2, '.', '') . "</promo_price>\n";
         }       
 
-        //!! rmbt
-        if (!empty($price_old)) {
+        // !! rmbt
+        if ($price_old > $price) {
             print "\t\t\t<price_old>" . number_format($price_old, 2, '.', '') . "</price_old>\n";
         }
 
@@ -683,8 +650,8 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
         print "\t\t</offer>\n";
         if ($isDebug) {
             $debug_rejects['exported'][] = [
-                'pid' => $pid,
-                'vid' => $variant_id
+            'pid' => $pid,
+            'vid' => $variant_id
             ];
         }
     }
@@ -702,7 +669,7 @@ if ($isDebug && false) {
         $okay->db->query(
             "
         SELECT v.id
-        FROM sfly_variants v
+        FROM __variants v
         WHERE 
             1
             $whereRozetka

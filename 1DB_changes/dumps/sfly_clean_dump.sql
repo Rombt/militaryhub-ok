@@ -19,16 +19,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База даних: `admin_sfly`
+-- База даних: `admin__`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_addresses_justin`
+-- Структура таблиці `__addresses_justin`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_addresses_justin` (
+CREATE TABLE IF NOT EXISTS `__addresses_justin` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `external_id` varchar(255) NOT NULL,
@@ -56,10 +56,10 @@ CREATE TABLE IF NOT EXISTS `sfly_addresses_justin` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_addresses_novaposhta`
+-- Структура таблиці `__addresses_novaposhta`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_addresses_novaposhta` (
+CREATE TABLE IF NOT EXISTS `__addresses_novaposhta` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `sitekey` bigint(20) NOT NULL,
   `number` bigint(20) NOT NULL,
@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `sfly_addresses_novaposhta` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_banners`
+-- Структура таблиці `__banners`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_banners` (
+CREATE TABLE IF NOT EXISTS `__banners` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` varchar(32) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -105,10 +105,10 @@ CREATE TABLE IF NOT EXISTS `sfly_banners` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_banners_images`
+-- Структура таблиці `__banners_images`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_banners_images` (
+CREATE TABLE IF NOT EXISTS `__banners_images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `banner_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -128,10 +128,10 @@ CREATE TABLE IF NOT EXISTS `sfly_banners_images` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_blog`
+-- Структура таблиці `__blog`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_blog` (
+CREATE TABLE IF NOT EXISTS `__blog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(512) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -159,10 +159,10 @@ CREATE TABLE IF NOT EXISTS `sfly_blog` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_brands`
+-- Структура таблиці `__brands`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_brands` (
+CREATE TABLE IF NOT EXISTS `__brands` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -183,10 +183,10 @@ CREATE TABLE IF NOT EXISTS `sfly_brands` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_callbacks`
+-- Структура таблиці `__callbacks`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_callbacks` (
+CREATE TABLE IF NOT EXISTS `__callbacks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -201,10 +201,10 @@ CREATE TABLE IF NOT EXISTS `sfly_callbacks` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_cart`
+-- Структура таблиці `__cart`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_cart` (
+CREATE TABLE IF NOT EXISTS `__cart` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
   `variant_id` int(11) UNSIGNED NOT NULL,
@@ -219,10 +219,10 @@ CREATE TABLE IF NOT EXISTS `sfly_cart` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_categories`
+-- Структура таблиці `__categories`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_categories` (
+CREATE TABLE IF NOT EXISTS `__categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -262,10 +262,10 @@ CREATE TABLE IF NOT EXISTS `sfly_categories` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_categories_features`
+-- Структура таблиці `__categories_features`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_categories_features` (
+CREATE TABLE IF NOT EXISTS `__categories_features` (
   `category_id` int(11) NOT NULL,
   `feature_id` int(11) NOT NULL,
   PRIMARY KEY (`category_id`,`feature_id`)
@@ -274,10 +274,10 @@ CREATE TABLE IF NOT EXISTS `sfly_categories_features` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_comments`
+-- Структура таблиці `__comments`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_comments` (
+CREATE TABLE IF NOT EXISTS `__comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -299,10 +299,10 @@ CREATE TABLE IF NOT EXISTS `sfly_comments` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_coupons`
+-- Структура таблиці `__coupons`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_coupons` (
+CREATE TABLE IF NOT EXISTS `__coupons` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(256) NOT NULL DEFAULT '',
   `expire` timestamp NULL DEFAULT NULL,
@@ -317,10 +317,10 @@ CREATE TABLE IF NOT EXISTS `sfly_coupons` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_currencies`
+-- Структура таблиці `__currencies`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_currencies` (
+CREATE TABLE IF NOT EXISTS `__currencies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `sign` varchar(20) NOT NULL DEFAULT '',
@@ -335,10 +335,10 @@ CREATE TABLE IF NOT EXISTS `sfly_currencies` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_currencies`
+-- Дамп даних таблиці `__currencies`
 --
 
-INSERT INTO `sfly_currencies` (`id`, `name`, `sign`, `code`, `rate_from`, `rate_to`, `cents`, `position`, `enabled`) VALUES
+INSERT INTO `__currencies` (`id`, `name`, `sign`, `code`, `rate_from`, `rate_to`, `cents`, `position`, `enabled`) VALUES
 (1, '', '', 'USD', '0.12', '3.32', 2, 3, 1),
 (2, '', '', 'RUR', '1.00', '0.45', 0, 2, 1),
 (4, 'гривны uk', 'грн', 'UAH', '0.06', '0.06', 0, 1, 1);
@@ -346,10 +346,10 @@ INSERT INTO `sfly_currencies` (`id`, `name`, `sign`, `code`, `rate_from`, `rate_
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_delivery`
+-- Структура таблиці `__delivery`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_delivery` (
+CREATE TABLE IF NOT EXISTS `__delivery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
@@ -367,10 +367,10 @@ CREATE TABLE IF NOT EXISTS `sfly_delivery` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_delivery_payment`
+-- Структура таблиці `__delivery_payment`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_delivery_payment` (
+CREATE TABLE IF NOT EXISTS `__delivery_payment` (
   `delivery_id` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
   PRIMARY KEY (`delivery_id`,`payment_method_id`)
@@ -379,10 +379,10 @@ CREATE TABLE IF NOT EXISTS `sfly_delivery_payment` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_esputnik_messages`
+-- Структура таблиці `__esputnik_messages`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_esputnik_messages` (
+CREATE TABLE IF NOT EXISTS `__esputnik_messages` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `object` varchar(255) NOT NULL,
   `object_id` bigint(20) NOT NULL,
@@ -397,10 +397,10 @@ CREATE TABLE IF NOT EXISTS `sfly_esputnik_messages` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_features`
+-- Структура таблиці `__features`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_features` (
+CREATE TABLE IF NOT EXISTS `__features` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `position` int(11) NOT NULL DEFAULT '0',
@@ -421,10 +421,10 @@ CREATE TABLE IF NOT EXISTS `sfly_features` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_features_aliases`
+-- Структура таблиці `__features_aliases`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_features_aliases` (
+CREATE TABLE IF NOT EXISTS `__features_aliases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `variable` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
@@ -437,10 +437,10 @@ CREATE TABLE IF NOT EXISTS `sfly_features_aliases` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_features_aliases_values`
+-- Структура таблиці `__features_aliases_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_features_aliases_values` (
+CREATE TABLE IF NOT EXISTS `__features_aliases_values` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `feature_alias_id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL DEFAULT '',
@@ -454,10 +454,10 @@ CREATE TABLE IF NOT EXISTS `sfly_features_aliases_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_features_values`
+-- Структура таблиці `__features_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_features_values` (
+CREATE TABLE IF NOT EXISTS `__features_values` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `feature_id` int(11) NOT NULL,
   `value` varchar(1024) NOT NULL DEFAULT '',
@@ -474,10 +474,10 @@ CREATE TABLE IF NOT EXISTS `sfly_features_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_feedbacks`
+-- Структура таблиці `__feedbacks`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_feedbacks` (
+CREATE TABLE IF NOT EXISTS `__feedbacks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(20) NOT NULL DEFAULT '',
@@ -496,10 +496,10 @@ CREATE TABLE IF NOT EXISTS `sfly_feedbacks` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_groups`
+-- Структура таблиці `__groups`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_groups` (
+CREATE TABLE IF NOT EXISTS `__groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `discount` decimal(5,2) NOT NULL DEFAULT '0.00',
@@ -509,10 +509,10 @@ CREATE TABLE IF NOT EXISTS `sfly_groups` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_images`
+-- Структура таблиці `__images`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_images` (
+CREATE TABLE IF NOT EXISTS `__images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `product_id` int(11) NOT NULL DEFAULT '0',
@@ -529,10 +529,10 @@ CREATE TABLE IF NOT EXISTS `sfly_images` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_import_log`
+-- Структура таблиці `__import_log`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_import_log` (
+CREATE TABLE IF NOT EXISTS `__import_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `status` varchar(8) NOT NULL DEFAULT '',
@@ -546,10 +546,10 @@ CREATE TABLE IF NOT EXISTS `sfly_import_log` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_labels`
+-- Структура таблиці `__labels`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_labels` (
+CREATE TABLE IF NOT EXISTS `__labels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `color` varchar(6) NOT NULL DEFAULT '',
@@ -558,10 +558,10 @@ CREATE TABLE IF NOT EXISTS `sfly_labels` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_labels`
+-- Дамп даних таблиці `__labels`
 --
 
-INSERT INTO `sfly_labels` (`id`, `name`, `color`, `position`) VALUES
+INSERT INTO `__labels` (`id`, `name`, `color`, `position`) VALUES
 (1, 'Перезвонить', 'ff00ff', 1),
 (2, 'Ожидается товар', '00d5fa', 2),
 (3, 'Тест', 'a3a3a3', 3),
@@ -572,10 +572,10 @@ INSERT INTO `sfly_labels` (`id`, `name`, `color`, `position`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_languages`
+-- Структура таблиці `__languages`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_languages` (
+CREATE TABLE IF NOT EXISTS `__languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(10) NOT NULL,
@@ -590,20 +590,20 @@ CREATE TABLE IF NOT EXISTS `sfly_languages` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_languages`
+-- Дамп даних таблиці `__languages`
 --
 
-INSERT INTO `sfly_languages` (`id`, `name`, `label`, `href_lang`, `enabled`, `position`, `name_ru`, `name_ua`, `name_en`, `name_pl`) VALUES
+INSERT INTO `__languages` (`id`, `name`, `label`, `href_lang`, `enabled`, `position`, `name_ru`, `name_ua`, `name_en`, `name_pl`) VALUES
 (3, 'Украинский', 'ua', 'uk', 1, 1, 'Украинский', 'Українська', 'Ukrainian', 'Украинский'),
 (4, 'Russian', 'ru', 'ru', 1, 4, 'Russian', 'Russian', '', '');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_banners_images`
+-- Структура таблиці `__lang_banners_images`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_banners_images` (
+CREATE TABLE IF NOT EXISTS `__lang_banners_images` (
   `lang_id` int(11) NOT NULL,
   `banner_image_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -618,10 +618,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_banners_images` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_blog`
+-- Структура таблиці `__lang_blog`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_blog` (
+CREATE TABLE IF NOT EXISTS `__lang_blog` (
   `lang_id` int(11) NOT NULL,
   `blog_id` int(11) NOT NULL,
   `name` varchar(512) NOT NULL DEFAULT '',
@@ -636,10 +636,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_blog` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_brands`
+-- Структура таблиці `__lang_brands`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_brands` (
+CREATE TABLE IF NOT EXISTS `__lang_brands` (
   `lang_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -654,10 +654,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_brands` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_categories`
+-- Структура таблиці `__lang_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_categories` (
+CREATE TABLE IF NOT EXISTS `__lang_categories` (
   `lang_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -678,10 +678,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_categories` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_currencies`
+-- Структура таблиці `__lang_currencies`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_currencies` (
+CREATE TABLE IF NOT EXISTS `__lang_currencies` (
   `lang_id` int(11) NOT NULL,
   `currency_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -690,10 +690,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_currencies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_lang_currencies`
+-- Дамп даних таблиці `__lang_currencies`
 --
 
-INSERT INTO `sfly_lang_currencies` (`lang_id`, `currency_id`, `name`, `sign`) VALUES
+INSERT INTO `__lang_currencies` (`lang_id`, `currency_id`, `name`, `sign`) VALUES
 (3, 1, '', ''),
 (3, 2, '', ''),
 (3, 4, 'гривны uk', 'грн'),
@@ -704,10 +704,10 @@ INSERT INTO `sfly_lang_currencies` (`lang_id`, `currency_id`, `name`, `sign`) VA
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_delivery`
+-- Структура таблиці `__lang_delivery`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_delivery` (
+CREATE TABLE IF NOT EXISTS `__lang_delivery` (
   `lang_id` int(11) NOT NULL,
   `delivery_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -718,10 +718,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_delivery` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_features`
+-- Структура таблиці `__lang_features`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_features` (
+CREATE TABLE IF NOT EXISTS `__lang_features` (
   `lang_id` int(11) NOT NULL,
   `feature_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -731,10 +731,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_features` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_features_aliases`
+-- Структура таблиці `__lang_features_aliases`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_features_aliases` (
+CREATE TABLE IF NOT EXISTS `__lang_features_aliases` (
   `lang_id` tinyint(11) NOT NULL,
   `feature_alias_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -744,10 +744,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_features_aliases` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_features_aliases_values`
+-- Структура таблиці `__lang_features_aliases_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_features_aliases_values` (
+CREATE TABLE IF NOT EXISTS `__lang_features_aliases_values` (
   `lang_id` int(11) NOT NULL,
   `feature_alias_value_id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL DEFAULT '',
@@ -757,10 +757,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_features_aliases_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_features_values`
+-- Структура таблиці `__lang_features_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_features_values` (
+CREATE TABLE IF NOT EXISTS `__lang_features_values` (
   `lang_id` int(11) NOT NULL,
   `feature_value_id` int(11) NOT NULL,
   `feature_id` int(11) NOT NULL,
@@ -776,10 +776,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_features_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_menu_items`
+-- Структура таблиці `__lang_menu_items`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_menu_items` (
+CREATE TABLE IF NOT EXISTS `__lang_menu_items` (
   `lang_id` int(11) NOT NULL,
   `menu_item_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -789,10 +789,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_menu_items` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_orders_labels`
+-- Структура таблиці `__lang_orders_labels`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_orders_labels` (
+CREATE TABLE IF NOT EXISTS `__lang_orders_labels` (
   `lang_id` int(11) NOT NULL,
   `order_labels_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -800,10 +800,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_orders_labels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_lang_orders_labels`
+-- Дамп даних таблиці `__lang_orders_labels`
 --
 
-INSERT INTO `sfly_lang_orders_labels` (`lang_id`, `order_labels_id`, `name`) VALUES
+INSERT INTO `__lang_orders_labels` (`lang_id`, `order_labels_id`, `name`) VALUES
 (3, 1, 'Перезвонить'),
 (3, 2, 'Ожидается товар'),
 (3, 3, 'Тест'),
@@ -814,10 +814,10 @@ INSERT INTO `sfly_lang_orders_labels` (`lang_id`, `order_labels_id`, `name`) VAL
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_orders_status`
+-- Структура таблиці `__lang_orders_status`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_orders_status` (
+CREATE TABLE IF NOT EXISTS `__lang_orders_status` (
   `lang_id` int(11) NOT NULL,
   `order_status_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -825,10 +825,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_orders_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_lang_orders_status`
+-- Дамп даних таблиці `__lang_orders_status`
 --
 
-INSERT INTO `sfly_lang_orders_status` (`lang_id`, `order_status_id`, `name`) VALUES
+INSERT INTO `__lang_orders_status` (`lang_id`, `order_status_id`, `name`) VALUES
 (3, 1, 'Нові'),
 (3, 2, 'Прийняті'),
 (3, 3, 'У кур\'єра'),
@@ -847,10 +847,10 @@ INSERT INTO `sfly_lang_orders_status` (`lang_id`, `order_status_id`, `name`) VAL
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_pages`
+-- Структура таблиці `__lang_pages`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_pages` (
+CREATE TABLE IF NOT EXISTS `__lang_pages` (
   `lang_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -865,10 +865,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_pages` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_payment_methods`
+-- Структура таблиці `__lang_payment_methods`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_payment_methods` (
+CREATE TABLE IF NOT EXISTS `__lang_payment_methods` (
   `lang_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -879,10 +879,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_payment_methods` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_products`
+-- Структура таблиці `__lang_products`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_products` (
+CREATE TABLE IF NOT EXISTS `__lang_products` (
   `lang_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` varchar(512) NOT NULL DEFAULT '',
@@ -898,10 +898,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_products` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_products_types`
+-- Структура таблиці `__lang_products_types`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_products_types` (
+CREATE TABLE IF NOT EXISTS `__lang_products_types` (
   `lang_id` int(11) NOT NULL,
   `products_type_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -914,10 +914,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_products_types` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_seo_filter_patterns`
+-- Структура таблиці `__lang_seo_filter_patterns`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_seo_filter_patterns` (
+CREATE TABLE IF NOT EXISTS `__lang_seo_filter_patterns` (
   `lang_id` tinyint(11) NOT NULL,
   `seo_filter_pattern_id` int(11) NOT NULL,
   `h1` varchar(512) DEFAULT '',
@@ -931,10 +931,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_seo_filter_patterns` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_stores`
+-- Структура таблиці `__lang_stores`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_stores` (
+CREATE TABLE IF NOT EXISTS `__lang_stores` (
   `lang_id` int(11) NOT NULL,
   `lang_label` varchar(4) NOT NULL,
   `store_id` bigint(20) NOT NULL,
@@ -945,10 +945,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_stores` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_lang_variants`
+-- Структура таблиці `__lang_variants`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_lang_variants` (
+CREATE TABLE IF NOT EXISTS `__lang_variants` (
   `lang_id` int(11) NOT NULL,
   `variant_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -959,10 +959,10 @@ CREATE TABLE IF NOT EXISTS `sfly_lang_variants` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_managers`
+-- Структура таблиці `__managers`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_managers` (
+CREATE TABLE IF NOT EXISTS `__managers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(2) NOT NULL DEFAULT 'ru',
   `login` varchar(255) NOT NULL,
@@ -978,10 +978,10 @@ CREATE TABLE IF NOT EXISTS `sfly_managers` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_managers`
+-- Дамп даних таблиці `__managers`
 --
 
-INSERT INTO `sfly_managers` (`id`, `lang`, `login`, `password`, `permissions`, `cnt_try`, `last_try`, `comment`, `menu_status`, `menu`) VALUES
+INSERT INTO `__managers` (`id`, `lang`, `login`, `password`, `permissions`, `cnt_try`, `last_try`, `comment`, `menu_status`, `menu`) VALUES
 (1, 'ru', 'admin', '$apr1$q8tdnhag$4sh6LrlypzKALYSD4Cx9I.', 'products,categories,brands,features,orders,order_settings,users,groups,coupons,pages,blog,comments,feedbacks,import,export,stats,design,settings,currency,delivery,payment,managers,license,languages,banners,callbacks,robots,seo_patterns,support,subscribes,menu,seo_filter_patterns,settings_counter,features_aliases', 0, NULL, '', 1, 'a:15:{s:12:\"left_catalog\";a:4:{s:19:\"left_products_title\";s:13:\"ProductsAdmin\";s:17:\"left_brands_title\";s:11:\"BrandsAdmin\";s:21:\"left_categories_title\";s:15:\"CategoriesAdmin\";s:19:\"left_features_title\";s:13:\"FeaturesAdmin\";}s:11:\"left_orders\";a:2:{s:17:\"left_orders_title\";s:11:\"OrdersAdmin\";s:26:\"left_orders_settings_title\";s:18:\"OrderSettingsAdmin\";}s:10:\"left_users\";a:4:{s:16:\"left_users_title\";s:10:\"UsersAdmin\";s:17:\"left_groups_title\";s:15:\"UserGroupsAdmin\";s:18:\"left_coupons_title\";s:12:\"CouponsAdmin\";s:20:\"left_subscribe_title\";s:21:\"SubscribeMailingAdmin\";}s:10:\"left_pages\";a:2:{s:16:\"left_pages_title\";s:10:\"PagesAdmin\";s:16:\"left_menus_title\";s:10:\"MenusAdmin\";}s:9:\"left_blog\";a:1:{s:15:\"left_blog_title\";s:9:\"BlogAdmin\";}s:13:\"left_comments\";a:3:{s:19:\"left_comments_title\";s:13:\"CommentsAdmin\";s:20:\"left_feedbacks_title\";s:14:\"FeedbacksAdmin\";s:20:\"left_callbacks_title\";s:14:\"CallbacksAdmin\";}s:9:\"left_auto\";a:3:{s:17:\"left_import_title\";s:11:\"ImportAdmin\";s:17:\"left_export_title\";s:11:\"ExportAdmin\";s:14:\"left_log_title\";s:14:\"ImportLogAdmin\";}s:10:\"left_stats\";a:3:{s:16:\"left_stats_title\";s:10:\"StatsAdmin\";s:24:\"left_products_stat_title\";s:16:\"ReportStatsAdmin\";s:26:\"left_categories_stat_title\";s:18:\"CategoryStatsAdmin\";}s:8:\"left_seo\";a:5:{s:17:\"left_robots_title\";s:11:\"RobotsAdmin\";s:26:\"left_setting_counter_title\";s:20:\"SettingsCounterAdmin\";s:23:\"left_seo_patterns_title\";s:16:\"SeoPatternsAdmin\";s:30:\"left_seo_filter_patterns_title\";s:22:\"SeoFilterPatternsAdmin\";s:26:\"left_feature_aliases_title\";s:20:\"FeaturesAliasesAdmin\";}s:11:\"left_design\";a:6:{s:16:\"left_theme_title\";s:10:\"ThemeAdmin\";s:19:\"left_template_title\";s:14:\"TemplatesAdmin\";s:16:\"left_style_title\";s:11:\"StylesAdmin\";s:17:\"left_script_title\";s:12:\"ScriptsAdmin\";s:17:\"left_images_title\";s:11:\"ImagesAdmin\";s:23:\"left_translations_title\";s:17:\"TranslationsAdmin\";}s:12:\"left_banners\";a:2:{s:18:\"left_banners_title\";s:12:\"BannersAdmin\";s:25:\"left_banners_images_title\";s:18:\"BannersImagesAdmin\";}s:13:\"left_settings\";a:15:{s:26:\"left_setting_general_title\";s:20:\"SettingsGeneralAdmin\";s:25:\"left_setting_notify_title\";s:19:\"SettingsNotifyAdmin\";s:26:\"left_setting_catalog_title\";s:20:\"SettingsCatalogAdmin\";s:23:\"left_setting_feed_title\";s:17:\"SettingsFeedAdmin\";s:19:\"left_currency_title\";s:13:\"CurrencyAdmin\";s:19:\"left_delivery_title\";s:15:\"DeliveriesAdmin\";s:18:\"left_payment_title\";s:19:\"PaymentMethodsAdmin\";s:19:\"left_managers_title\";s:13:\"ManagersAdmin\";s:20:\"left_languages_title\";s:14:\"LanguagesAdmin\";s:17:\"left_system_title\";s:11:\"SystemAdmin\";s:19:\"left_turbosms_title\";s:21:\"SettingsTurboSMSAdmin\";s:27:\"left_setting_esputnik_title\";s:21:\"SettingsESputnikAdmin\";s:21:\"left_novaposhta_title\";s:23:\"SettingsNovaPoshtaAdmin\";s:17:\"left_justin_title\";s:19:\"SettingsJustInAdmin\";s:19:\"left_autorize_title\";s:21:\"SettingsAutorizeAdmin\";}s:11:\"left_stores\";a:1:{s:17:\"left_stores_title\";s:11:\"StoresAdmin\";}s:14:\"left_referrals\";a:1:{s:20:\"left_referrals_title\";s:14:\"ReferralsAdmin\";}s:9:\"left_apis\";a:5:{s:19:\"left_turbosms_title\";s:21:\"SettingsTurboSMSAdmin\";s:27:\"left_setting_esputnik_title\";s:21:\"SettingsESputnikAdmin\";s:21:\"left_novaposhta_title\";s:23:\"SettingsNovaPoshtaAdmin\";s:17:\"left_justin_title\";s:19:\"SettingsJustInAdmin\";s:19:\"left_autorize_title\";s:21:\"SettingsAutorizeAdmin\";}}'),
 (2, 'en', 'admin_1c', '$apr1$fq01kibr$fP/5ZiTcciFapSxvuhdfA1', 'integration_1c', 0, NULL, '', 0, NULL),
 (3, 'ru', 'AndriiK', '$apr1$1cfdvb6r$n.RmYi2cRBhHy7L.QUj2v0', NULL, 0, NULL, '', 1, ''),
@@ -991,10 +991,10 @@ INSERT INTO `sfly_managers` (`id`, `lang`, `login`, `password`, `permissions`, `
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_menu`
+-- Структура таблиці `__menu`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_menu` (
+CREATE TABLE IF NOT EXISTS `__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` varchar(32) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -1008,10 +1008,10 @@ CREATE TABLE IF NOT EXISTS `sfly_menu` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_menu_items`
+-- Структура таблиці `__menu_items`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_menu_items` (
+CREATE TABLE IF NOT EXISTS `__menu_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_id` int(11) NOT NULL DEFAULT '0',
   `parent_id` int(11) NOT NULL DEFAULT '0',
@@ -1030,10 +1030,10 @@ CREATE TABLE IF NOT EXISTS `sfly_menu_items` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_options_aliases_values`
+-- Структура таблиці `__options_aliases_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_options_aliases_values` (
+CREATE TABLE IF NOT EXISTS `__options_aliases_values` (
   `feature_alias_id` int(11) NOT NULL,
   `translit` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
@@ -1048,10 +1048,10 @@ CREATE TABLE IF NOT EXISTS `sfly_options_aliases_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_orders`
+-- Структура таблиці `__orders`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_orders` (
+CREATE TABLE IF NOT EXISTS `__orders` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `delivery_id` int(11) DEFAULT '0',
   `delivery_price` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -1096,10 +1096,10 @@ CREATE TABLE IF NOT EXISTS `sfly_orders` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_orders_labels`
+-- Структура таблиці `__orders_labels`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_orders_labels` (
+CREATE TABLE IF NOT EXISTS `__orders_labels` (
   `order_id` int(11) NOT NULL,
   `label_id` int(11) NOT NULL,
   PRIMARY KEY (`order_id`,`label_id`)
@@ -1108,10 +1108,10 @@ CREATE TABLE IF NOT EXISTS `sfly_orders_labels` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_orders_status`
+-- Структура таблиці `__orders_status`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_orders_status` (
+CREATE TABLE IF NOT EXISTS `__orders_status` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `is_close` tinyint(1) NOT NULL DEFAULT '0',
@@ -1124,10 +1124,10 @@ CREATE TABLE IF NOT EXISTS `sfly_orders_status` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_pages`
+-- Структура таблиці `__pages`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_pages` (
+CREATE TABLE IF NOT EXISTS `__pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -1147,10 +1147,10 @@ CREATE TABLE IF NOT EXISTS `sfly_pages` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_payment_methods`
+-- Структура таблиці `__payment_methods`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_payment_methods` (
+CREATE TABLE IF NOT EXISTS `__payment_methods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `module` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -1167,10 +1167,10 @@ CREATE TABLE IF NOT EXISTS `sfly_payment_methods` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_products`
+-- Структура таблиці `__products`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_products` (
+CREATE TABLE IF NOT EXISTS `__products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL DEFAULT '',
   `brand_id` int(11) DEFAULT '0',
@@ -1206,10 +1206,10 @@ CREATE TABLE IF NOT EXISTS `sfly_products` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_products_categories`
+-- Структура таблиці `__products_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_products_categories` (
+CREATE TABLE IF NOT EXISTS `__products_categories` (
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `position` int(11) NOT NULL DEFAULT '0',
@@ -1222,10 +1222,10 @@ CREATE TABLE IF NOT EXISTS `sfly_products_categories` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_products_features_values`
+-- Структура таблиці `__products_features_values`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_products_features_values` (
+CREATE TABLE IF NOT EXISTS `__products_features_values` (
   `product_id` int(11) NOT NULL,
   `value_id` int(11) NOT NULL,
   UNIQUE KEY `product_id_value_id` (`product_id`,`value_id`),
@@ -1236,10 +1236,10 @@ CREATE TABLE IF NOT EXISTS `sfly_products_features_values` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_products_types`
+-- Структура таблиці `__products_types`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_products_types` (
+CREATE TABLE IF NOT EXISTS `__products_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `brand_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -1260,10 +1260,10 @@ CREATE TABLE IF NOT EXISTS `sfly_products_types` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_purchases`
+-- Структура таблиці `__purchases`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_purchases` (
+CREATE TABLE IF NOT EXISTS `__purchases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL DEFAULT '0',
   `product_id` int(11) DEFAULT '0',
@@ -1283,10 +1283,10 @@ CREATE TABLE IF NOT EXISTS `sfly_purchases` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_referrals`
+-- Структура таблиці `__referrals`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_referrals` (
+CREATE TABLE IF NOT EXISTS `__referrals` (
   `id` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `code` varchar(100) NOT NULL,
@@ -1307,10 +1307,10 @@ CREATE TABLE IF NOT EXISTS `sfly_referrals` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_related_blogs`
+-- Структура таблиці `__related_blogs`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_related_blogs` (
+CREATE TABLE IF NOT EXISTS `__related_blogs` (
   `post_id` int(11) NOT NULL,
   `related_id` int(11) NOT NULL,
   `position` int(11) NOT NULL DEFAULT '0',
@@ -1321,10 +1321,10 @@ CREATE TABLE IF NOT EXISTS `sfly_related_blogs` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_related_products`
+-- Структура таблиці `__related_products`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_related_products` (
+CREATE TABLE IF NOT EXISTS `__related_products` (
   `product_id` int(11) NOT NULL,
   `related_id` int(11) NOT NULL,
   `position` int(11) NOT NULL DEFAULT '0',
@@ -1335,10 +1335,10 @@ CREATE TABLE IF NOT EXISTS `sfly_related_products` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_seo_filter_patterns`
+-- Структура таблиці `__seo_filter_patterns`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_seo_filter_patterns` (
+CREATE TABLE IF NOT EXISTS `__seo_filter_patterns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `type` enum('brand','feature') NOT NULL,
@@ -1358,10 +1358,10 @@ CREATE TABLE IF NOT EXISTS `sfly_seo_filter_patterns` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_settings`
+-- Структура таблиці `__settings`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_settings` (
+CREATE TABLE IF NOT EXISTS `__settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `param` varchar(255) NOT NULL DEFAULT '',
   `value` text NOT NULL,
@@ -1369,10 +1369,10 @@ CREATE TABLE IF NOT EXISTS `sfly_settings` (
 ) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_settings`
+-- Дамп даних таблиці `__settings`
 --
 
-INSERT INTO `sfly_settings` (`setting_id`, `param`, `value`) VALUES
+INSERT INTO `__settings` (`setting_id`, `param`, `value`) VALUES
 (30, 'theme', 'sportfly'),
 (33, 'products_num', '15'),
 (53, 'date_format', 'd.m.Y'),
@@ -1467,10 +1467,10 @@ INSERT INTO `sfly_settings` (`setting_id`, `param`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_settings_lang`
+-- Структура таблиці `__settings_lang`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_settings_lang` (
+CREATE TABLE IF NOT EXISTS `__settings_lang` (
   `param` varchar(128) NOT NULL,
   `lang_id` int(11) NOT NULL DEFAULT '0',
   `value` text NOT NULL,
@@ -1480,10 +1480,10 @@ CREATE TABLE IF NOT EXISTS `sfly_settings_lang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп даних таблиці `sfly_settings_lang`
+-- Дамп даних таблиці `__settings_lang`
 --
 
-INSERT INTO `sfly_settings_lang` (`param`, `lang_id`, `value`) VALUES
+INSERT INTO `__settings_lang` (`param`, `lang_id`, `value`) VALUES
 ('default_products_seo_pattern', 3, 'a:4:{s:15:\"auto_meta_title\";s:137:\"Купити {$product} від виробника {$brand} у Кропивницькому на сайті спортфлай {$sitename}\";s:18:\"auto_meta_keywords\";s:33:\"Купити {$product}, {$brand}\";s:14:\"auto_meta_desc\";s:60:\"купити {$product}, {$brand} Кропивницький\";s:16:\"auto_description\";s:0:\"\";}'),
 ('notify_from_name', 3, 'Адміністратор'),
 ('site_annotation', 3, 'Технічне повідомлення на випадок відключення сайту'),
@@ -1500,10 +1500,10 @@ INSERT INTO `sfly_settings_lang` (`param`, `lang_id`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_spec_img`
+-- Структура таблиці `__spec_img`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_spec_img` (
+CREATE TABLE IF NOT EXISTS `__spec_img` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `filename` varchar(255) NOT NULL DEFAULT '',
   `position` int(11) NOT NULL DEFAULT '0',
@@ -1513,10 +1513,10 @@ CREATE TABLE IF NOT EXISTS `sfly_spec_img` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_stores`
+-- Структура таблиці `__stores`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_stores` (
+CREATE TABLE IF NOT EXISTS `__stores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
@@ -1529,10 +1529,10 @@ CREATE TABLE IF NOT EXISTS `sfly_stores` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_subscribe_mailing`
+-- Структура таблиці `__subscribe_mailing`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_subscribe_mailing` (
+CREATE TABLE IF NOT EXISTS `__subscribe_mailing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -1542,10 +1542,10 @@ CREATE TABLE IF NOT EXISTS `sfly_subscribe_mailing` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_users`
+-- Структура таблиці `__users`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_users` (
+CREATE TABLE IF NOT EXISTS `__users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
@@ -1571,10 +1571,10 @@ CREATE TABLE IF NOT EXISTS `sfly_users` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_users_referrals`
+-- Структура таблиці `__users_referrals`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_users_referrals` (
+CREATE TABLE IF NOT EXISTS `__users_referrals` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `referral_id` int(11) NOT NULL,
@@ -1585,10 +1585,10 @@ CREATE TABLE IF NOT EXISTS `sfly_users_referrals` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_variants`
+-- Структура таблиці `__variants`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_variants` (
+CREATE TABLE IF NOT EXISTS `__variants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `sku` varchar(255) NOT NULL DEFAULT '',
@@ -1629,10 +1629,10 @@ CREATE TABLE IF NOT EXISTS `sfly_variants` (
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `sfly_wishlist`
+-- Структура таблиці `__wishlist`
 --
 
-CREATE TABLE IF NOT EXISTS `sfly_wishlist` (
+CREATE TABLE IF NOT EXISTS `__wishlist` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(20) UNSIGNED NOT NULL,
   `products_ids` text NOT NULL,

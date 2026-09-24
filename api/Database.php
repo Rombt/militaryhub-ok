@@ -89,8 +89,6 @@ class Database extends Okay
         $args = func_get_args();
         $q = call_user_func_array(array($this, 'placehold'), $args);
 
-        // error_log('$q = ' . print_r($q, true));       //!!-!!    
-
         $this->res = $this->mysqli->query($q);
 
         if ($this->config->sql_debug && $this->res == false) {

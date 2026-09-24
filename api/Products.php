@@ -1,6 +1,6 @@
 <?php
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
 class Products extends Okay
 {
@@ -188,32 +188,32 @@ class Products extends Okay
 
         if (!empty($filter['sort'])) {
             switch ($filter['sort']) {
-                case 'rand':
-                    $order = "{$sort->stock}, RAND()";
-                    break;
-                case 'position_admin':
-                    $order = "p.position DESC";
-                    break;
-                case 'position':
-                    $order = "p.main_order DESC, {$sort->stock}, p.position DESC";
-                    break;
-                case 'name':
-                    $order = "{$sort->stock}, $px.name ASC";
-                    break;
-                case 'name_desc':
-                    $order = "{$sort->stock}, $px.name DESC";
-                    break;
-                case 'rating':
-                    $order = "{$sort->stock}, p.rating ASC";
-                    break;
-                case 'rating_desc':
-                    $order = "{$sort->stock}, p.rating DESC";
-                    break;
-                case 'created':
-                    $order = "{$sort->stock}, p.created DESC";
-                    break;
-                case 'price':
-                    $order = "{$sort->stock}, (SELECT -floor(IF(pv.currency_id=0 OR c.id is null,pv.price, pv.price*c.rate_to/c.rate_from)*$coef) 
+            case 'rand':
+                $order = "{$sort->stock}, RAND()";
+                break;
+            case 'position_admin':
+                $order = "p.position DESC";
+                break;
+            case 'position':
+                $order = "p.main_order DESC, {$sort->stock}, p.position DESC";
+                break;
+            case 'name':
+                $order = "{$sort->stock}, $px.name ASC";
+                break;
+            case 'name_desc':
+                $order = "{$sort->stock}, $px.name DESC";
+                break;
+            case 'rating':
+                $order = "{$sort->stock}, p.rating ASC";
+                break;
+            case 'rating_desc':
+                $order = "{$sort->stock}, p.rating DESC";
+                break;
+            case 'created':
+                $order = "{$sort->stock}, p.created DESC";
+                break;
+            case 'price':
+                $order = "{$sort->stock}, (SELECT -floor(IF(pv.currency_id=0 OR c.id is null,pv.price, pv.price*c.rate_to/c.rate_from)*$coef) 
                         FROM __variants pv 
                         LEFT JOIN __currencies c on c.id=pv.currency_id
                         WHERE 
@@ -224,9 +224,9 @@ class Products extends Okay
                                     product_id=p.id LIMIT 1
                             ) 
                         LIMIT 1) DESC";
-                    break;
-                case 'price_desc':
-                    $order = "{$sort->stock}, (SELECT -floor(IF(pv.currency_id=0 OR c.id is null,pv.price, pv.price*c.rate_to/c.rate_from)*$coef)
+                break;
+            case 'price_desc':
+                $order = "{$sort->stock}, (SELECT -floor(IF(pv.currency_id=0 OR c.id is null,pv.price, pv.price*c.rate_to/c.rate_from)*$coef)
                         FROM __variants pv
                         LEFT JOIN __currencies c on c.id=pv.currency_id
                         WHERE
@@ -237,7 +237,7 @@ class Products extends Okay
                                     product_id=p.id LIMIT 1
                             )
                         LIMIT 1) ASC";
-                    break;
+                break;
             }
         }
 
@@ -247,9 +247,11 @@ class Products extends Okay
             foreach ($keywords as $keyword) {
                 $kw = $this->db->escape(trim($keyword));
                 if ($kw !== '') {
-                    $keyword_filter .= $this->db->placehold("AND (
+                    $keyword_filter .= $this->db->placehold(
+                        "AND (
                         $px.name LIKE '%$kw%' 
-                    ) ");
+                    ) "
+                    );
                 }
             }
             $where .= $keyword_filter;
@@ -269,22 +271,26 @@ class Products extends Okay
             }
 
             foreach ($filter['features'] as $feature_id => $value) {
-                $features_values[] = $this->db->placehold("(
+                $features_values[] = $this->db->placehold(
+                    "(
                             `{$options_px}`.`translit` in(?@)
-                            AND `{$options_px}`.`feature_id`=?)", (array)$value, $feature_id);
+                            AND `{$options_px}`.`feature_id`=?)", (array)$value, $feature_id
+                );
             }
 
             if (!empty($features_values)) {
                 $features_values = implode(' OR ', $features_values);
 
-                $where .= $this->db->placehold(" AND `p`.`id` in (SELECT 
+                $where .= $this->db->placehold(
+                    " AND `p`.`id` in (SELECT 
                         `pf`.`product_id`
                     FROM `__products_features_values` AS `pf`
                     $lang_options_join
                     LEFT JOIN `__features_values` AS `fv` ON `fv`.`id`=`pf`.`value_id`
                     WHERE ($features_values) 
                     $lang_id_options_filter
-                    GROUP BY `pf`.`product_id` HAVING COUNT(*) >= ?)", count($filter['features']));
+                    GROUP BY `pf`.`product_id` HAVING COUNT(*) >= ?)", count($filter['features'])
+                );
             }
         }
 
@@ -299,7 +305,8 @@ class Products extends Okay
             $sql_limit = '';
         }
 
-        $query = $this->db->placehold("SELECT $select
+        $query = $this->db->placehold(
+            "SELECT $select
             FROM __products p
             $lang_sql->join
             $joins
@@ -308,7 +315,8 @@ class Products extends Okay
                 $group_by
                 $order
                 $sql_limit
-        ");
+        "
+        );
 
         $this->db->query($query);
 
@@ -598,7 +606,8 @@ class Products extends Okay
 
         $product_id_filter = $this->db->placehold('AND product_id in(?@) ', (array)$product_id);
 
-        $query = $this->db->placehold("SELECT 
+        $query = $this->db->placehold(
+            "SELECT 
                 product_id, 
                 related_id, 
                 position
@@ -607,7 +616,8 @@ class Products extends Okay
                 1
                 $product_id_filter
             ORDER BY position
-        ");
+        "
+        );
         $this->db->query($query);
         return $this->db->results();
     }
@@ -647,7 +657,8 @@ class Products extends Okay
         }
 
         // images
-        $query = $this->db->placehold("SELECT 
+        $query = $this->db->placehold(
+            "SELECT 
                 i.id, 
                 i.product_id, 
                 i.variant_id, 
@@ -658,7 +669,8 @@ class Products extends Okay
             WHERE 
                 $where
             ORDER BY i.product_id, i.variant_id, i.position
-        ");
+        "
+        );
         $this->db->query($query);
         return $this->db->results();
     }
@@ -719,7 +731,8 @@ class Products extends Okay
     {
         $pids = array();
         // следующий товар
-        $query = $this->db->placehold("SELECT id FROM __products p, __products_categories pc
+        $query = $this->db->placehold(
+            "SELECT id FROM __products p, __products_categories pc
             WHERE
                 pc.product_id=p.id AND p.position>?
                 AND pc.position=(SELECT MIN(pc2.position) FROM __products_categories pc2 WHERE pc.product_id=pc2.product_id)
@@ -727,14 +740,16 @@ class Products extends Okay
                 AND p.visible
             ORDER BY p.position
             limit 1
-        ", $position, $category_id);
+        ", $position, $category_id
+        );
         $this->db->query($query);
         $pid = $this->db->result('id');
         if ($pid) {
             $pids[$pid] = 'prev';
         }
         // предыдущий товар
-        $query = $this->db->placehold("SELECT id FROM __products p, __products_categories pc
+        $query = $this->db->placehold(
+            "SELECT id FROM __products p, __products_categories pc
             WHERE
                 pc.product_id=p.id AND p.position<?
                 AND pc.position=(SELECT MIN(pc2.position) FROM __products_categories pc2 WHERE pc.product_id=pc2.product_id)
@@ -742,7 +757,8 @@ class Products extends Okay
                 AND p.visible
             ORDER BY p.position DESC
             limit 1
-        ", $position, $category_id);
+        ", $position, $category_id
+        );
         $this->db->query($query);
         $pid = $this->db->result('id');
         if ($pid) {
@@ -935,8 +951,13 @@ class Products extends Okay
 
         foreach ($products as &$product) {
             $first_variant_id                             = $products_v_positions[$product->id][min(array_keys($products_v_positions[$product->id]))];
-            $product->variants[$first_variant_id]->images = $product->images;
-            $product->variants[$first_variant_id]->image  = reset($product->images);
+            // $product->variants[$first_variant_id]->images = $product->images;
+            // $product->variants[$first_variant_id]->image  = reset($product->images);
+
+            $product->variants[$first_variant_id]->images = $product->images ?? [];
+            $product->variants[$first_variant_id]->image  = !empty($product->images)
+                ? reset($product->images)
+                : null;
 
             foreach ($product->variants as $variant) {
                 $color_id = array_search($variant->color, $colors_ids);
@@ -1065,13 +1086,15 @@ class Products extends Okay
         return $titles[($num % 100 > 4 && $num % 100 < 20) ? 2 : $cases[min($num % 10, 5)]];
     }
 
-	// ModulesCore/ContentEngine/ProductsImage.php //!!
-	/**
-	 * удаляю дублирующие записи в БД которые создаются при перетягивании картинок в варианты  
-	 */
-	public function delImagFromProd($prod_id){
+    // ModulesCore/ContentEngine/ProductsImage.php //!!
+    /**
+     * удаляю дублирующие записи в БД которые создаются при перетягивании картинок в варианты  
+     */
+    public function delImagFromProd($prod_id)
+    {
 
-		$query = $this->db->placehold("
+        $query = $this->db->placehold(
+            "
 			DELETE i
 			FROM __images i
 			JOIN (
@@ -1083,10 +1106,11 @@ class Products extends Okay
 			) d ON d.filename = i.filename
 			WHERE i.product_id = ?
 			AND i.variant_id = 0
-		", $prod_id, $prod_id);
+		", $prod_id, $prod_id
+        );
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-	}
+    }
 
 }

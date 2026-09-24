@@ -2,13 +2,13 @@
 
 $start_time = microtime(true);
 
-if (!empty($_SERVER['HTTP_USER_AGENT'])){
+if (!empty($_SERVER['HTTP_USER_AGENT'])) {
     session_name(md5($_SERVER['HTTP_USER_AGENT']));
 }
 session_start();
 
-require_once(dirname(__DIR__).'/api/Okay.php');
-require_once('vendor/autoload.php');
+require_once dirname(__DIR__).'/api/Okay.php';
+require_once 'vendor/autoload.php';
 $okay = new \Okay();
 $integration_1c = new \Integration1C\Integration1C($okay, $start_time);
 $response = new \Integration1C\Response();
@@ -50,7 +50,15 @@ if ($okay->request->get('mode') == 'file' && in_array($okay->request->get('type'
     $xml_file = $integration_1c->get_full_path($filename);
 
     // Загружаем файл
-    $integration_1c->upload_file($xml_file);
+    // $integration_1c->upload_file($xml_file);
+    //!! rmbt интересуют все ошибки которые возникаю в процессе
+    upload_file_with_logging($integration_1c, $xml_file);
+
+    //!! rmbt для поиска проблемы смены статусов заказов сохраняем ВСЕ входящие файлы заказов до валидации 
+    copy(
+        $xml_file,
+        __DIR__ . '/rmbt_order_backup/' . basename($xml_file)
+    );
 
     // Если файл не валидный, прекращаем всё
     if ($integration_1c->validate_file($xml_file) === false) {
@@ -81,14 +89,20 @@ if ($okay->request->get('type') == 'sale') {
         $export = $export_factory->create_export($okay, $integration_1c);
 
         if ($xml = $export->export()) {
+
+            //!! rmbt для поиска проблемы смены статусов заказов сохраняем ВСЕ исходящие файлы заказов 
+            file_put_contents(
+                __DIR__ . '/rmbt_order_export_backup/order_' . date('Y-m-d_H-i-s') . '_' . uniqid() . '.xml', $xml 
+            );
+
             $okay->settings->last_1c_orders_export_date = date("Y-m-d H:i:s");
             $response->set_content("\xEF\xBB\xBF"); // Добавим BOM
             $response->set_content($xml);
             $response->add_header("Content-type: text/xml; charset=utf-8");
         }
-    // } elseif ($okay->request->get('mode') == 'import') {
-    //     $filename = $okay->request->get('filename');
-    //     $import_factory = new \Integration1C\Import\ImportFactory\ImportOrdersFactory();
+        // } elseif ($okay->request->get('mode') == 'import') {
+        //     $filename = $okay->request->get('filename');
+        //     $import_factory = new \Integration1C\Import\ImportFactory\ImportOrdersFactory();
     }
     
     if ($okay->request->get('mode') == 'file') {
@@ -129,3 +143,50 @@ if (!empty($import_factory) && $import_factory instanceof \Integration1C\Import\
 }
 
 $response->send();
+
+
+//!! rmbt 
+function upload_file_with_logging($integration_1c, $xml_file)
+{
+    $log_file = __DIR__ . '/rmbt_order_backup/rmbt_1c_upload.log';
+    $start_time = microtime(true);
+
+    $log = static function ($message) use ($log_file) {
+        file_put_contents(
+            $log_file,
+            '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL,
+            FILE_APPEND
+        );
+    };
+
+    $log('===== START upload_file =====');
+    $log('XML file: ' . $xml_file);
+
+    $size_before = file_exists($xml_file) ? filesize($xml_file) : 0;
+    $log('File size before: ' . $size_before . ' bytes');
+
+    try {
+        $integration_1c->upload_file($xml_file);
+
+        $size_after = file_exists($xml_file) ? filesize($xml_file) : 0;
+
+        $log('upload_file(): SUCCESS');
+        $log('File size after: ' . $size_after . ' bytes');
+        $log('Bytes added: ' . ($size_after - $size_before));
+    } catch (\Throwable $e) {
+        $log('upload_file(): ERROR');
+        $log('Exception: ' . get_class($e));
+        $log('Message: ' . $e->getMessage());
+        $log('File: ' . $e->getFile() . ':' . $e->getLine());
+        $log('Trace: ' . $e->getTraceAsString());
+
+        throw $e;
+    } finally {
+        $log(
+            'Duration: ' .
+            round(microtime(true) - $start_time, 3) .
+            ' sec'
+        );
+        $log('===== END upload_file =====');
+    }
+};

@@ -507,33 +507,5 @@
     <script>ut_tracker.end('parsing:body_bottom:counters');</script>
 {/if}
 
-    {* //!! кнопка binotel *}
-    <style type="text/css">
-      body
-       #bingc-passive
-       div.bingc-passive-overlay
-       div.bingc-passive-content
-       div.bingc-statistics { display: none !important; }
-      
-      body
-      	#bingc-powered-by-passive-overlay {
-           display: none !important;
-        }
-    </style>
-
-
-	<script type="text/javascript">
-		(function(d, w, s) {
-			var widgetHash = 'e7i8bzuplxpy6x5dsl2p',
-				gcw = d.createElement(s);
-			gcw.type = 'text/javascript';
-			gcw.async = true;
-			gcw.src = '//widgets.binotel.com/getcall/widgets/' + widgetHash + '.js';
-			var sn = d.getElementsByTagName(s)[0];
-			sn.parentNode.insertBefore(gcw, sn);
-		})(document, window, 'script');
-	</script>
-  
-  
 </body>
 </html>

@@ -1,8 +1,10 @@
 <?php
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
-class BackendTranslations {
+#[\AllowDynamicProperties]
+class BackendTranslations
+{
     
     public function get_translation($var)
     {

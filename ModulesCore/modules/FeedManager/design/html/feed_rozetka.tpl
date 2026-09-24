@@ -58,8 +58,7 @@
                     <div class="main_list_boding main_list_status">
                         <input type="hidden" name="rmbt_names_match" value="0">
                         <label class="switch switch-default">
-                            <input id="rmbt-names_match" class="switch-input" type="checkbox" name="rmbt_names_match"
-                                value="1">
+                            <input id="rmbt-names_match" class="switch-input" type="checkbox" name="rmbt_names_match" value="1">
                             <span class="switch-label"></span>
                             <span class="switch-handle"></span>
                         </label>
@@ -68,11 +67,8 @@
                 </div>
 
                 <button id="" class="btn btn_small btn-info rmbt-submit" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 26 26" width="20px" height="20px">
-                        <path
-                            d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"
-                            fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26 26" width="20px" height="20px">
+                        <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z" fill="currentColor">
                         </path>
                     </svg>
                     Применить изменения
@@ -82,15 +78,57 @@
     </form>
 </div>
 
+
+<div class="boxed">
+    <div class="heading_box">Скидка для товаров в фиде</div>
+
+    <div class="row" id="rmbt-feed-discount-box">
+        <div class="rmbt-field-wrap col-lg-12 col-md-12">
+
+            <div class="rmbt-list-row col-lg-4 col-md-6">
+                <label for="rmbt-feed-discount">
+                    <span class="heading_label">
+                        Уменьшить скидку товаров в фиде на
+                    </span>
+
+                    <div class="input-group">
+                        <input id="rmbt-feed-discount" class="form-control" type="number" name="rmbt-feed-discount" min="0" max="100" step="1" value="{$feed_rozetka_discount|default:0}" placeholder="Введите процент">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="rmbt-list-row col-lg-4 col-md-6">
+                <label for="rmbt-feed-min-discount">
+                    <span class="heading_label">
+                        Минимальная скидка для товаров в фиде
+                    </span>
+                    <div class="input-group">
+                        <input id="rmbt-feed-min-discount" class="form-control" type="number" name="feed_min_discount" min="0" max="100" step="1" value="{$feed_rozetka_min_discount|default:0}">
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </label>
+            </div>
+
+            <button id="rmbt-feed-discount-submit" class="btn btn_small btn-info rmbt-submit" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="20px" height="20px">
+                    <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s.1-.5.3-.7l1.4-1.4c.4-.4,1-.4,1.4,0l.1.1,5.5,5.9c.2.2.5.2.7,0l13.4-13.9h.1v-8.88178e-16c.4-.4,1-.4,1.4,0l1.4,1.4c.4.4.4,1,0,1.4l0,0-16,16.6c-.2.2-.4.3-.7.3-.3,0-.5-.1-.7-.3l-7.8-8.4-.2-.3z" fill="currentColor"></path>
+                </svg>
+                Применить
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+
 <div class="boxed" id="rmbt-feed-rozetka-abbreviations">
     <div class="rmbt-field-wrap ">
         <div class="heading_box">Сокращения в свойствах товаров
             <button id="save-token-dictionary" class="btn btn_small  btn-info " type="submit">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26 26"
-                    width="20px" height="20px">
-                    <path
-                        d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z"
-                        fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26 26" width="20px" height="20px">
+                    <path d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z" fill="currentColor">
                     </path>
                 </svg>
                 Добавить соответствия в БД
@@ -110,8 +148,7 @@
                 <div class="main_list_boding main_list_status">
                     <input type="hidden" name="values-without-match" value="0">
                     <label class="switch switch-default">
-                        <input id="rmbt-values-without-match" class="switch-input" type="checkbox"
-                            name="rmbt-values-without-match" value="1" checked>
+                        <input id="rmbt-values-without-match" class="switch-input" type="checkbox" name="rmbt-values-without-match" value="1" checked>
                         <span class="switch-label"></span>
                         <span class="switch-handle"></span>
                     </label>
@@ -209,6 +246,82 @@
                 })
         });
 
+
+        /* Discounts */
+
+        const feedDiscountInput = document.getElementById('rmbt-feed-discount');
+        const feedDiscountSubmit = document.getElementById('rmbt-feed-discount-submit');
+
+        feedDiscountSubmit.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            rmbtErrorMassage.classList.add('rmbt-hide');
+            successMassageBox.classList.add('rmbt-hide');
+
+            const formData = new FormData();
+
+            formData.append(
+                'session_id',
+                document.querySelector('input[name="session_id"]').value
+            );
+
+            formData.append(
+                'lang_id',
+                document.querySelector('input[name="lang_id"]').value
+            );
+
+            formData.append( 'feed_discount', feedDiscountInput.value );
+
+            formData.append('save_feed_discount', true);
+
+            formData.append(
+                'feed_min_discount',
+                document.getElementById('rmbt-feed-min-discount').value
+            );
+
+
+            fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(
+                            'HTTP error! status: ' + response.status
+                        );
+                    }
+
+                    return response.json();
+                })
+                .then(json => {
+                    if (json) {
+
+                        if (json.errors.length > 0) {
+
+                            errorMassageBox.textContent = json.errors;
+                            rmbtErrorMassage.classList.remove('rmbt-hide');
+
+                        } else {
+
+                            successMassageBox.classList.remove('rmbt-hide');
+                            successMassage.textContent = json.success_massage;
+
+                        }
+                    }
+                })
+                .catch(err => {
+
+                    console.error(err);
+
+                    errorMassageBox.textContent =
+                        'Возникла непредвиденная ошибка';
+
+                    rmbtErrorMassage.classList.remove('rmbt-hide');
+                });
+        });
 
         /*  Abbreviations   */
 

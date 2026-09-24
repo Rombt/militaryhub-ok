@@ -5,7 +5,7 @@
  * Time: 09:59:00
  */
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
 class Users extends Okay
 {
@@ -14,7 +14,8 @@ class Users extends Okay
     private $salt = '8e86a279d6e182b3c811c559e6b15484';
 
     /*Выборка пользователей*/
-    public function get_users($filter = array(), $count = false, $one = false) {
+    public function get_users($filter = array(), $count = false, $one = false)
+    {
         // По умолчанию
         $limit = 1000;
         $page = 1;
@@ -41,7 +42,7 @@ class Users extends Okay
             'u.google_json',
             'g.discount',
             'g.name as group_name',
-            'ur.referral_id',
+            'MAX(ur.referral_id) AS referral_id',
             '(SELECT SUM(ub.bonuses) FROM __users_bonuses ub WHERE ub.user_id = u.id) as bonuses',
         ];
 
@@ -82,11 +83,13 @@ class Users extends Okay
             $keywords = explode(' ', $filter['keyword']);
             $keyword_filter = ' ';
             foreach ($keywords as $keyword) {
-                $keyword_filter .= $this->db->placehold('AND (
+                $keyword_filter .= $this->db->placehold(
+                    'AND (
                     u.name LIKE "%' . $this->db->escape(trim($keyword)) . '%" 
                     OR u.email LIKE "%' . $this->db->escape(trim($keyword)) . '%" 
                     OR u.last_ip LIKE "%' . $this->db->escape(trim($keyword)) . '%" 
-                ) ');
+                ) '
+                );
             }
             $where .= $keyword_filter;
         }
@@ -129,28 +132,33 @@ class Users extends Okay
 
             if (!empty($filter['birthday'])) {
                 switch ($filter['bonuses_type']) {
-                    case 'birthday':
-                        $where .= $this->db->placehold(" AND (DATE_FORMAT(CURDATE(), '%m%d') BETWEEN DATE_FORMAT(u.birthday - INTERVAL ? DAY, '%m%d') AND DATE_FORMAT(u.birthday + INTERVAL ? DAY, '%m%d'))", intval($filter['birthday']['from']), intval($filter['birthday']['to']));
-                        break;
-                    case 'birthday_removed':
-                        $fields[] = $this->db->placehold("IFNULL((SELECT SUM(bonuses)
+                case 'birthday':
+                    $where .= $this->db->placehold(" AND (DATE_FORMAT(CURDATE(), '%m%d') BETWEEN DATE_FORMAT(u.birthday - INTERVAL ? DAY, '%m%d') AND DATE_FORMAT(u.birthday + INTERVAL ? DAY, '%m%d'))", intval($filter['birthday']['from']), intval($filter['birthday']['to']));
+                    break;
+                case 'birthday_removed':
+                    $fields[] = $this->db->placehold(
+                        "IFNULL((SELECT SUM(bonuses)
                             FROM __users_bonuses
                             WHERE
                                 user_id = u.id
                                 AND type = ?
                                 AND bonuses > 0
                                 AND object_id = CONCAT( DATE_FORMAT(NOW(), '%Y'), DATE_FORMAT(u.birthday, '%m%d'))
-                        ), 0.00) as pushed_bonuses", 'birthday');
-                        $fields[] = $this->db->placehold("IFNULL((SELECT SUM(ABS(bonuses))
+                        ), 0.00) as pushed_bonuses", 'birthday'
+                    );
+                    $fields[] = $this->db->placehold(
+                        "IFNULL((SELECT SUM(ABS(bonuses))
                             FROM __users_bonuses
                             WHERE
                                 user_id = u.id
                                 AND bonuses < 0
                                 AND created BETWEEN ubb.created AND CONCAT(DATE_FORMAT(NOW(), '%Y'), '-', DATE_FORMAT(u.birthday, '%m-%d')) + INTERVAL ? DAY
-                        ), 0.00) as used_bonuses", intval($filter['birthday']['to']));
-                        $joins .= $this->db->placehold(" INNER JOIN __users_bonuses ubb ON ubb.user_id = u.id AND ubb.type = ?", 'birthday');
-                        $where .= $this->db->placehold(" AND (DATE_FORMAT(CURDATE(), '%m%d') >= DATE_FORMAT(u.birthday + INTERVAL ? DAY, '%m%d'))", intval($filter['birthday']['to']));
-                        $where .= $this->db->placehold(" AND (SELECT SUM(bonuses)
+                        ), 0.00) as used_bonuses", intval($filter['birthday']['to'])
+                    );
+                    $joins .= $this->db->placehold(" INNER JOIN __users_bonuses ubb ON ubb.user_id = u.id AND ubb.type = ?", 'birthday');
+                    $where .= $this->db->placehold(" AND (DATE_FORMAT(CURDATE(), '%m%d') >= DATE_FORMAT(u.birthday + INTERVAL ? DAY, '%m%d'))", intval($filter['birthday']['to']));
+                    $where .= $this->db->placehold(
+                        " AND (SELECT SUM(bonuses)
                             FROM __users_bonuses
                             WHERE
                                 user_id = u.id
@@ -163,8 +171,9 @@ class Users extends Okay
                                 user_id = u.id
                                 AND bonuses < 0
                                 AND created BETWEEN ubb.created AND CONCAT(DATE_FORMAT(NOW(), '%Y'), '-', DATE_FORMAT(u.birthday, '%m-%d')) + INTERVAL ? DAY
-                        ), 0.00)", 'birthday', intval($filter['birthday']['to']));
-                        break;
+                        ), 0.00)", 'birthday', intval($filter['birthday']['to'])
+                    );
+                    break;
                 }
             }
         }
@@ -175,11 +184,11 @@ class Users extends Okay
 
         if (!empty($filter['sms'])) {
             switch ($filter['sms']) {
-                case 'birthday':
-                    $where .= $this->db->placehold(" AND (SELECT 1 FROM __users_bonuses WHERE user_id = u.id AND object_id = CONCAT(DATE_FORMAT(NOW(), '%Y'), DATE_FORMAT(u.birthday, '%m%d')) AND type = ? AND sms = 0) = 1", (string)$filter['sms']);
-                    break;
-                default:
-                    $where .= $this->db->placehold(" AND (SELECT count(*) = 0 FROM __users_bonuses WHERE user_id = u.id AND type = ? AND sms = 1) = 1", (string)$filter['sms']);
+            case 'birthday':
+                $where .= $this->db->placehold(" AND (SELECT 1 FROM __users_bonuses WHERE user_id = u.id AND object_id = CONCAT(DATE_FORMAT(NOW(), '%Y'), DATE_FORMAT(u.birthday, '%m%d')) AND type = ? AND sms = 0) = 1", (string)$filter['sms']);
+                break;
+            default:
+                $where .= $this->db->placehold(" AND (SELECT count(*) = 0 FROM __users_bonuses WHERE user_id = u.id AND type = ? AND sms = 1) = 1", (string)$filter['sms']);
             }
         }
 
@@ -194,7 +203,8 @@ class Users extends Okay
                     $to -= intval($filter['bonuses_removed']['to']);
                 }
             }
-            $fields[] = $this->db->placehold("(
+            $fields[] = $this->db->placehold(
+                "(
                 GREATEST(
                     SUM(CASE WHEN ub.bonuses > 0 AND ub.type <> ? AND TIMESTAMP(ub.created) < TIMESTAMP(NOW() - INTERVAL ? DAY) THEN ub.bonuses ELSE 0 END)
                     +
@@ -202,9 +212,11 @@ class Users extends Okay
                     +
                     SUM(CASE WHEN ub.bonuses < 0 AND ub.type = ? THEN ub.bonuses ELSE 0 END)
                 , 0)
-            ) as removed_bonuses", 'auto_removed', intval($from), 'auto_removed', intval($to), 'auto_removed');
+            ) as removed_bonuses", 'auto_removed', intval($from), 'auto_removed', intval($to), 'auto_removed'
+            );
             $joins .= $this->db->placehold(' INNER JOIN __users_bonuses ub ON ub.user_id = u.id');
-            $where .= $this->db->placehold(" AND (
+            $where .= $this->db->placehold(
+                " AND (
                 SELECT GREATEST(
                     SUM(CASE WHEN bonuses > 0 AND type <> ? AND TIMESTAMP(created) < TIMESTAMP(NOW() - INTERVAL ? DAY) THEN bonuses ELSE 0 END)
                     +
@@ -214,27 +226,28 @@ class Users extends Okay
                 , 0) > 0
                 FROM __users_bonuses
                 WHERE user_id = u.id
-            ) = ?", 'auto_removed', intval($from), 'auto_removed', intval($to), 'auto_removed', (int)$filter['has_bonuses_auto_removed']);
+            ) = ?", 'auto_removed', intval($from), 'auto_removed', intval($to), 'auto_removed', (int)$filter['has_bonuses_auto_removed']
+            );
             $where .= $this->db->placehold(' AND (SELECT MAX(o.date) FROM __orders o WHERE o.user_id = u.id) < NOW() - INTERVAL ? DAY', intval($from));
         }
 
         if (!empty($filter['sort'])) {
             switch ($filter['sort']) {
-                case 'date':
-                    $order = 'u.created DESC';
-                    break;
-                case 'name':
-                    $order = 'u.name';
-                    break;
-                case 'email':
-                    $order = 'u.email';
-                    break;
-                case 'cnt_order':
-                    $order = "(select count(o.id) as count from __orders o where o.user_id = u.id) DESC";
-                    break;
-                case 'cnt_bonus':
-                    $order = "(select sum(ub.bonuses) as bonuses from __users_bonuses ub where ub.user_id = u.id) DESC";
-                    break;
+            case 'date':
+                $order = 'u.created DESC';
+                break;
+            case 'name':
+                $order = 'u.name';
+                break;
+            case 'email':
+                $order = 'u.email';
+                break;
+            case 'cnt_order':
+                $order = "(select count(o.id) as count from __orders o where o.user_id = u.id) DESC";
+                break;
+            case 'cnt_bonus':
+                $order = "(select sum(ub.bonuses) as bonuses from __users_bonuses ub where ub.user_id = u.id) DESC";
+                break;
             }
         }
 
@@ -254,7 +267,8 @@ class Users extends Okay
         }
 
         $fields = implode(', ', $fields);
-        $query = $this->db->placehold("SELECT $fields
+        $query = $this->db->placehold(
+            "SELECT $fields
             FROM __users u
             $joins
             WHERE 
@@ -262,7 +276,8 @@ class Users extends Okay
                 $group_by
                 $order 
                 $sql_limit
-        ");
+        "
+        );
         $this->db->query($query);
         if ($count === true) {
             return $this->db->result('count');
@@ -274,12 +289,14 @@ class Users extends Okay
     }
 
     /*Подсчет пользователей*/
-    public function count_users($filter = array()) {
+    public function count_users($filter = array())
+    {
         return $this->get_users($filter, true);
     }
 
     /*Выборка конкретного пользователя*/
-    public function get_user($id, $type = '', $filter = array()) {
+    public function get_user($id, $type = '', $filter = array())
+    {
         if (empty($id)) {
             return false;
         }
@@ -423,7 +440,8 @@ class Users extends Okay
         return false;
     }
 
-    public function add_user_bonus($user_id, $object_id, $bonuses = 0.00, $type = 'order', $sms = 0) {
+    public function add_user_bonus($user_id, $object_id, $bonuses = 0.00, $type = 'order', $sms = 0)
+    {
         if (empty($user_id) || !isset($object_id)) {
             return false;
         }
@@ -436,7 +454,8 @@ class Users extends Okay
         return false;
     }
 
-    public function update_user_bonus($user_id, $object_id, $params, $type = 'order') {
+    public function update_user_bonus($user_id, $object_id, $params, $type = 'order')
+    {
         if (empty($user_id) || empty($object_id) || empty($params)) {
             return false;
         }
@@ -449,7 +468,8 @@ class Users extends Okay
         return false;
     }
 
-    public function remove_user_bonuses($user_id, $bonuses, $type = 'removed', $object_id = null) {
+    public function remove_user_bonuses($user_id, $bonuses, $type = 'removed', $object_id = null)
+    {
         if (empty($user_id) || empty($bonuses)) {
             return false;
         }
@@ -463,9 +483,11 @@ class Users extends Okay
         return true;
     }
 
-    public function delete_users_bonuses() {
+    public function delete_users_bonuses()
+    {
         $bonuses_delete = intval($this->settings->users_bonuses_delete);
-        $query = $this->db->placehold("REPLACE INTO __users_bonuses (user_id, object_id, type, bonuses)
+        $query = $this->db->placehold(
+            "REPLACE INTO __users_bonuses (user_id, object_id, type, bonuses)
         SELECT
             u.id,
             u.id,
@@ -497,12 +519,14 @@ class Users extends Okay
                 WHERE user_id = u.id
             ) = 1
             AND (SELECT MAX(o.date) FROM __orders o WHERE o.user_id = u.id) < NOW() - INTERVAL ? DAY
-        GROUP BY u.id", (int)$bonuses_delete, (int)$bonuses_delete, (int)$bonuses_delete);
+        GROUP BY u.id", (int)$bonuses_delete, (int)$bonuses_delete, (int)$bonuses_delete
+        );
         $this->db->query($query);
         return $this->db->affected_rows();
     }
 
-    public function get_users_bonuses($filter = array()) {
+    public function get_users_bonuses($filter = array())
+    {
         if (empty($filter['user_id'])) {
             return false;
         }

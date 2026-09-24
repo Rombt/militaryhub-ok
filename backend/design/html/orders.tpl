@@ -29,6 +29,11 @@
         <div class="boxed_search">
             <form class="search" method="get">
                 <input type="hidden" name="module" value="OrdersAdmin">
+                {if $from_date}<input type="hidden" name="from_date" value="{$from_date|escape}">{/if}
+                {if $to_date}<input type="hidden" name="to_date" value="{$to_date|escape}">{/if}
+                {if $status}<input type="hidden" name="status" value="{$status|escape}">{/if}
+                {if $label}<input type="hidden" name="label" value="{$label->id|escape}">{/if}
+                {if $sort}<input type="hidden" name="sort" value="{$sort|escape}">{/if}
                 <div class="input-group">
                     <input name="keyword" class="form-control" placeholder="{$btr->general_search|escape}" type="text" value="{$keyword|escape}" >
                     <span class="input-group-btn">
@@ -66,81 +71,96 @@
 
 <div class="boxed fn_toggle_wrap">
     <div class="row">
-        <div class="col-lg-12 col-md-12 ">
-            <div class="fn_toggle_wrap">
-                <div class="heading_box visible_md">
-                    {$btr->general_filter|escape}
-                    <div class="toggle_arrow_wrap fn_toggle_card text-primary">
-                        <a class="btn-minimize" href="javascript:;" ><i class="fa fn_icon_arrow fa-angle-down"></i></a>
+        <div class="col-lg-12 col-md-12">
+            <form class="date_filter" method="get">
+                <input type="hidden" name="module" value="OrdersAdmin">
+                <input type="hidden" name="keyword" value="{$keyword|escape}">
+                <div class="fn_toggle_wrap">
+                    <div class="heading_box visible_md">
+                        {$btr->general_filter|escape}
+                        <div class="toggle_arrow_wrap fn_toggle_card text-primary">
+                            <a class="btn-minimize" href="javascript:;" ><i class="fa fn_icon_arrow fa-angle-down"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="boxed_sorting toggle_body_wrap off fn_card">
-                <div class="row">
-                    <div class="col-md-11 col-lg-11 col-xl-7 col-sm-12 mb-1">
-                        <div class="date">
-                            {*Блок фильтров*}
-                            <form class="date_filter row" method="get">
-                                <input type="hidden" name="module" value="OrdersAdmin">
-                                <input type="hidden" name="status" value="{$status}">
-
-                                <div class="col-md-5 col-lg-5 pr-0 pl-0">
-                                    <div class="input-group mobile_input-group">
-                                        <span class="input-group-addon-date">{$btr->general_from|escape}</span>
-                                        {if $is_mobile || $is_tablet}
-                                            <input type="date" class="fn_from_date form-control" name="from_date" value="{$from_date}" autocomplete="off" >
-                                        {else}
-                                            <input type="text" class="fn_from_date form-control" name="from_date" value="{$from_date}" autocomplete="off" >
-                                        {/if}
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-5 col-lg-5 pr-0 pl-0">
-                                    <div class="input-group mobile_input-group">
-                                        <span class="input-group-addon-date">{$btr->general_to|escape}</span>
-                                        {if $is_mobile || $is_tablet}
-                                            <input type="date" class="fn_to_date form-control" name="to_date" value="{$to_date}" autocomplete="off" >
+                    <div class="boxed_sorting toggle_body_wrap off fn_card">
+                        <div class="row">
+                            <div class="col-md-11 col-lg-11 col-xl-7 col-sm-12 px-0 mb-1">
+                                <div class="date">
+                                    {*Блок фильтров*}
+                                    <div class="col-md-5 col-lg-5 pr-0 pl-0">
+                                        <div class="input-group mobile_input-group">
+                                            <span class="input-group-addon-date">{$btr->general_from|escape}</span>
+                                            {if $is_mobile || $is_tablet}
+                                                <input type="date" class="fn_from_date form-control" name="from_date" value="{$from_date}" autocomplete="off" >
                                             {else}
-                                            <input type="text" class="fn_to_date form-control" name="to_date" value="{$to_date}" autocomplete="off" >
-                                        {/if}
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
+                                                <input type="text" class="fn_from_date form-control" name="from_date" value="{$from_date}" autocomplete="off" >
+                                            {/if}
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-5 col-lg-5 pr-0 pl-0">
+                                        <div class="input-group mobile_input-group">
+                                            <span class="input-group-addon-date">{$btr->general_to|escape}</span>
+                                            {if $is_mobile || $is_tablet}
+                                                <input type="date" class="fn_to_date form-control" name="to_date" value="{$to_date}" autocomplete="off" >
+                                            {else}
+                                                <input type="text" class="fn_to_date form-control" name="to_date" value="{$to_date}" autocomplete="off" >
+                                            {/if}
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 pr-0 mobile_text_right">
+                                        <button class="btn btn_blue" type="submit">{$btr->general_apply|escape}</button>
+                                    </div>
                                 </div>
-                                <div class="col-md-2 col-lg-2 pr-0 mobile_text_right">
-                                    <button class="btn btn_blue" type="submit">{$btr->general_apply|escape}</button>
+                            </div>
+                        </div>
+                        {*Блок фильтров*}
+                        <div class="row">
+                            {if $all_status}
+                                <div class="col-md-4 col-lg-4 col-sm-12 pr-0">
+                                    <select name="status" class="selectpicker">
+                                        {foreach $all_status as $order_status}
+                                            {* <option value="{url module=OrdersAdmin status=$order_status->id keyword=null id=null page=null label=null from_date=null to_date=null}"{if $status == $order_status->id} selected{/if} >{$order_status->name|escape}</option> *}
+                                            <option value="{$order_status->id}"{if $status == $order_status->id} selected{/if} >{$order_status->name|escape}</option>
+                                        {/foreach}
+                                        {* <option value="{url module=OrdersAdmin status=null keyword=null id=null page=null label=null from_date=null to_date=null}"{if !$status} selected{/if}>{$btr->general_all|escape}</option> *}
+                                        <option value=""{if !$status} selected{/if}>{$btr->general_all|escape}</option>
+                                    </select>
                                 </div>
-                            </form>
+                            {/if}
+                            {if $labels}
+                                <div class="col-md-4 col-lg-4 col-sm-12 pr-0">
+                                    <select name="label" class="selectpicker">
+                                        {foreach $labels as $l}
+                                            {* <option value="{url label=$l->id}"{if $label->id == $l->id} selected{/if}>{$l->name|escape}</option> *}
+                                            <option value="{$l->id}"{if $label->id == $l->id} selected{/if}>{$l->name|escape}</option>
+                                        {/foreach}
+                                        {* <option value="{url label=null}"{if !$label} selected{/if}>{$btr->general_all|escape}</option> *}
+                                        <option value=""{if !$label} selected{/if}>{$btr->general_all|escape}</option>
+                                    </select>
+                                </div>
+                            {/if}
+                            <div class="col-md-4 col-lg-4 col-sm-12">
+                                {* <select class="selectpicker" onchange="location = this.value;">
+                                    <option value="{url sort=null}"{if !$sort} selected{/if}>{$btr->orders_sort_set_default|escape}</option>
+                                    <option value="{url sort='subtotal'}"{if $sort == 'subtotal'} selected{/if}>{$btr->orders_sort_subtotal_asc|escape}</option>
+                                    <option value="{url sort='subtotal_desc'}"{if $sort == 'subtotal_desc'} selected{/if}>{$btr->orders_sort_subtotal_desc|escape}</option>
+                                </select> *}
+                                <select name="sort" class="selectpicker">
+                                    <option value=""{if !$sort} selected{/if}>{$btr->orders_sort_set_default|escape}</option>
+                                    <option value="subtotal"{if $sort == 'subtotal'} selected{/if}>{$btr->orders_sort_subtotal_asc|escape}</option>
+                                    <option value="subtotal_desc"{if $sort == 'subtotal_desc'} selected{/if}>{$btr->orders_sort_subtotal_desc|escape}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                {*Блок фильтров*}
-                <div class="row">
-                    {if $all_status}
-                        <div class="col-md-6 col-lg-4 col-sm-12">
-                            <select name="status" class="selectpicker"  onchange="location = this.value;">
-                                {foreach $all_status as $order_status}
-                                    <option value="{url module=OrdersAdmin status=$order_status->id keyword=null id=null page=null label=null from_date=null to_date=null}" {if $status == $order_status->id}selected=""{/if} >{$order_status->name|escape}</option>
-                                {/foreach}
-                                <option value="{url module=OrdersAdmin status=null keyword=null id=null page=null label=null from_date=null to_date=null}" {if !$status}selected{/if}>{$btr->general_all|escape}</option>
-                            </select>
-                        </div>
-                    {/if}
-                    {if $labels}
-                        <div class="col-md-6 col-lg-4 col-sm-12">
-                            <select class="selectpicker" onchange="location = this.value;">
-                                {foreach $labels as $l}
-                                    <option value="{url label=$l->id}" {if $label->id == $l->id}selected{/if}>{$l->name|escape}</option>
-                                {/foreach}
-                                <option value="{url label=null}" {if !$label} selected{/if}>{$btr->general_all|escape}</option>
-                            </select>
-                        </div>
-                    {/if}
-                </div>
-            </div>
-            </div>
+            </form>
         </div>
     </div>
 

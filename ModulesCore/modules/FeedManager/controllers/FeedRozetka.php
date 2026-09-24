@@ -25,6 +25,9 @@ class FeedRozetka extends FeedManager
         $result = [];
         $success_massage = '';
 
+        $feed_rozetka_discount = $this->settings->feed_rozetka_discount ?? null;
+        $feed_rozetka_min_discount = $this->settings->feed_rozetka_min_discount ?? null;
+
         if ($this->request->post('rmbt-date')) {
             $date = $this->request->post('rmbt-date');
             
@@ -43,25 +46,60 @@ class FeedRozetka extends FeedManager
         
         if ($this->request->post('rmbt_names_match')) {
 
-            $sql = "
-                UPDATE __variants v
-                INNER JOIN __products p ON p.id = v.product_id
-                INNER JOIN (
-                    SELECT MAX(id) AS keep_id, name
-                    FROM __products
-                    GROUP BY name
-                    HAVING COUNT(*) > 1
-                ) latest ON latest.name = p.name
-                SET v.feed_rozetka = 0
-                WHERE p.id != latest.keep_id;
-            ";
+            $normalize = function ($name) {
+                $name = str_replace("\xC2\xA0", ' ', $name);
+                $name = preg_replace('/\s+/u', ' ', $name);
+                return trim($name);
+            };
 
-            $query = self::$db_fr->placehold($sql);
-            $result = self::$db_fr->query($query);
-            if (!$result) {
-                $this->errors[] = 'Ошибка применения изменений';
+            $products = self::$db_fr->query("SELECT id, name FROM __products");
+
+            $groups = [];
+            foreach ($products as $p) {
+                $id   = is_object($p) ? $p->id : $p['id'];
+                $name = is_object($p) ? $p->name : $p['name'];
+                $key = $normalize($name);
+
+                $groups[$key][] = [
+                    'id'   => (int)$id,
+                    'name' => $name
+                ];
             }
 
+            $toDisable = [];
+            foreach ($groups as $items) {
+                if (count($items) <= 1) {
+                    continue;
+                }
+                usort(
+                    $items, function ($a, $b) {
+                        return $b['id'] <=> $a['id'];
+                    }
+                );
+
+                array_shift($items);
+
+                foreach ($items as $item) {
+                    $toDisable[] = (int)$item['id'];
+                }
+            }
+
+            if (!empty($toDisable)) {
+
+                $ids = implode(',', array_unique($toDisable));
+
+                $sql = "
+                    UPDATE __variants
+                    SET feed_rozetka = 0
+                    WHERE product_id IN ($ids)
+                ";
+
+                $result = self::$db_fr->query($sql);
+
+                if (!$result) {
+                    $this->errors[] = 'Ошибка применения изменений';
+                }
+            }
         }
 
         if ($this->request->post('rmbt-date') || $this->request->post('rmbt_names_match')) {
@@ -72,9 +110,166 @@ class FeedRozetka extends FeedManager
                 'errors' => $this->errors
                 ]
             );
-        } elseif ($this->request->post('rmbt-date')) {
-            $this->errors = 'Дата должна быть указана!';
+        } 
+
+        if ($this->request->post('save_feed_discount')) {
+
+            $feed_rozetka_discount = $this->request->post('feed_discount');
+
+            if ($feed_rozetka_discount === null || $feed_rozetka_discount === '') {
+
+                $this->errors[] = 'Укажите процент скидки';
+
+            } else {
+
+                $feed_rozetka_discount = (int) $feed_rozetka_discount;
+
+                if ($feed_rozetka_discount < 0 || $feed_rozetka_discount > 100) {
+
+                    $this->errors[] = 'Процент должен быть от 0 до 100';
+
+                } else {
+
+                    $param = 'feed_rozetka_discount';
+
+                    // Проверяем, существует ли настройка
+                    $query = self::$db_fr->placehold(
+                        "SELECT setting_id
+                        FROM __settings
+                        WHERE param = ?
+                        LIMIT 1",
+                        $param
+                    );
+
+                    $result = self::$db_fr->query($query);
+
+                    if ($result) {
+
+                        $setting = $result->fetch_object();
+
+                        if ($setting) {
+
+                            // Обновляем существующую настройку
+                            $query = self::$db_fr->placehold(
+                                "UPDATE __settings
+                                SET value = ?
+                                WHERE setting_id = ?",
+                                $feed_rozetka_discount,
+                                $setting->setting_id
+                            );
+
+                            if (!self::$db_fr->query($query)) {
+                                $this->errors[] = 'Ошибка обновления настройки';
+                            }
+
+                        } else {
+
+                            // Создаём новую настройку
+                            $query = self::$db_fr->placehold(
+                                "INSERT INTO __settings
+                         SET param = ?, value = ?",
+                                $param,
+                                $feed_rozetka_discount
+                            );
+
+                            if (!self::$db_fr->query($query)) {
+                                $this->errors[] = 'Ошибка создания настройки';
+                            }
+                        }
+
+                    } else {
+
+                        $this->errors[] = 'Ошибка проверки настройки';
+                    }
+                }
+            }
+
+
+
+            $feed_rozetka_min_discount = $this->request->post('feed_min_discount');
+
+            if ($feed_rozetka_min_discount === null || $feed_rozetka_min_discount === '') {
+
+                $this->errors[] = 'Укажите минимально допустимую скидку';
+
+            } else {
+
+                $feed_rozetka_min_discount = (int) $feed_rozetka_min_discount;
+
+                if ($feed_rozetka_min_discount < 0 || $feed_rozetka_min_discount > 100) {
+
+                    $this->errors[] = 'Минимальная скидка должна быть от 0 до 100';
+
+                } else {
+
+                    $param = 'feed_rozetka_min_discount';
+
+                    // Проверяем, существует ли настройка
+                    $query = self::$db_fr->placehold(
+                        "SELECT setting_id
+                        FROM __settings
+                        WHERE param = ?
+                        LIMIT 1",
+                        $param
+                    );
+
+                    $result = self::$db_fr->query($query);
+
+                    if ($result) {
+
+                        $setting = $result->fetch_object();
+
+                        if ($setting) {
+
+                            // Обновляем существующую настройку
+                            $query = self::$db_fr->placehold(
+                                "UPDATE __settings
+                                SET value = ?
+                                WHERE setting_id = ?",
+                                $feed_rozetka_min_discount,
+                                $setting->setting_id
+                            );
+
+                            if (!self::$db_fr->query($query)) {
+                                $this->errors[] = 'Ошибка обновления настройки';
+                            }
+
+                        } else {
+
+                            // Создаём новую настройку
+                            $query = self::$db_fr->placehold(
+                                "INSERT INTO __settings
+                                SET param = ?, value = ?",
+                                $param,
+                                $feed_rozetka_min_discount
+                            );
+
+                            if (!self::$db_fr->query($query)) {
+                                $this->errors[] = 'Ошибка создания настройки';
+                            }
+                        }
+
+                    } else {
+
+                        $this->errors[] = 'Ошибка проверки настройки минимальной скидки';
+                    }
+                }
+            }
+
+            $this->jsonResponse(
+                [
+                'result' => empty($this->errors),
+                'success_massage' => empty($this->errors)
+                ? 'Настройка скидки сохранена'
+                : '',
+                'errors' => $this->errors
+                ]
+            );
         }
+
+        // elseif ($this->request->post('rmbt-date')) {
+        //     $this->errors = 'Дата должна быть указана!';
+        // }
 
 
         if ($this->request->post('get_property_values')) {
@@ -153,6 +348,8 @@ class FeedRozetka extends FeedManager
 
         }
 
+        $this->design->assign('feed_rozetka_discount', $feed_rozetka_discount);
+        $this->design->assign('feed_rozetka_min_discount', $feed_rozetka_min_discount);
 
         $this->design->assign('errors', $this->errors);
         $this->design->assign('success_massage', $success_massage);
@@ -169,7 +366,7 @@ class FeedRozetka extends FeedManager
      * 2. Разбивает значения на отдельные токены
      * 3. Удаляет дубликаты токенов
      * 4. Проверяет наличие токенов в таблице
-     *    sfly_rmbt_feature_token_dictionary
+     *    __rmbt_feature_token_dictionary
      * 5. Возвращает только отсутствующие токены
      *
      * Проверка выполняется:
@@ -357,7 +554,7 @@ class FeedRozetka extends FeedManager
 
         $sql = "
             SELECT token
-            FROM sfly_rmbt_feature_token_dictionary
+            FROM __rmbt_feature_token_dictionary
             WHERE feature_id = ?
             AND BINARY token IN ($placeholders)
         ";
@@ -994,5 +1191,60 @@ class FeedRozetka extends FeedManager
         return implode('/', $normalizedTokens);
     }
 
+    // /**
+    //  * Уменьшает существующую скидку на заданный процент.
+    //  *
+    //  * Например:
+    //  *  текущая скидка 30%, уменьшение 20% => новая скидка 10%
+    //  *  текущая скидка 20%, уменьшение 20% => новая скидка 0%
+    //  *  текущая скидка 10%, уменьшение 20% => новая скидка 0%
+    //  *
+    //  * @param float $currentDiscount   Текущая скидка в процентах
+    //  * @param float $feed_rozetka_discountReduction На сколько процентов уменьшить скидку
+    //  *
+    //  * @return float
+    //  */
+    public static function reduceDiscount($price_old, $price, $feed_rozetka_discount, $feed_rozetka_min_discount = 2)
+    {
+        $price_old = (float) $price_old;
+        $price = (float) $price;
+        $feed_rozetka_discount = (float) $feed_rozetka_discount;
+
+        // Некорректная исходная цена
+        if ($price_old <= 0) {
+            return $price;
+        }
+
+        if ($price <= 0) {
+            return $price_old;
+        }
+
+        // Текущей скидки нет
+        if ($price >= $price_old) {
+            return $price;
+        }
+
+        // Некорректное значение уменьшения скидки
+        if ($feed_rozetka_discount <= 0) {
+            return $price;
+        }
+
+        // Уменьшение не может превышать 100%
+        $feed_rozetka_discount = min($feed_rozetka_discount, 100);
+
+        // Текущая скидка в процентах
+        $currentDiscount = (($price_old - $price) / $price_old) * 100;
+
+        // Новая скидка
+        $newDiscount = $currentDiscount - $feed_rozetka_discount;
+
+        // Скидка полностью убрана
+        if ($newDiscount <= 0 || $newDiscount < $feed_rozetka_min_discount ) {
+            return $price_old;
+        }
+
+        // Новая цена с новой скидкой
+        return round($price_old * (1 - $newDiscount / 100),  2);
+    }
 
 }

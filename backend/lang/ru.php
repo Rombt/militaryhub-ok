@@ -1309,6 +1309,9 @@ $backend_translations->settings_products_bonuses = 'Бонусов по умол
 $backend_translations->settings_users_bonuses_on = 'Разрешить накопление бонусов';
 $backend_translations->settings_cart_bonuses_on = 'Разрешить оплату бонусами';
 
+//!! rmbt bonuses_without_discount_only
+$backend_translations->settings_cart_bonuses_without_discount_only = 'Использовать бонусы только для товаров без скидок';
+
 $backend_translations->settings_novaposhta_update = 'Параметры автообновления';
 $backend_translations->settings_novaposhta_to_update = 'Обновить список городов и отделений';
 $backend_translations->settings_novaposhta_last_update = 'Последнее успешное обновление';
@@ -1318,3 +1321,6 @@ $backend_translations->settings_novaposhta_processed = 'Происходит о�
 $backend_translations->general_featured_category = 'Выбранная категория';
 $backend_translations->settings_restricted_categories_bonuses = 'Не начислять/не списывать на категории';
 $backend_translations->payment_method_max_discount_value = 'Максимально допустимое значение скидки, %';
+$backend_translations->orders_sort_set_default = 'По умолчанию (первоначально новые)';
+$backend_translations->orders_sort_subtotal_asc = 'От самых дорогих до самых дешевых';
+$backend_translations->orders_sort_subtotal_desc = 'От самых дешевых до дорожных';

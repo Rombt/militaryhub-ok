@@ -4,16 +4,16 @@ require_once( 'api/Okay.php' );
 
 class OrdersAdmin extends Okay {
 
-
-
 	public function fetch() {
-
-
-
 		$filter = array();
 		$filter['page'] = max( 1, $this->request->get( 'page', 'integer' ) );
-
 		$filter['limit'] = 40;
+
+		$sort = $this->request->get('sort');
+        if (!empty($sort)) {
+            $filter['sort'] = $sort;
+		}
+		$this->design->assign('sort', $sort);
 
 		// Поиск
 		$keyword = $this->request->get( 'keyword' );

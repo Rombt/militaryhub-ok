@@ -7,7 +7,7 @@
  */
 
 chdir(__DIR__);
-require_once('api/Okay.php');
+require_once 'api/Okay.php';
 $okay = new Okay();
 
 $lang_id  = $okay->languages->lang_id();
@@ -23,6 +23,12 @@ $currency = reset($currencies);
 
 $categories = $okay->categories->get_categories();
 
+//!! rmbt FeedManager
+$feed_prom_discount = $okay->settings->feed_prom_discount ?? null;
+$feed_prom_min_discount = $okay->settings->feed_prom_min_discount ?? null;
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ModulesCore/modules/FeedManager/controllers/FeedProm.php';
+
+
 $px = ($lang_id ? 'l' : 'p');
 $bx = ($lang_id ? 'lb' : 'b');
 $vx = ($lang_id ? 'lv' : 'v');
@@ -34,12 +40,13 @@ $vx = 'v';
 // $okay->db->query("SET SQL_BIG_TABLES = 1");
 // $okay->db->query("SET SQL_BIG_SELECTS = 0");
 // $okay->db->query("SET SQL_BUFFER_RESULT = 1");
-$okay->db->query("SELECT
+$okay->db->query(
+    "SELECT
     v.id as variant_id,
     MAX($vx.name) as variant_name,
     v.currency_id,
-    IFNULL(v.stock, ?) as stock, 
-    (v.stock IS NULL) as infinity, 
+    IFNULL(v.stock, ?) as stock,
+    (v.stock IS NULL) as infinity,
     v.compare_price,
     v.sku,
     v.price,
@@ -51,24 +58,34 @@ $okay->db->query("SELECT
     MAX($px.annotation) as annotation,
     MAX($px.meta_keywords) as keywords,
     p.url,
-    pc.category_id,
-    i.filename as image,
+    MAX(pc.category_id) as category_id,
+    MAX(i.filename) as image,
     MAX($bx.name) as vendor,
-    c.name as category_name,
-    c.prom_category as prom_category
+    MAX(c.name) as category_name,
+    MAX(c.prom_category) as prom_category
 FROM __variants v
 INNER JOIN __products p ON v.product_id=p.id
 INNER JOIN __brands b ON p.brand_id=b.id AND b.visible
 LEFT JOIN __images i ON p.id=i.product_id
-INNER JOIN __products_categories pc ON (p.id = pc.product_id AND pc.position=(SELECT MIN(position) FROM __products_categories WHERE product_id=p.id LIMIT 1))
+INNER JOIN __products_categories pc ON (
+    p.id = pc.product_id
+    AND pc.position=(
+        SELECT MIN(position)
+        FROM __products_categories
+        WHERE product_id=p.id
+        LIMIT 1
+    )
+)
 INNER JOIN __categories c ON c.id=pc.category_id
 WHERE 1
     AND p.visible
-    AND (v.stock > 0 OR v.stock is NULL)
+    AND (v.stock > 0 OR v.stock IS NULL)
     AND v.feed_prom
     AND v.price > 0
 GROUP BY v.id
-ORDER BY p.id DESC", $okay->settings->max_order_amount/*, intval($lang_id)*/);
+ORDER BY p.id DESC",
+    $okay->settings->max_order_amount/*, intval($lang_id)*/
+);
 // -- LEFT JOIN __lang_products lp ON lp.product_id=p.id AND lp.lang_id = ?
 // -- LEFT JOIN __lang_variants lv ON lv.variant_id=v.id AND lv.lang_id = ?
 // -- LEFT JOIN __lang_brands lb ON lb.brand_id=b.id AND lb.lang_id = ?
@@ -176,8 +193,21 @@ foreach ($products as $product) {
     $price = $okay->money->convert($product->price, $curr->id, false);
     $compare_price = $okay->money->convert($product->compare_price, $curr->id, false);
     $compare_price = ($compare_price > $price) ? $compare_price : $price;
+
+        //!! rmbt 
+    if ($feed_prom_discount > 0) {
+        $price = FeedProm::reduceDiscount($compare_price, $price, $feed_prom_discount, $feed_prom_min_discount);
+    };
+
+
     print "\t\t\t<price>" . number_format($price, 2, '.', '') . "</price>\n";
-    print "\t\t\t<oldprice>" . number_format($compare_price, 2, '.', '') . "</oldprice>\n";
+
+     //!! rmbt 
+    if ($compare_price > $price) {
+        print "\t\t\t<oldprice>" . number_format($compare_price, 2, '.', '') . "</oldprice>\n";
+    }
+
+
     print "\t\t\t<quantity_in_stock>" . round($product->stock) . "</quantity_in_stock>\n";
     print "\t\t\t<currencyId>" . $curr->code . "</currencyId>\n";
 

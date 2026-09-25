@@ -1,12 +1,13 @@
 .main_page {
   padding-bottom: 75px;
+  margin-top: -106px;
 }
 .menu_switcher {
   display: none;
 }
 .header_center,
 .header_center_fixed {
-  background:  #dad7d7;
+  /* background:  #dad7d7; */
   height: 74px;
 }
 .header_center .container {

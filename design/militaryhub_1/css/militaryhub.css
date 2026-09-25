@@ -184,9 +184,11 @@
 .swiper-button-prev,
 .swiper-button-next {
   transition: all 0.5s ease;
-  width: 50px;
-  height: 50px;
-  border-radius: 1px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #dedede;
+  border: 1px solid #dedede;
 }
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
@@ -3132,4 +3134,65 @@ input[type="checkbox"]:checked + label .inp-check:before {
 .products_item .installments_icon_info svg {
   width: 34px;
   height: 34px;
+}
+
+/* rmbt */
+
+.rmbt-mh-catalog-button {
+  all: unset;
+  cursor: pointer;
+  width: 187px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #7a7e2d;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 25px;
+  padding-right: 25px;
+  transition: background-color 0.4s ease-in;
+
+  color: #ffffff;
+}
+.rmbt-mh-catalog-button:hover {
+  background-color: #979c38;
+}
+.rmbt-mh-catalog-button__icons-wrap {
+  overflow: hidden;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+.rmbt-mh-catalog-button__icons-wrap svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+.rmbt-mh-catalog-button__icons-wrap #rmbt-mh-catalog-button-close {
+  width: 0px;
+  height: 0px;
+  transition:
+    width 0.8s ease,
+    height 0.8s ease;
+}
+
+.rmbt-mh-header__row-bottom [rmbt-popup-open] #rmbt-mh-catalog-button-open {
+  width: 0px;
+  height: 0px;
+  transition:
+    width 0.8s ease,
+    height 0.8s ease;
+}
+.rmbt-mh-header__row-bottom [rmbt-popup-open] #rmbt-mh-catalog-button-close {
+  position: relative;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  transition:
+    width 0.8s ease,
+    height 0.8s ease;
 }

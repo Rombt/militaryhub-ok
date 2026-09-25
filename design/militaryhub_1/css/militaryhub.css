@@ -42,7 +42,7 @@
 .header_left_wrapper {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 36px;
 }
 .top_nav_wrapper {
   display: flex;
@@ -77,9 +77,9 @@
 .header_second_menu .category_link {
   color: #ffffff;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 32px;
-  text-transform: uppercase;
+  text-transform: capitalize;
   height: 100%;
   display: flex;
   align-items: center;

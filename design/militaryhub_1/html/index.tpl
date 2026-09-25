@@ -16,7 +16,7 @@
     </script>
 
     {* Fonts *}
-    {include file="fonts.tpl"}
+    {* {include file="fonts.tpl"} *}
 
     {* CSS *}
     <script>
@@ -25,6 +25,7 @@
     <link href="design/{$settings->theme|escape}/css/libs.css  {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
     <link href="design/{$settings->theme|escape}/css/style.css  {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
     <link href="design/{$settings->theme|escape}/css/militaryhub.css  {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/fonts.css  {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
     <link href="design/{$settings->theme|escape}/css/responsive.css  {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
     <link href="design/{$settings->theme|escape}/css/media.css  {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
 

@@ -9,6 +9,7 @@
 .header_center_fixed {
   /* background:  #dad7d7; */
   height: 74px;
+  overflow-x: hidden;
 }
 .header_center .container {
   position: relative;

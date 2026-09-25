@@ -120,7 +120,7 @@
                         </button>
 
                         <div class="header_second_menu">
-                            {$menu_second}
+                            {$menu_second}      {* !!! проблема - появляется горизонтальный скролл *}
                             {* {if !$smarty.session.admin}
                                 {include file='desktop_categories.tpl'}
                              {/if} *}
@@ -406,38 +406,30 @@
     <script>
         ut_tracker.start('parsing:body_bottom:js');
     </script>
-    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js   {if $js_version}
-        ? v = { $js_version } {/if}">
+    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js   {if $js_version} ? v = { $js_version } {/if}">
     </script>
 
     {* JQuery migrate*}
     {if $module == "ProductsView"}
-        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js   {if $js_version}
-            ? v = { $js_version } {/if}">
+        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js   {if $js_version} ? v = { $js_version } {/if}">
         </script>
     {/if}
     {* Swiper slider *}
-    <script src="design/{$settings->theme}/js/swiper-bundle.min.js   {if $js_version}
-        ? v = { $js_version } {/if}">
+    <script src="design/{$settings->theme}/js/swiper-bundle.min.js   {if $js_version} ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/lazyload.min.js   {if $js_version}
-        ? v = { $js_version } {/if}">
+    <script src="design/{$settings->theme}/js/lazyload.min.js   {if $js_version} ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/mobile_menu.js   {if $js_version}
-        ? v = { $js_version } {/if}" defer>
+    <script src="design/{$settings->theme}/js/mobile_menu.js   {if $js_version} ? v = { $js_version } {/if}" defer>
     </script>
-    <script src="design/{$settings->theme}/js/jquery-ui.min.js   {if $js_version}
-        ? v = { $js_version }  {/if}">
+    <script src="design/{$settings->theme}/js/jquery-ui.min.js   {if $js_version} ? v = { $js_version }  {/if}">
     </script>
 
     {* Библиотека touch-punch *}
-    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js   {if $js_version}
-        ? v = { $js_version } {/if}">
+    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js   {if $js_version} ? v = { $js_version } {/if}">
     </script>
 
     {* Fancybox *}
-    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css   {if $css_version}?v={$css_version}{/if}"
-    rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css   {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
     {*
     <link href="design/{$settings->theme|escape}/css/fancybox.css   {if $css_version}?v={$css_version}{/if}"
     rel="stylesheet"> *}
@@ -450,30 +442,24 @@
     </script> *}
 
     {if $smarty.get.module == 'CartView'}
-        <script src="design/{$settings->theme}/js/select2.full.min.js   {if $js_version}
-            ? v = { $js_version } {/if}" defer>
+        <script src="design/{$settings->theme}/js/select2.full.min.js   {if $js_version} ? v = { $js_version } {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js   {if $js_version}
-            ? v = { $js_version } {/if}" defer>
+        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js   {if $js_version} ? v = { $js_version } {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/cart.js   {if $js_version}
-            ? v = { $js_version } {/if}" defer>
+        <script src="design/{$settings->theme}/js/cart.js   {if $js_version} ? v = { $js_version } {/if}" defer>
         </script>
      {/if}
 
     {* Autocomplete *}
-    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js   {if $js_version}
-        ? v = { $js_version }  {/if}" defer>
+    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js   {if $js_version} ? v = { $js_version }  {/if}" defer>
     </script>
 
     {$admintooltip}
 
     {* JQuery Validation *}
-    <script src="design/{$settings->theme}/js/jquery.validate.min.js   {if $js_version}
-        ? v = { $js_version }  {/if}">
+    <script src="design/{$settings->theme}/js/jquery.validate.min.js   {if $js_version} ? v = { $js_version }  {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/additional-methods.min.js   {if $js_version}
-        ? v = { $js_version }  {/if}" defer>
+    <script src="design/{$settings->theme}/js/additional-methods.min.js   {if $js_version} ? v = { $js_version }  {/if}" defer>
     </script>
 
     {* //!! *}
@@ -485,21 +471,17 @@
 
     {* Social share buttons *}
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
-        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js   {if $js_version}
-            ? v = { $js_version }  {/if}">
+        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js   {if $js_version} ? v = { $js_version }  {/if}">
         </script>
-        <script src="design/{$settings->theme|escape}/js/jssocials.min.js   {if $js_version}
-            ? v = { $js_version }  {/if}">
+        <script src="design/{$settings->theme|escape}/js/jssocials.min.js   {if $js_version} ? v = { $js_version }  {/if}">
         </script>
     {/if}
 
     {* Okay *}
     {include file="scripts.tpl"}
-    <script src="design/{$settings->theme}/js/okay.js   {if $js_version}
-        ? v = { $js_version } {/if}">
+    <script src="design/{$settings->theme}/js/okay.js   {if $js_version} ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/analytics.js   {if $js_version}
-        ? v = { $js_version } {/if}" defer>
+    <script src="design/{$settings->theme}/js/analytics.js   {if $js_version} ? v = { $js_version } {/if}" defer>
     </script>
     {*template scripts*}
     <script>

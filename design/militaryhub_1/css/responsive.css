@@ -342,13 +342,13 @@
     display: block;
     padding: 7px 8px;
     padding-left: 30px;
-    color: #464646;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
+    color: #ffffff;
+    /* text-transform: uppercase; */
+    font-weight: 400;
+    font-size: 14px;
   }
   .top_nav_wrapper .menu_item_1 .menu_link:hover {
-    color: #000000;
+    color: #FCD130;
   }
   .top_nav_wrapper .menu_item_2 .menu_link {
     display: block;

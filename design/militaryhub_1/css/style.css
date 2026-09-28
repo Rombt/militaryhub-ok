@@ -9,7 +9,7 @@ body {
   flex-direction: column;
   font-size: 14px;
   font-weight: normal;
-  font-family: "Firasans";
+  font-family: "Inter_18pt";
   line-height: 1.5;
   color: #000000;
   background-color: #ffffff;
@@ -510,8 +510,8 @@ header a,
 header {
   /* background-color: #dad7d7; */
   background-color: transparent;
-  position: sticky;
-  top: -32px;
+  /* position: sticky; */ /* нужна замена фона при скроле страницы*/
+  top: -47px;
   z-index: 1000;
 }
 header a {

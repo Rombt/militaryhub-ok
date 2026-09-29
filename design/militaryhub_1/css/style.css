@@ -511,7 +511,8 @@ header {
   /* background-color: #dad7d7; */
   background-color: transparent;
   /* position: sticky; */ /* нужна замена фона при скроле страницы*/
-  top: -47px;
+  /* top: -47px; */
+  position: relative;
   z-index: 1000;
 }
 header a {

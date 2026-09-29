@@ -55,6 +55,8 @@
 
 <body>
 
+    {* <div class="rmbt-page-wrap"> *}
+
     {if $counters['body_top']}
         <script>
             ut_tracker.start('parsing:body_top:counters');
@@ -167,6 +169,7 @@
                 </div>
             </div>
         </div>
+        {include file='categories_menu.tpl'}
     </header>
 
     {* Тело сайта *}
@@ -479,7 +482,11 @@
     {$modules_footer_css nofilter}
     {$modules_footer_js nofilter}
 
-
+    {* //rmbt *}
+    <script type="module">
+        import { Popups } from './design/{$settings->theme}/js/popup_2.0.js';
+        Popups();
+    </script>
 
     {* Social share buttons *}
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
@@ -499,6 +506,9 @@
     <script>
         ut_tracker.end('parsing:body_bottom:js');
     </script>
+
+
+
 
     {* Автоматичне відкриття попапу входу/реєстрації для промо-джерела *}
     {if $show_promo_register_popup}
@@ -536,6 +546,7 @@
         </script>
     {/if}
 
+    {* </div> <!-- class="rmbt-page-wrap" --> *}
 </body>
 
 </html>

@@ -1,0 +1,799 @@
+<?php
+/* Smarty version 4.5.5, created on 2026-09-29 11:51:23
+  from 'F:\web\local.militaryhub-ok\design\militaryhub_1\html\index.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '4.5.5',
+  'unifunc' => 'content_6abb7c0ba46181_56100296',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'e2e0bd783bb8e3db3c09708117fe5e3658fc97ae' => 
+    array (
+      0 => 'F:\\web\\local.militaryhub-ok\\design\\militaryhub_1\\html\\index.tpl',
+      1 => 1790671869,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:head.tpl' => 1,
+    'file:svg.tpl' => 27,
+    'file:categories_menu.tpl' => 1,
+    'file:wishlist_informer.tpl' => 1,
+    'file:cart_informer.tpl' => 1,
+    'file:breadcrumb.tpl' => 1,
+    'file:callback.tpl' => 1,
+    'file:cart_popup.tpl' => 1,
+    'file:user_auth_modal.tpl' => 1,
+    'file:mobile_menu.tpl' => 1,
+    'file:scripts.tpl' => 1,
+  ),
+),false)) {
+function content_6abb7c0ba46181_56100296 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'F:\\web\\local.militaryhub-ok\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
+?>
+<!DOCTYPE html>
+<html <?php if ($_smarty_tpl->tpl_vars['language']->value->href_lang) {?>lang="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['language']->value->href_lang, ENT_QUOTES, 'UTF-8', true);?>
+" <?php }?> prefix="og: http://ogp.me/ns#">
+
+<head>
+        <base href="<?php echo $_smarty_tpl->tpl_vars['config']->value->root_url;?>
+/">
+
+        <?php $_smarty_tpl->_subTemplateRender("file:head.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+        <link href="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/images/favicon.ico" type="image/x-icon" rel="icon">
+
+    <?php echo '<script'; ?>
+>
+        ut_tracker.start('parsing:page');
+    <?php echo '</script'; ?>
+>
+
+        
+        <?php echo '<script'; ?>
+>
+        ut_tracker.start('parsing:head:css');
+    <?php echo '</script'; ?>
+>
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/libs.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>" rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/style.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>" rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/militaryhub.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;?>
+  <?php }?>" rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/fonts.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;?>
+  <?php }?>" rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/responsive.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;?>
+  <?php }?>" rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/media.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;?>
+  <?php }?>" rel="stylesheet">
+
+        <?php echo $_smarty_tpl->tpl_vars['modules_head_css']->value;?>
+
+    <?php echo $_smarty_tpl->tpl_vars['modules_head_js']->value;?>
+
+
+    <?php if ($_smarty_tpl->tpl_vars['module']->value == 'CartView') {?>
+        <link href="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/css/select2.min.css" rel="stylesheet">
+    <?php }?>
+    <?php echo '<script'; ?>
+>
+        ut_tracker.end('parsing:head:css');
+    <?php echo '</script'; ?>
+>
+    <?php if ($_smarty_tpl->tpl_vars['counters']->value['head']) {?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.start('parsing:head:counters');
+        <?php echo '</script'; ?>
+>
+        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['counters']->value['head'], 'counter');
+$_smarty_tpl->tpl_vars['counter']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['counter']->value) {
+$_smarty_tpl->tpl_vars['counter']->do_else = false;
+?>
+            <?php echo $_smarty_tpl->tpl_vars['counter']->value->code;?>
+
+         <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.end('parsing:head:counters');
+        <?php echo '</script'; ?>
+>
+     <?php }?>
+
+</head>
+
+<body>
+
+    <?php if ($_smarty_tpl->tpl_vars['counters']->value['body_top']) {?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.start('parsing:body_top:counters');
+        <?php echo '</script'; ?>
+>
+        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['counters']->value['body_top'], 'counter');
+$_smarty_tpl->tpl_vars['counter']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['counter']->value) {
+$_smarty_tpl->tpl_vars['counter']->do_else = false;
+?>
+            <?php echo $_smarty_tpl->tpl_vars['counter']->value->code;?>
+
+         <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.end('parsing:body_top:counters');
+        <?php echo '</script'; ?>
+>
+     <?php }?>
+
+    <header class="header">
+        <nav class="top_nav">
+            <div class="container">
+                <div class="top_nav_wrapper">
+                    <div class="header_location rmbt-drop-menu">
+                        <div class="rmbt-wrap-icon">
+                            <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"location_icon"), 0, false);
+?>
+                        </div>
+                        <?php echo $_smarty_tpl->tpl_vars['menu_location']->value;?>
+
+                    </div>
+                    <div class="rmbt-drop-menu">
+                        <?php echo $_smarty_tpl->tpl_vars['menu_email']->value;?>
+
+                    </div>
+                    <div class="header_social social">
+                        <?php if ($_smarty_tpl->tpl_vars['menu_messengers']->value) {?>
+                            <div class="messengers_buttons">
+                                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['menu_items_messengers']->value, 'item');
+$_smarty_tpl->tpl_vars['item']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['item']->value) {
+$_smarty_tpl->tpl_vars['item']->do_else = false;
+?>
+
+                                    <?php if ($_smarty_tpl->tpl_vars['item']->value->visible == 1) {?>
+                                        <a href="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['item']->value->url, ENT_QUOTES, 'UTF-8', true);?>
+" title="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['item']->value->name, ENT_QUOTES, 'UTF-8', true);?>
+" target="_blank" rel="nofollow noopener" class="messengers_buttons__link"><?php ob_start();
+echo mb_strtolower((string) $_smarty_tpl->tpl_vars['item']->value->name, 'UTF-8');
+$_prefixVariable1=ob_get_clean();
+$_smarty_tpl->_subTemplateRender('file:svg.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>$_prefixVariable1."_icon"), 0, true);
+?></a>
+                                     <?php }?>
+                                 <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                            </div>
+                        <?php }?>
+                        <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" target="_blank" title="Instagram"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"inst_icon"), 0, true);
+?></a>
+                        <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"facebook_icon"), 0, true);
+?></a>
+                    </div>
+                    <div class="rmbt-drop-menu">
+                        <?php echo $_smarty_tpl->tpl_vars['menu_phones']->value;?>
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="header_center">
+            <div class="container">
+                <div class="header_center_content">
+                    <div class="header_left_wrapper">
+                                                <div class="fn_menu_switch menu_switcher hidden">
+                            <div class="menu_switcher__heading d-flex align-items-center">
+
+                                                            </div>
+                        </div>
+                                                <a class="logo" href="<?php if ($_GET['module'] == 'MainView') {?>javascript:;<?php } else {
+echo $_smarty_tpl->tpl_vars['lang_link']->value;
+}?>">
+                            <img src="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/logo.svg" alt="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->site_name, ENT_QUOTES, 'UTF-8', true);?>
+">
+                        </a>
+                                                
+                        <button type="button" class="rmbt-mh-catalog-button" data-rmbt-popup-target="catalog-popup-header" data-rmbt-popup-close="catalog-popup-header">
+
+                            <div class="rmbt-mh-catalog-button__icons-wrap">
+                                <i id='rmbt-mh-catalog-button-open' class="catalog_icon"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"icon_catalog"), 0, true);
+?></i>
+                                <i id='rmbt-mh-catalog-button-close' class="catalog_icon"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"icon_close"), 0, true);
+?></i>
+
+                            </div>
+
+                            Каталог товарів
+                        </button>
+
+<?php $_smarty_debug = new Smarty_Internal_Debug;
+ $_smarty_debug->display_debug($_smarty_tpl);
+unset($_smarty_debug);
+?>
+
+                        <?php $_smarty_tpl->_subTemplateRender('file:categories_menu.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+                        <div class="header_second_menu">
+                            <?php echo $_smarty_tpl->tpl_vars['menu_second']->value;?>
+
+                                                    </div>
+                    </div>
+
+
+                                        <div class="informers">
+                        <div class="fn_search_open search_open_button"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"search_icon"), 0, true);
+?></div>
+                        <div class="informer account_informer_wrapper">
+                            <?php if ($_smarty_tpl->tpl_vars['user']->value) {?>
+                                                                <a class="account_informer" href="<?php echo $_smarty_tpl->tpl_vars['lang_link']->value;?>
+user"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"account_icon"), 0, true);
+?></a>
+                            <?php } else { ?>
+                                                                <button class="account_informer fn_modal_auth" title="<?php echo $_smarty_tpl->tpl_vars['lang']->value->index_login;?>
+" type="button"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"account_icon"), 0, true);
+?></button>
+                             <?php }?>
+                        </div>
+                                                <div id="wishlist" class="informer">
+                            <?php $_smarty_tpl->_subTemplateRender("file:wishlist_informer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+                        </div>
+                                                <div id="cart_informer">
+                            <?php $_smarty_tpl->_subTemplateRender('file:cart_informer.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+                        </div>
+                                                                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+        <div id="fn_content" class="main<?php if ($_smarty_tpl->tpl_vars['module']->value == "MainView") {?> main_page<?php } elseif ($_smarty_tpl->tpl_vars['module']->value == "FeedbackView") {?> feedback_page<?php }?>">
+                <?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['get_banner'][0], array( array('var'=>"banner_main",'group'=>"main"),$_smarty_tpl ) );?>
+
+        <?php if ($_smarty_tpl->tpl_vars['banner_main']->value->items && $_smarty_tpl->tpl_vars['module']->value == "MainView") {?>
+            <div class="fn_banner_main swiper">
+                <div class="swiper-wrapper">
+                    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['banner_main']->value->items, 'bi');
+$_smarty_tpl->tpl_vars['bi']->index = -1;
+$_smarty_tpl->tpl_vars['bi']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['bi']->value) {
+$_smarty_tpl->tpl_vars['bi']->do_else = false;
+$_smarty_tpl->tpl_vars['bi']->index++;
+$_smarty_tpl->tpl_vars['bi']->first = !$_smarty_tpl->tpl_vars['bi']->index;
+$__foreach_bi_3_saved = $_smarty_tpl->tpl_vars['bi'];
+?>
+                        <div class="swiper-slide">
+                            <?php if ($_smarty_tpl->tpl_vars['bi']->value->url) {?>
+                                <a class='banner_main_link' href="<?php echo $_smarty_tpl->tpl_vars['bi']->value->url;?>
+">
+                             <?php }?>
+                            <?php if ($_smarty_tpl->tpl_vars['bi']->value->image) {?>
+                                <picture>
+                                                                        <source media="(max-width: 480px)" type="image/webp" <?php if ($_smarty_tpl->tpl_vars['bi']->first) {?> srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,500,200,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir,null,null,true ));?>
+" <?php } else { ?> data-srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,500,200,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir,null,null,true ));?>
+" srcset="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"  <?php }?>>
+
+                                                                        <source type="image/webp" <?php if ($_smarty_tpl->tpl_vars['bi']->first) {?> srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir,null,null,true ));?>
+" <?php } else { ?> data-srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir,null,null,true ));?>
+" srcset="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"  <?php }?>>
+
+                                                                        <source media="(max-width: 480px)" type="image/jpeg" <?php if ($_smarty_tpl->tpl_vars['bi']->first) {?> srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,500,200,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" <?php } else { ?> data-srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,500,200,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" srcset="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"  <?php }?>>
+
+                                                                        <source type="image/jpeg" <?php if ($_smarty_tpl->tpl_vars['bi']->first) {?> srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" <?php } else { ?> data-srcset="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" srcset="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"  <?php }?>>
+
+                                                                        <img <?php if ($_smarty_tpl->tpl_vars['bi']->first) {?> src="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" fetchpriority="high" <?php } else { ?> class="lazy lazy-bg" data-src="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1920,950,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" src="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"   <?php }?>
+                                    alt="<?php echo $_smarty_tpl->tpl_vars['bi']->value->alt;?>
+" title="<?php echo $_smarty_tpl->tpl_vars['bi']->value->title;?>
+">
+                                </picture>
+                             <?php }?>
+                            <?php if ($_smarty_tpl->tpl_vars['bi']->value->url) {?>
+                                </a>
+                            <?php }?>
+                        </div>
+                     <?php
+$_smarty_tpl->tpl_vars['bi'] = $__foreach_bi_3_saved;
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+         <?php }?>
+        <?php if ($_smarty_tpl->tpl_vars['module']->value == "MainView" || $_smarty_tpl->tpl_vars['page']->value->url == '404') {?>
+            <div class="fn_ajax_content">
+                <?php echo $_smarty_tpl->tpl_vars['content']->value;?>
+
+            </div>
+        <?php } else { ?>
+            <div class="container">
+                <?php $_smarty_tpl->_subTemplateRender('file:breadcrumb.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+                <div class="fn_ajax_content">
+                    <?php echo $_smarty_tpl->tpl_vars['content']->value;?>
+
+                </div>
+            </div>
+         <?php }?>
+    </div>
+
+    <div class="to_top"></div>
+
+        <footer class="footer">
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="row foot_container rmbt-foot_container">
+                    <div class="foot rmbt-foot-left-column col-sm-6 col-lg-3">
+                                                <a class="logo" href="<?php if ($_GET['module'] == 'MainView') {?>javascript:;<?php } else {
+echo $_smarty_tpl->tpl_vars['lang_link']->value;
+}?>">
+                            <img class="lazy lazy-bg" data-src="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/logo-footer.svg" src="<?php echo $_smarty_tpl->tpl_vars['rootUrl']->value;?>
+/design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/images/xloading.gif"  alt="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->site_name, ENT_QUOTES, 'UTF-8', true);?>
+">
+                        </a>
+                                                <div class="foot_social_wrapper">
+                            <span class="foot_title" data-language="index_in_networks"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_in_networks;?>
+</span>
+                            <div class="social">
+                                <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" title="Instagram"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"inst_icon"), 0, true);
+?></a>
+                                <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"fb_icon"), 0, true);
+?></a>
+                            </div>
+                        </div>
+
+                        <div class="foot_payments_wrapper">
+                            <span class="foot_title" data-language="index_payments"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_payments;?>
+</span>
+                            <div class="payments_wrapper">
+                                <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"g_pay_icon"), 0, true);
+?>
+                                <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"apple_pay_icon"), 0, true);
+?>
+                                <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"visa_icon"), 0, true);
+?>
+                                <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"mastercard_icon"), 0, true);
+?>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="foot rmbt-foot-right-column col-sm-6 col-lg-9">
+                        <div class="subscribe_wrapper rmbt-subscribe_wrapper">
+                                                        <div id="subscribe_container">
+                                <span class="subscribe_text" data-language="subscribe_text"><?php echo $_smarty_tpl->tpl_vars['lang']->value->subscribe_text;?>
+</span>
+                                <form class="subscribe_form fn_validate_subscribe" method="post">
+                                    <input type="hidden" name="subscribe" value="1">
+                                    <input class="subscribe_input" type="email" name="subscribe_email" value="" data-format="email" placeholder="<?php echo $_smarty_tpl->tpl_vars['lang']->value->form_email;?>
+">
+                                    <button class="subscribe_button" type="submit"><span data-language="subscribe_button"><?php echo $_smarty_tpl->tpl_vars['lang']->value->subscribe_button;?>
+</span></button>
+                                    <?php if ($_smarty_tpl->tpl_vars['subscribe_error']->value) {?>
+                                        <div id="subscribe_error" class="popup">
+                                            <?php if ($_smarty_tpl->tpl_vars['subscribe_error']->value == 'email_exist') {?>
+                                                <span data-language="subscribe_already"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_subscribe_already;?>
+</span>
+                                             <?php }?>
+                                            <?php if ($_smarty_tpl->tpl_vars['subscribe_error']->value == 'empty_email') {?>
+                                                <span data-language="form_enter_email"><?php echo $_smarty_tpl->tpl_vars['lang']->value->form_enter_email;?>
+</span>
+                                             <?php }?>
+                                        </div>
+                                    <?php }?>
+                                    <?php if ($_smarty_tpl->tpl_vars['subscribe_success']->value) {?>
+                                        <div id="fn_subscribe_sent" class="popup">
+                                            <span data-language="subscribe_sent"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_subscribe_sent;?>
+</span>
+                                        </div>
+                                    <?php }?>
+                                </form>
+                            </div>
+                        </div>
+                                                <div class="foot rmbt-foot-right-column-item foot_line col-sm-6 col-lg-2">
+                            <div class="foot_heading fn_switch">
+                                <span data-language="index_about_store"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_about_store;?>
+</span>
+                                <span class="footer__title_arrow"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"arrow_right"), 0, true);
+?></span>
+                            </div>
+                            <div class="foot_menu">
+                                <?php echo $_smarty_tpl->tpl_vars['menu_footer']->value;?>
+
+                            </div>
+                        </div>
+
+                                                <div class="foot rmbt-foot-right-column-item foot_line col-sm-6 col-lg-3">
+                            <div class="foot_heading fn_switch">
+                                <span data-language="index_categories"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_categories;?>
+</span>
+                                <span class="footer__title_arrow"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"arrow_right"), 0, true);
+?></span>
+                            </div>
+                            <div class="foot_menu">
+                                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['categories']->value, 'c');
+$_smarty_tpl->tpl_vars['c']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['c']->value) {
+$_smarty_tpl->tpl_vars['c']->do_else = false;
+?>
+                                    <?php if ($_smarty_tpl->tpl_vars['c']->value->visible) {?>
+                                        <div class="foot_item">
+                                            <a href="<?php echo $_smarty_tpl->tpl_vars['lang_link']->value;?>
+catalog/<?php echo $_smarty_tpl->tpl_vars['c']->value->url;?>
+"><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['c']->value->name, ENT_QUOTES, 'UTF-8', true);?>
+</a>
+                                        </div>
+                                    <?php }?>
+                                <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                            </div>
+                        </div>
+
+                                                <div class="foot rmbt-foot-right-column-item foot_line col-sm-6 col-lg-2">
+                            <div class="foot_heading fn_switch">
+                                <span data-language="index_about_store_2"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_about_store_2;?>
+</span>
+                                <span class="footer__title_arrow"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"arrow_right"), 0, true);
+?></span>
+                            </div>
+                            <div class="foot_menu">
+                                <?php echo $_smarty_tpl->tpl_vars['menu_footer_2']->value;?>
+
+                            </div>
+                        </div>
+
+                                                <div class="foot rmbt-foot-right-column-item foot_line foot_contacts col-sm-6 col-lg-4">
+                            <div class="foot_heading">
+                                <span data-language="index_contacts"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_contacts;?>
+</span>
+                            </div>
+                            <div class="footer_contacts">
+                                <div class="foot_items">
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"phone_icon"), 0, true);
+?>
+                                    <div class="foot_item">
+                                        <a href="tel:<?php echo preg_replace('~[^0-9\+]~','',$_smarty_tpl->tpl_vars['lang']->value->company_phone_1);?>
+" data-language="company_phone_1"><?php echo $_smarty_tpl->tpl_vars['lang']->value->company_phone_1;?>
+</a>
+                                        <a href="tel:<?php echo preg_replace('~[^0-9\+]~','',$_smarty_tpl->tpl_vars['lang']->value->company_phone_2);?>
+" data-language="company_phone_2"><?php echo $_smarty_tpl->tpl_vars['lang']->value->company_phone_2;?>
+</a>
+                                    </div>
+                                </div>
+                                <div class="foot_item">
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"email_icon"), 0, true);
+?>
+                                    <a href="mailto:<?php echo $_smarty_tpl->tpl_vars['lang']->value->company_email;?>
+"><span data-language="company_email"><?php echo $_smarty_tpl->tpl_vars['lang']->value->company_email;?>
+</span></a>
+                                </div>
+                                <div class="foot_item">
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"address_icon"), 0, true);
+?>
+                                    <span data-language="address_company"><?php echo $_smarty_tpl->tpl_vars['lang']->value->address_company;?>
+</span>
+                                </div>
+                            </div>
+                            <div class="foot_payments_wrapper" style="display:none;">
+                                <span class="foot_title" data-language="index_payments"><?php echo $_smarty_tpl->tpl_vars['lang']->value->index_payments;?>
+</span>
+                                <div class="payments_wrapper">
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"g_pay_icon"), 0, true);
+?>
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"apple_pay_icon"), 0, true);
+?>
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"visa_icon"), 0, true);
+?>
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"mastercard_icon"), 0, true);
+?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                <div class="copyright">
+                    <span data-language="index_copyright">© <?php echo $_smarty_tpl->tpl_vars['lang']->value->index_copyright;?>
+ 2019 - <?php echo smarty_modifier_date_format(time(),"%Y");?>
+</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="search" style="display: none;">
+        <div class="fn_search_close search_close pointer">
+            <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"search_close_icon"), 0, true);
+?>
+        </div>
+        <div class="search_container">
+                        <div class="search_text_mobile" data-language="products_search"><?php echo $_smarty_tpl->tpl_vars['lang']->value->products_search;?>
+</div>
+            <form id="fn_search" class="search_form" action="<?php echo $_smarty_tpl->tpl_vars['lang_link']->value;?>
+all-products">
+                <input class="fn_search search_input" type="text" name="keyword" value="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['keyword']->value, ENT_QUOTES, 'UTF-8', true);?>
+" aria-label="search" data-language="index_search" placeholder="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['lang']->value->index_search, ENT_QUOTES, 'UTF-8', true);?>
+">
+                <button class="search_button" aria-label="search" type="submit"><?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"search_icon"), 0, true);
+?></button>
+            </form>
+        </div>
+    </div>
+
+
+        <?php $_smarty_tpl->_subTemplateRender('file:callback.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+        <?php $_smarty_tpl->_subTemplateRender('file:cart_popup.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+        <?php $_smarty_tpl->_subTemplateRender('file:user_auth_modal.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+
+    <div class="fn_mobile_menu hidden">
+        <?php $_smarty_tpl->_subTemplateRender("file:mobile_menu.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+    </div>
+
+    <?php echo '<script'; ?>
+>
+        ut_tracker.start('parsing:body_bottom:css');
+    <?php echo '</script'; ?>
+>
+    <?php if ($_GET['module'] == 'ProductView' || $_GET['module'] == "BlogView") {?>
+        <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/font-awesome.min.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;?>
+
+    <?php }?>"
+        rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/jssocials.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>"
+        rel="stylesheet">
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/jssocials-theme-flat.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>"
+        rel="stylesheet">
+    <?php }?>
+    <?php echo '<script'; ?>
+>
+        ut_tracker.end('parsing:body_bottom:css');
+    <?php echo '</script'; ?>
+>
+
+    <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/mobile_menu.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>" rel="stylesheet">
+
+                <?php echo '<script'; ?>
+>
+        ut_tracker.start('parsing:body_bottom:js');
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/jquery-3.3.1.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+    <?php echo '</script'; ?>
+>
+
+        <?php if ($_smarty_tpl->tpl_vars['module']->value == "ProductsView") {?>
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/jquery-migrate-3.0.1.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+        <?php echo '</script'; ?>
+>
+    <?php }?>
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/swiper-bundle.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/lazyload.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/mobile_menu.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>" defer>
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/jquery-ui.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>">
+    <?php echo '</script'; ?>
+>
+
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/ui.touch-punch.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+    <?php echo '</script'; ?>
+>
+
+        <link href="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/css/jquery.fancybox.min.css   <?php if ($_smarty_tpl->tpl_vars['css_version']->value) {?>?v=<?php echo $_smarty_tpl->tpl_vars['css_version']->value;
+}?>" rel="stylesheet">
+    
+    <?php echo '<script'; ?>
+ src="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/js/jquery.fancybox.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?>
+        ? v = { $js_version } <?php }?>" defer>
+    <?php echo '</script'; ?>
+>
+    
+    <?php if ($_GET['module'] == 'CartView') {?>
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/select2.full.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>" defer>
+        <?php echo '</script'; ?>
+>
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/i18n/<?php echo $_smarty_tpl->tpl_vars['language']->value->href_lang;?>
+.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>" defer>
+        <?php echo '</script'; ?>
+>
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/cart.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>" defer>
+        <?php echo '</script'; ?>
+>
+     <?php }?>
+
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/jquery.autocomplete-min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>" defer>
+    <?php echo '</script'; ?>
+>
+
+    <?php echo $_smarty_tpl->tpl_vars['admintooltip']->value;?>
+
+
+        <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/jquery.validate.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>">
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/additional-methods.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>" defer>
+    <?php echo '</script'; ?>
+>
+
+            <?php echo $_smarty_tpl->tpl_vars['modules_footer_css']->value;?>
+
+    <?php echo $_smarty_tpl->tpl_vars['modules_footer_js']->value;?>
+
+
+
+
+        <?php if ($_GET['module'] == 'ProductView' || $_GET['module'] == "BlogView") {?>
+        <?php echo '<script'; ?>
+ src="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/js/modernizr-custom.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>">
+        <?php echo '</script'; ?>
+>
+        <?php echo '<script'; ?>
+ src="design/<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['settings']->value->theme, ENT_QUOTES, 'UTF-8', true);?>
+/js/jssocials.min.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version }  <?php }?>">
+        <?php echo '</script'; ?>
+>
+    <?php }?>
+
+        <?php $_smarty_tpl->_subTemplateRender("file:scripts.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+?>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/okay.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>">
+    <?php echo '</script'; ?>
+>
+    <?php echo '<script'; ?>
+ src="design/<?php echo $_smarty_tpl->tpl_vars['settings']->value->theme;?>
+/js/analytics.js   <?php if ($_smarty_tpl->tpl_vars['js_version']->value) {?> ? v = { $js_version } <?php }?>" defer>
+    <?php echo '</script'; ?>
+>
+        <?php echo '<script'; ?>
+>
+        ut_tracker.end('parsing:body_bottom:js');
+    <?php echo '</script'; ?>
+>
+
+        <?php if ($_smarty_tpl->tpl_vars['show_promo_register_popup']->value) {?>
+        <?php echo '<script'; ?>
+>
+            (function() {
+                function openPromoAuthPopup() {
+                    var btn = document.querySelector('.account_informer.fn_modal_auth');
+                    if (btn && typeof jQuery !== 'undefined') {
+                        jQuery(btn).trigger('click');
+                    } else if (btn) {
+                        btn.click();
+                    }
+                }
+
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    setTimeout(openPromoAuthPopup, 300);
+                } else {
+                    document.addEventListener('DOMContentLoaded', function() {
+                        setTimeout(openPromoAuthPopup, 300);
+                    });
+                }
+            })();
+        <?php echo '</script'; ?>
+>
+    <?php }?>
+
+    <?php if ($_smarty_tpl->tpl_vars['counters']->value['body_bottom']) {?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.start('parsing:body_bottom:counters');
+        <?php echo '</script'; ?>
+>
+        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['counters']->value['body_bottom'], 'counter');
+$_smarty_tpl->tpl_vars['counter']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['counter']->value) {
+$_smarty_tpl->tpl_vars['counter']->do_else = false;
+?>
+            <?php echo $_smarty_tpl->tpl_vars['counter']->value->code;?>
+
+        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+        <?php echo '<script'; ?>
+>
+            ut_tracker.end('parsing:body_bottom:counters');
+        <?php echo '</script'; ?>
+>
+    <?php }?>
+
+</body>
+
+</html>
+<?php }
+}

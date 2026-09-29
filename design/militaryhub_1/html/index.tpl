@@ -71,11 +71,15 @@
         <nav class="top_nav">
             <div class="container">
                 <div class="top_nav_wrapper">
-                    <div class="header_location">
-                        {include file="svg.tpl" svgId="location_icon"}
+                    <div class="header_location rmbt-drop-menu">
+                        <div class="rmbt-wrap-icon">
+                            {include file="svg.tpl" svgId="location_icon"}
+                        </div>
                         {$menu_location}
                     </div>
-                    {$menu_email}
+                    <div class="rmbt-drop-menu">
+                        {$menu_email}
+                    </div>
                     <div class="header_social social">
                         {if $menu_messengers}
                             <div class="messengers_buttons">
@@ -90,7 +94,9 @@
                         <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" target="_blank" title="Instagram">{include file="svg.tpl" svgId="inst_icon"}</a>
                         <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="facebook_icon"}</a>
                     </div>
-                    {$menu_phones}
+                    <div class="rmbt-drop-menu">
+                        {$menu_phones}
+                    </div>
                 </div>
             </div>
         </nav>
@@ -126,7 +132,7 @@
                         </button>
 
                         <div class="header_second_menu">
-                            {$menu_second}      {* !!! проблема - появляется горизонтальный скролл *}
+                            {$menu_second}
                             {* {if !$smarty.session.admin}
                                 {include file='desktop_categories.tpl'}
                              {/if} *}

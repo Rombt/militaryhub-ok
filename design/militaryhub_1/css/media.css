@@ -8,17 +8,22 @@
   .military_hub_image {
     background-size: cover;
   }
-  .fn_banner_main .swiper-button-next {
+  /* .fn_banner_main .swiper-button-next {
     right: 10px;
     left: auto;
   }
   .fn_banner_main .swiper-button-prev {
     left: 10px;
     right: auto;
-  }
+  } */
 }
 
 @media (max-width: 1440px) {
+  .container {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
   .military_hub_link {
     right: 11%;
   }
@@ -36,6 +41,46 @@
   }
   .cart_right_wrapper {
     max-width: calc(100% - 960px);
+  }
+}
+@media (max-width: 1360px) {
+  .header_center_content {
+    justify-content: space-around;
+  }
+
+  .header_left_wrapper {
+    flex-grow: 2;
+    justify-content: space-around;
+  }
+
+  .header_center_content .informers {
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  .header_second_menu {
+    display: none;
+  }
+  .menu_switcher {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+  }
+
+  .menu_switcher span {
+    color: #ffffff;
+    font-size: 16px;
+  }
+
+  .menu_switcher svg {
+    height: 26px;
+    width: 26px;
+  }
+
+  .menu_switcher_icon {
+    display: block;
+    height: 18px;
   }
 }
 
@@ -98,29 +143,7 @@
     gap: 20px;
     /* justify-content: space-around; */
   }
-  .header_second_menu {
-    display: none;
-  }
-  .menu_switcher {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 8px;
-  }
 
-  .menu_switcher span {
-    color: #ffffff;
-  }
-
-  .menu_switcher svg {
-    height: 22px;
-    width: 22px;
-  }
-
-  .menu_switcher_icon {
-    display: block;
-    height: 18px;
-  }
   .military_hub_link {
     right: 5%;
     bottom: 15%;

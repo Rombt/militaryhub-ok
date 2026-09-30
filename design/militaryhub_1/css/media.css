@@ -96,6 +96,7 @@
 @media (max-width: 1025px) {
   .header_left_wrapper {
     gap: 20px;
+    /* justify-content: space-around; */
   }
   .header_second_menu {
     display: none;

@@ -214,7 +214,7 @@
                         slogan=$lang->intro_section_subtitle|default:''
                         description=$lang->intro_section_description|default:''
                         text_button=$lang->intro_text_button|default:''
-                        link=$lang->intro_section_link|default:'#'
+                        link=$banner_main->items[0]->url|default:'#'
                     }
             </div>
          {/if}

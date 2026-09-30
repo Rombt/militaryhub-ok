@@ -64,8 +64,9 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
   align-items: center;
   margin: 0;
 }
-.top_nav_wrapper .header_location {
-  gap: 10px;
+.top_nav_wrapper .header_location ul{
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .search_open_button,
 .informer,
@@ -3531,7 +3532,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
   flex-direction: column;
   row-gap: 10px;
 }
-
 
 .rmbt-mh-intro-section {
   position: absolute;

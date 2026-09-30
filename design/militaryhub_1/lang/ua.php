@@ -413,3 +413,10 @@ $lang['installment_5'] = "5 місяців";
 $lang['installment_6'] = "6 місяців";
 $lang['month_ttl'] = "міс";
 $lang['form_enter_payment_method'] = "Оберіть спосіб оплати";
+
+
+
+$lang['intro_section_title'] = "Знижки";
+$lang['intro_section_subtitle'] = "для учасників бойових дій!";
+$lang['intro_section_description'] = "";
+$lang['intro_text_button'] = "До каталогу";

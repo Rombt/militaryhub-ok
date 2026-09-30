@@ -412,3 +412,13 @@ $lang['installment_5'] = "5 месяцев";
 $lang['installment_6'] = "6 месяцев";
 $lang['month_ttl'] = "мес";
 $lang['form_enter_payment_method'] = "Выберите способ оплаты";
+
+// $lang->intro_section_title
+// $lang->intro_section_subtitle
+// $lang->intro_section_description
+// $lang->intro_section_link
+
+$lang['intro_section_title'] = "Скидки";
+$lang['intro_section_subtitle'] = "для участников боевых действий!";
+$lang['intro_section_description'] = "";
+$lang['intro_text_button'] = "В каталог";

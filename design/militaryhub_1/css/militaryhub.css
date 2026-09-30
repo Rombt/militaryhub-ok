@@ -35,6 +35,7 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 30px;
   padding: 0;
   height: 100%;
 }
@@ -49,8 +50,8 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
 } */
 .header_left_wrapper {
   display: flex;
-  align-items: center;
   gap: 36px;
+  align-items: center;
 }
 .top_nav_wrapper {
   display: flex;

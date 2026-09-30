@@ -389,11 +389,11 @@
     </svg>
 {/if} *}
 
-{if $svgId == "catalog_icon"}
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 18" fill="none">
-        <path d="M1 1H21" stroke="white" stroke-linecap="round" />
-        <path d="M1 9H21" stroke="white" stroke-linecap="round" />
-        <path d="M1 17H21" stroke="white" stroke-linecap="round" />
+{if $svgId == "menu_switcher_icon"}
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 6C12 5.44772 12.4477 5 13 5H29C29.5523 5 30 5.44772 30 6C30 6.55228 29.5523 7 29 7H13C12.4477 7 12 6.55228 12 6Z" fill="white" />
+        <path d="M2 16C2 15.4477 2.44772 15 3 15H29C29.5523 15 30 15.4477 30 16C30 16.5523 29.5523 17 29 17H3C2.44771 17 2 16.5523 2 16Z" fill="white" />
+        <path d="M2 26C2 25.4477 2.44772 25 3 25H21C21.5523 25 22 25.4477 22 26C22 26.5523 21.5523 27 21 27H3C2.44772 27 2 26.5523 2 26Z" fill="white" />
     </svg>
 {/if}
 {if $svgId == "filters_icon"}

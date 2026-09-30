@@ -71,7 +71,13 @@
     <header class="header">
         <nav class="top_nav">
             <div class="container">
-                <div class="top_nav_wrapper">
+
+                    {* Mobile menu button*}
+                    <div class="fn_menu_switch menu_switcher hidden">
+                            {include file="svg.tpl" svgId="menu_switcher_icon"}
+                            <span class="" data-language="index_mobile_menu">{$lang->index_mobile_menu}</span>
+                    </div>
+
                     <div class="header_location rmbt-drop-menu">
                         <div class="rmbt-wrap-icon">
                             {include file="svg.tpl" svgId="location_icon"}
@@ -105,13 +111,6 @@
             <div class="container">
                 <div class="header_center_content">
                     <div class="header_left_wrapper">
-                        {* Mobile menu button*}
-                        <div class="fn_menu_switch menu_switcher hidden">
-                            <div class="menu_switcher__heading d-flex align-items-center">
-
-                                {* <span class="" data-language="index_mobile_menu">{$lang->index_mobile_menu}</span> *}
-                            </div>
-                        </div>
                         {* Logo *}
                         <a class="logo" href="{if $smarty.get.module=='MainView'}javascript:;{else}{$lang_link}{/if}">
                             <img src="design/{$settings->theme|escape}/images/logo.svg" alt="{$settings->site_name|escape}">

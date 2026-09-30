@@ -136,9 +136,17 @@
     flex-grow: 1;
     gap: 0;
   }
+
+  .container {
+    max-width: 1120px;
+  }
 }
 
 @media (max-width: 1025px) {
+  /* .container {
+    max-width: 1120px;
+  } */
+
   .header_left_wrapper {
     gap: 20px;
     /* justify-content: space-around; */

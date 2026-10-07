@@ -1069,11 +1069,22 @@ $(function () {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
+
+      pagination: {
+        el: ".rmbt_swiper-pagination",
+        clickable: true,
+      },
       breakpoints: {
-        320: {
+        1025: {
           slidesPerView: 1,
         },
-        1025: {
+        // 768: {
+        //   pagination: {
+        //     el: ".swiper-pagination",
+        //     clickable: true,
+        //   },
+        // },
+        320: {
           slidesPerView: 1,
         },
       },

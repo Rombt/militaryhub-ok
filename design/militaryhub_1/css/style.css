@@ -2420,7 +2420,10 @@ menu_group_404 .menu_list {
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
+
+
 .fn_banner_main .swiper-button-next {
   right: 4%;
   left: auto;

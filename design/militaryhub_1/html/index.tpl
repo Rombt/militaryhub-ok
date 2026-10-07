@@ -22,12 +22,12 @@
     <script>
         ut_tracker.start('parsing:head:css');
     </script>
-    <link href="design/{$settings->theme|escape}/css/libs.css    {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/style.css    {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/militaryhub.css    {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/fonts.css    {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/responsive.css    {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/media.css    {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/libs.css       {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/style.css       {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/militaryhub.css       {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/fonts.css       {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/responsive.css       {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/media.css       {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
 
     {* стили и скрипты из ModulesCore *}
     {$modules_head_css nofilter}
@@ -72,6 +72,11 @@
         <nav class="top_nav">
             <div class="container">
                 <div class="top_nav_wrapper">
+                    {* Mobile menu button*}
+                    <div class="fn_menu_switch menu_switcher hidden">
+                        {include file="svg.tpl" svgId="menu_switcher_icon"}
+                        <span class="" data-language="index_mobile_menu">{$lang->index_mobile_menu}</span>
+                    </div>
                     <div class="header_location rmbt-drop-menu">
                         <div class="rmbt-wrap-icon">
                             {include file="svg.tpl" svgId="location_icon"}
@@ -82,22 +87,17 @@
                         {$menu_email}
                     </div>
                     <div class="header_social social">
-                        {if $menu_messengers}
-                            <div class="messengers_buttons">
-                                {foreach $menu_items_messengers as $item}
-
-                                    {if $item->visible == 1}
-                                        <a href="{$item->url|escape}" title="{$item->name|escape}" target="_blank" rel="nofollow noopener" class="messengers_buttons__link">{include file='svg.tpl' svgId="{$item->name|lower}_icon"}</a>
-                                     {/if}
-                                 {/foreach}
-                            </div>
-                        {/if}
+                        {include file="messengers_buttons.tpl"}
                         <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" target="_blank" title="Instagram">{include file="svg.tpl" svgId="inst_icon"}</a>
                         <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="facebook_icon"}</a>
                     </div>
                     <div class="rmbt-drop-menu">
                         {$menu_phones}
                     </div>
+                    {* Logo for of mobile view*}
+                    <a class="logo" href="{if $smarty.get.module=='MainView'}javascript:;{else}{$lang_link}{/if}">
+                        <img src="design/{$settings->theme|escape}/images/logo.svg" alt="{$settings->site_name|escape}">
+                    </a>
                 </div>
             </div>
         </nav>
@@ -105,28 +105,17 @@
             <div class="container">
                 <div class="header_center_content">
                     <div class="header_left_wrapper">
-                        {* Mobile menu button*}
-                        <div class="fn_menu_switch menu_switcher hidden">
-                            <div class="menu_switcher__heading d-flex align-items-center">
-
-                                {* <span class="" data-language="index_mobile_menu">{$lang->index_mobile_menu}</span> *}
-                            </div>
-                        </div>
                         {* Logo *}
                         <a class="logo" href="{if $smarty.get.module=='MainView'}javascript:;{else}{$lang_link}{/if}">
                             <img src="design/{$settings->theme|escape}/images/logo.svg" alt="{$settings->site_name|escape}">
                         </a>
-                        {*Если вам нужно загружать разные логотипы на разных языках, закомментируйте код выше, и пользуйтесь кодом ниже*}
-                        {*<a class="logo" href="{$lang_link}">
-                            <img src="design/{$settings->theme|escape}/images/logo    {if $language->label}_{$language->label}  {/if}.png" alt="{$settings->site_name|escape}"/>
-                        </a>*}
 
                         <button type="button" class="rmbt-mh-catalog-button" data-rmbt-popup-target="catalog-popup-header" data-rmbt-popup-close="catalog-popup-header">
                             <div class="rmbt-mh-catalog-button__icons-wrap">
                                 {include file="svg.tpl" svgId="icon_catalog_close"}
                                 {include file="svg.tpl" svgId="icon_catalog"}
                             </div>
-                            Каталог товарів
+                            <span>Каталог товарів</span>
                         </button>
 
                         <div class="header_second_menu">
@@ -148,7 +137,7 @@
                             {else}
                                 {* Login *}
                                 <button class="account_informer fn_modal_auth" title="{$lang->index_login}" type="button">{include file="svg.tpl" svgId="account_icon"}</button>
-                             {/if}
+                            {/if}
                         </div>
                         {* Wishlist informer *}
                         <div id="wishlist" class="informer">
@@ -170,6 +159,7 @@
 
     {* Тело сайта *}
     <div id="fn_content" class="main{if $module == "MainView"} main_page{elseif $module == "FeedbackView"} feedback_page{/if}">
+
         {* Banners *}
         {get_banner var="banner_main" group="main"}
         {if $banner_main->items && $module == "MainView"}
@@ -184,16 +174,17 @@
                                 <picture>
                                     {* mobile webp *}
                                     <source media="(max-width: 480px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
-
-                                    {* desktop webp *}
-                                    <source type="image/webp" {if $bi@first} srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
-
                                     {* mobile jpeg *}
                                     <source media="(max-width: 480px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
-
+                                    {* tablet webp *}
+                                    {* <source media="(max-width: 768px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}> *}
+                                    {* tablet jpeg *}
+                                    {* <source media="(max-width: 768px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}> *}
+                                    {* desktop webp *}
+                                    <source type="image/webp" {if $bi@first} srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
                                     {* desktop jpeg *}
                                     <source type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
-
+                                    
                                     {* fallback img *}
                                     <img {if $bi@first} src="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" fetchpriority="high" {else} class="lazy lazy-bg" data-src="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *}  {/if}
                                     alt="{$bi->alt}" title="{$bi->title}">
@@ -201,23 +192,25 @@
                              {/if}
                             {if $bi->url}
                                 </a>
-                            {/if}
+                             {/if}
                         </div>
                      {/foreach}
                 </div>
+                <div class="rmbt_swiper-pagination"></div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
 
-                    {include
-                        file="intro-section.tpl"
-                        title=$lang->intro_section_title|default:''
-                        slogan=$lang->intro_section_subtitle|default:''
-                        description=$lang->intro_section_description|default:''
-                        text_button=$lang->intro_text_button|default:''
-                        link=$banner_main->items[0]->url|default:'#'
-                    }
+                {include
+                    file="intro-section.tpl"
+                    title=$lang->intro_section_title|default:''
+                    slogan=$lang->intro_section_subtitle|default:''
+                    description=$lang->intro_section_description|default:''
+                    text_button=$lang->intro_text_button|default:''
+                    link=$banner_main->items[0]->url|default:'#'
+                }
             </div>
          {/if}
+         {include file="messengers_buttons.tpl"}
         {if $module == "MainView" || $page->url == '404'}
             <div class="fn_ajax_content">
                 {$content}
@@ -229,7 +222,8 @@
                     {$content}
                 </div>
             </div>
-         {/if}
+        {/if}
+
     </div>
 
     <div class="to_top"></div>
@@ -281,14 +275,14 @@
                                              {/if}
                                             {if $subscribe_error == 'empty_email'}
                                                 <span data-language="form_enter_email">{$lang->form_enter_email}</span>
-                                            {/if}
+                                             {/if}
                                         </div>
-                                    {/if}
+                                     {/if}
                                     {if $subscribe_success}
                                         <div id="fn_subscribe_sent" class="popup">
                                             <span data-language="subscribe_sent">{$lang->index_subscribe_sent}</span>
                                         </div>
-                                    {/if}
+                                     {/if}
                                 </form>
                             </div>
                         </div>
@@ -315,7 +309,7 @@
                                         <div class="foot_item">
                                             <a href="{$lang_link}catalog/{$c->url}">{$c->name|escape}</a>
                                         </div>
-                                    {/if}
+                                     {/if}
                                 {/foreach}
                             </div>
                         </div>
@@ -406,19 +400,19 @@
         ut_tracker.start('parsing:body_bottom:css');
     </script>
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
-        <link href="design/{$settings->theme|escape}/css/font-awesome.min.css    {if $css_version}?v={$css_version}
+        <link href="design/{$settings->theme|escape}/css/font-awesome.min.css       {if $css_version}?v={$css_version}
     {/if}"
         rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/jssocials.css    {if $css_version}?v={$css_version}{/if}"
+    <link href="design/{$settings->theme|escape}/css/jssocials.css       {if $css_version}?v={$css_version}{/if}"
         rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/jssocials-theme-flat.css    {if $css_version}?v={$css_version}{/if}"
+    <link href="design/{$settings->theme|escape}/css/jssocials-theme-flat.css       {if $css_version}?v={$css_version}{/if}"
         rel="stylesheet">
     {/if}
     <script>
         ut_tracker.end('parsing:body_bottom:css');
     </script>
 
-    <link href="design/{$settings->theme|escape}/css/mobile_menu.css    {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/mobile_menu.css       {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
 
     {*template scripts*}
     {* JQuery UI *}
@@ -426,72 +420,72 @@
     <script>
         ut_tracker.start('parsing:body_bottom:js');
     </script>
-    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
 
     {* JQuery migrate*}
     {if $module == "ProductsView"}
-        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js    {if $js_version}
+        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js       {if $js_version}
             ? v = { $js_version } {/if}">
         </script>
     {/if}
     {* Swiper slider *}
-    <script src="design/{$settings->theme}/js/swiper-bundle.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/swiper-bundle.min.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/lazyload.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/lazyload.min.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/mobile_menu.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/mobile_menu.js       {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
-    <script src="design/{$settings->theme}/js/jquery-ui.min.js    {if $js_version}
-        ? v = { $js_version }  {/if}">
+    <script src="design/{$settings->theme}/js/jquery-ui.min.js       {if $js_version}
+        ? v = { $js_version } {/if}">
     </script>
 
     {* Библиотека touch-punch *}
-    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
 
     {* Fancybox *}
-    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css    {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css       {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
     {*
-    <link href="design/{$settings->theme|escape}/css/fancybox.css    {if $css_version}?v={$css_version}{/if}"
+    <link href="design/{$settings->theme|escape}/css/fancybox.css       {if $css_version}?v={$css_version} {/if}"
     rel="stylesheet"> *}
 
-    <script src="design/{$settings->theme|escape}/js/jquery.fancybox.min.js    {if $js_version}
+    <script src="design/{$settings->theme|escape}/js/jquery.fancybox.min.js       {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
-    {* <script src="design/{$settings->theme|escape}/js/fancybox.umd.js    {if $js_version}
+    {* <script src="design/{$settings->theme|escape}/js/fancybox.umd.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script> *}
 
     {if $smarty.get.module == 'CartView'}
-        <script src="design/{$settings->theme}/js/select2.full.min.js    {if $js_version}
+        <script src="design/{$settings->theme}/js/select2.full.min.js       {if $js_version}
             ? v = { $js_version } {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js    {if $js_version}
+        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js       {if $js_version}
             ? v = { $js_version } {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/cart.js    {if $js_version}
+        <script src="design/{$settings->theme}/js/cart.js       {if $js_version}
             ? v = { $js_version } {/if}" defer>
         </script>
      {/if}
 
     {* Autocomplete *}
-    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js       {if $js_version}
         ? v = { $js_version }  {/if}" defer>
     </script>
 
     {$admintooltip}
 
     {* JQuery Validation *}
-    <script src="design/{$settings->theme}/js/jquery.validate.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery.validate.min.js       {if $js_version}
         ? v = { $js_version }  {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/additional-methods.min.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/additional-methods.min.js       {if $js_version}
         ? v = { $js_version }  {/if}" defer>
     </script>
 
@@ -508,20 +502,20 @@
 
     {* Social share buttons *}
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
-        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js    {if $js_version}
+        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js       {if $js_version}
             ? v = { $js_version }  {/if}">
         </script>
-        <script src="design/{$settings->theme|escape}/js/jssocials.min.js    {if $js_version}
+        <script src="design/{$settings->theme|escape}/js/jssocials.min.js       {if $js_version}
             ? v = { $js_version }  {/if}">
         </script>
     {/if}
 
     {* Okay *}
     {include file="scripts.tpl"}
-    <script src="design/{$settings->theme}/js/okay.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/okay.js       {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/analytics.js    {if $js_version}
+    <script src="design/{$settings->theme}/js/analytics.js       {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
     {*template scripts*}

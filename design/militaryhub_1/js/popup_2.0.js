@@ -9,8 +9,6 @@ const bodyLockClass = "rmbt-lock";
 
 let unLock = true;
 
-console.log("00 **********************************");
-
 function popupOpen(currentPopup) {
   if (currentPopup && unLock) {
     const popupActive = document.querySelector(".rmbt-popup.rmbt-popup-open");
@@ -90,7 +88,6 @@ function closeAllPopupsOpen(downLock = true) {
 }
 
 export function Popups() {
-  console.log("11 **********************************");
   if (nl_popupToggles.length > 0) {
     nl_popupToggles.forEach((popupToggle) => {
       popupToggle.addEventListener("click", function (e) {

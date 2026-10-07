@@ -1,4 +1,5 @@
 .main_page {
+  position: relative;
   padding-bottom: 75px;
   margin-top: -153px;
 }
@@ -35,6 +36,7 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 30px;
   padding: 0;
   height: 100%;
 }
@@ -49,8 +51,8 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
 } */
 .header_left_wrapper {
   display: flex;
-  align-items: center;
   gap: 36px;
+  align-items: center;
 }
 .top_nav_wrapper {
   display: flex;
@@ -64,8 +66,9 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
   align-items: center;
   margin: 0;
 }
-.top_nav_wrapper .header_location {
-  gap: 10px;
+.top_nav_wrapper .header_location ul {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .search_open_button,
 .informer,
@@ -86,6 +89,8 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
   margin: 0;
   padding: 0;
 }
+
+.rmbt-drop-menu .menu_link,
 .header_second_menu .menu_link,
 .header_second_menu .category_link {
   color: #ffffff;
@@ -111,6 +116,24 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
 .social_link:hover svg path {
   opacity: 0.7;
 }
+
+.main_page .messengers_buttons {
+  display: none;
+  z-index: 1000;
+  position: sticky;
+  top: 15%;
+  margin-left: auto;
+
+  flex-direction: column;
+  max-width: 60px;
+  overflow: hidden;
+}
+
+.main_page .messengers_buttons__link {
+  width: 42px;
+  height: 42px;
+}
+
 .foot_social_wrapper .social_link:hover svg path {
   fill: #c0c0c0 !important;
   stroke: #c0c0c0 !important;
@@ -3231,6 +3254,10 @@ input[type="checkbox"]:checked + label .inp-check:before {
 
 /*----------  /header ----------------*/
 
+.rmbt_swiper-pagination {
+  display: none;
+}
+
 .rmbt-mh-catalog-button {
   all: unset;
   cursor: pointer;
@@ -3275,6 +3302,11 @@ input[type="checkbox"]:checked + label .inp-check:before {
     width 0.8s ease,
     height 0.8s ease;
 }
+
+.top_nav .logo{
+  display: none;
+}
+
 
 .header_left_wrapper [rmbt-popup-open] #rmbt-mh-catalog-button-open {
   display: block;
@@ -3532,17 +3564,16 @@ input[type="checkbox"]:checked + label .inp-check:before {
   row-gap: 10px;
 }
 
-
 .rmbt-mh-intro-section {
   position: absolute;
-  left: 252px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 16vw;
+  top: 20vw;
   width: 648px;
   z-index: 1;
   font-family: Inter_18pt;
   color: #ffffff;
 }
+
 .rmbt-mh-intro-section__title {
   font-size: 40px;
   font-weight: 800;

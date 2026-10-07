@@ -7,7 +7,7 @@
 
     {include
         file="btn_link.tpl"
-        text=$text_button|default:'0000000000'
+        text=$text_button|default:''
         link=$link|default:''
         icon_id='long_arrow'
     }

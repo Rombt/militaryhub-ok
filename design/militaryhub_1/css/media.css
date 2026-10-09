@@ -578,7 +578,17 @@
   .main_page .messengers_buttons {
     display: flex;
   }
+
+  .mh-catalog-popup-header__right-column{
+    display: none;
+  }
+
+  .mh-catalog-popup-header__container{
+    top: 70%;
+  }
+
 }
+
 @media (max-width: 768px) {
   .banner_second_main_name {
     font-size: 12px;

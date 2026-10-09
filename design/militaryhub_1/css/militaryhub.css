@@ -3341,9 +3341,9 @@ input[type="checkbox"]:checked + label .inp-check:before {
   left: 0px;
   box-sizing: border-box;
   word-wrap: break-word;
-  margin-left: 12px;
-  margin-right: 12px;
-  padding: 0px 20px 0px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 20px 0px 0px;
   transition: all 0.8s ease;
   display: flex;
   column-gap: 20px;
@@ -3447,7 +3447,7 @@ input[type="checkbox"]:checked + label .inp-check:before {
 
 .rmbt-categories-tabs__title {
   all: unset;
-  padding: 8px 25px 8px 0px;
+  padding: 8px 25px 8px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;

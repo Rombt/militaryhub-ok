@@ -579,14 +579,20 @@
     display: flex;
   }
 
-  .mh-catalog-popup-header__right-column{
+  .mh-catalog-popup-header__right-column {
     display: none;
   }
 
-  .mh-catalog-popup-header__container{
-    top: 70%;
+  .rmbt-categories-tabs__title:first-of-type {
+    padding-top: 12px;
+  } 
+  .rmbt-categories-tabs__title:last-of-type {
+    padding-bottom: 12px;
   }
 
+  .mh-catalog-popup-header__container {
+    top: 70%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1527,7 +1533,6 @@
   .installment_header_right {
     display: none;
   }
-
 }
 
 @media (max-width: 380px) {

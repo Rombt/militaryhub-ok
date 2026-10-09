@@ -3,8 +3,13 @@
     <div class="rmbt-popup__overlay"></div>
     {* <div class="rmbt-popup__container mh-catalog-popup-header__container container-full"> *}
         <div class="rmbt-popup__container mh-catalog-popup-header__container container-compact">
-            <div class="rmbt-categories-tabs">
 
+            <div class="mh-catalog-popup-header__title">
+                {include file="svg.tpl" svgId="icon_catalog"}
+                <span>Каталог товарів</span>
+                {include file="svg.tpl" svgId="icon_close"}
+            </div>
+            <div class="rmbt-categories-tabs">
                 <nav data-tabs-titles class="rmbt-categories-tabs__nav">
                     {if isset($categories) && $categories|@is_array}
                         {foreach $categories as $category}
@@ -22,7 +27,6 @@
                         {/foreach}
                     {/if}
                 </nav>
-
                 <div class="rmbt-categories-tabs__content">
                     {if isset($categories) && $categories|@is_array}
                         {foreach $categories as $category}
@@ -56,43 +60,41 @@
                         {/foreach}
                     {/if}
                 </div>
-
             </div>
-
             <div class="mh-catalog-popup-header__right-column">
                 {get_banner var="banner_catalog_categories_menu" group="catalog_categories_menu"}
                 {if $banner_catalog_categories_menu->items}
-                        <div class="fn_banner_catalog_categories_menu swiper">
-                            <div class="swiper-wrapper">
-                                {foreach $banner_catalog_categories_menu->items as $bi}
-                                    <div class="swiper-slide">
-                                        {if $bi->url}
-                                            <a href="{$bi->url}" target="_blank">
-                                        {/if}
+                    <div class="fn_banner_catalog_categories_menu swiper">
+                        <div class="swiper-wrapper">
+                            {foreach $banner_catalog_categories_menu->items as $bi}
+                                <div class="swiper-slide">
+                                    {if $bi->url}
+                                        <a href="{$bi->url}" target="_blank">
+                                    {/if}
 
-                                        {if $bi->image}
-                                            <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
-                                        {/if}
+                                    {if $bi->image}
+                                        <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
+                                    {/if}
 
-                                        <div class="swiper-slide-text">
+                                    <div class="swiper-slide-text">
 
-                                            <span class="swiper-slide-title">
-                                                {$bi->title}
+                                        <span class="swiper-slide-title">
+                                            {$bi->title}
+                                        </span>
+
+                                        {if $bi->description}
+                                            <span class="swiper-slide-description">
+                                                {$bi->description}
                                             </span>
-
-                                            {if $bi->description}
-                                                <span class="swiper-slide-description">
-                                                    {$bi->description}
-                                                </span>
-                                            {/if}
-                                        </div>
-                                        {if $bi->url}
-                                            </a>
                                         {/if}
                                     </div>
-                                {/foreach}
-                            </div>
+                                    {if $bi->url}
+                                        </a>
+                                    {/if}
+                                </div>
+                            {/foreach}
                         </div>
+                    </div>
                 {/if}
             </div>
 

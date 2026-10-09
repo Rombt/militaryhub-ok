@@ -592,7 +592,18 @@
 
   .mh-catalog-popup-header__container {
     top: 70%;
+    flex-wrap: wrap;
   }
+
+.mh-catalog-popup-header__title {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 14px;
+  padding: 20px 20px 20px 20px;
+  border-bottom: 1px solid #dedede;
+}
+
 }
 
 @media (max-width: 768px) {

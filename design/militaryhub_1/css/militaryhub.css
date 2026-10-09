@@ -3291,6 +3291,8 @@ input[type="checkbox"]:checked + label .inp-check:before {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
+
+  fill: #ffffff;
 }
 .rmbt-mh-catalog-button__icons-wrap #rmbt-mh-catalog-button-close {
   display: block;
@@ -3343,12 +3345,15 @@ input[type="checkbox"]:checked + label .inp-check:before {
   word-wrap: break-word;
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px 0px 0px;
+  padding: 0px 0px 0px 0px;
   transition: all 0.8s ease;
   display: flex;
   column-gap: 20px;
 }
 
+.mh-catalog-popup-header__container * {
+  box-sizing: border-box;
+}
 .container-full {
   width: 1410px;
   height: 0px;
@@ -3359,9 +3364,20 @@ input[type="checkbox"]:checked + label .inp-check:before {
   height: 0px;
   bottom: auto !important;
 }
-.mh-catalog-popup-header__container * {
-  box-sizing: border-box;
+
+.mh-catalog-popup-header__title {
+  display: none;
 }
+
+.mh-catalog-popup-header__title svg {
+  fill: #000000;
+  cursor: pointer;
+}
+
+.mh-catalog-popup-header__title span {
+  flex-grow: 1;
+}
+
 .mh-catalog-popup-header__right-column {
   flex-basis: 247px;
   flex-shrink: 0;
@@ -3380,7 +3396,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
 .fn_banner_catalog_categories_menu {
   height: 550px;
 }
-
 
 .fn_banner_catalog_categories_menu .swiper-slide {
   position: relative;
@@ -3473,7 +3488,7 @@ input[type="checkbox"]:checked + label .inp-check:before {
 
 .container-compact .rmbt-categories-tabs__content {
   min-width: 290px;
-  margin: 20px 0px 20px 0px;
+  margin: 20px 20px 20px 0px;
 }
 
 .rmbt-categories-tabs__body {

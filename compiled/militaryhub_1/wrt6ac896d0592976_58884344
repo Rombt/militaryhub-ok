@@ -1,0 +1,206 @@
+<?php
+/* Smarty version 4.5.5, created on 2026-10-09 10:25:04
+  from 'F:\web\local.militaryhub-ok\design\militaryhub_1\html\categories_menu.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '4.5.5',
+  'unifunc' => 'content_6ac896d0591dd2_88941135',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '55599dc8f3e6e69da1a887e64761d5a35569f2ee' => 
+    array (
+      0 => 'F:\\web\\local.militaryhub-ok\\design\\militaryhub_1\\html\\categories_menu.tpl',
+      1 => 1791530698,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:svg.tpl' => 1,
+  ),
+),false)) {
+function content_6ac896d0591dd2_88941135 (Smarty_Internal_Template $_smarty_tpl) {
+?><div class="rmbt-popup mh-catalog-popup-header" id="catalog-popup-header">
+
+    <div class="rmbt-popup__overlay"></div>
+            <div class="rmbt-popup__container mh-catalog-popup-header__container container-compact">
+            <div class="rmbt-categories-tabs">
+
+                <nav data-tabs-titles class="rmbt-categories-tabs__nav">
+                    <?php if ((isset($_smarty_tpl->tpl_vars['categories']->value)) && is_array($_smarty_tpl->tpl_vars['categories']->value)) {?>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['categories']->value, 'category');
+$_smarty_tpl->tpl_vars['category']->index = -1;
+$_smarty_tpl->tpl_vars['category']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['category']->value) {
+$_smarty_tpl->tpl_vars['category']->do_else = false;
+$_smarty_tpl->tpl_vars['category']->index++;
+$_smarty_tpl->tpl_vars['category']->first = !$_smarty_tpl->tpl_vars['category']->index;
+$__foreach_category_0_saved = $_smarty_tpl->tpl_vars['category'];
+?>
+                            <?php if ((isset($_smarty_tpl->tpl_vars['category']->value))) {?>
+                                <div class="rmbt-categories-tabs__title<?php if ($_smarty_tpl->tpl_vars['category']->first) {?> rmbt-categories-tabs__title-active<?php }?>" data-tab="<?php echo (($tmp = $_smarty_tpl->tpl_vars['category']->value->name ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
+                                    <a href="<?php echo (($tmp = $_smarty_tpl->tpl_vars['category']->value->url ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
+                                        <?php echo (($tmp = $_smarty_tpl->tpl_vars['category']->value->name ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+
+                                    </a>
+                                    <?php $_smarty_tpl->_subTemplateRender("file:svg.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('svgId'=>"rmbt-mh-catalog-button-open"), 0, true);
+?>
+                                                                                                                                                    </div>
+                            <?php }?>
+                        <?php
+$_smarty_tpl->tpl_vars['category'] = $__foreach_category_0_saved;
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                    <?php }?>
+                </nav>
+
+                <div class="rmbt-categories-tabs__content">
+                    <?php if ((isset($_smarty_tpl->tpl_vars['categories']->value)) && is_array($_smarty_tpl->tpl_vars['categories']->value)) {?>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['categories']->value, 'category');
+$_smarty_tpl->tpl_vars['category']->index = -1;
+$_smarty_tpl->tpl_vars['category']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['category']->value) {
+$_smarty_tpl->tpl_vars['category']->do_else = false;
+$_smarty_tpl->tpl_vars['category']->index++;
+$_smarty_tpl->tpl_vars['category']->first = !$_smarty_tpl->tpl_vars['category']->index;
+$__foreach_category_1_saved = $_smarty_tpl->tpl_vars['category'];
+?>
+                            <?php if ($_smarty_tpl->tpl_vars['category']->value) {?>
+                                <div class="rmbt-categories-tabs__body<?php if ($_smarty_tpl->tpl_vars['category']->first) {?> rmbt-categories-tabs__body-active<?php }?>" data-tab-name="<?php echo (($tmp = $_smarty_tpl->tpl_vars['category']->value->name ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
+
+                                    <?php if ((isset($_smarty_tpl->tpl_vars['category']->value->subcategories)) && is_array($_smarty_tpl->tpl_vars['category']->value->subcategories)) {?>
+                                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['category']->value->subcategories, 'child');
+$_smarty_tpl->tpl_vars['child']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['child']->value) {
+$_smarty_tpl->tpl_vars['child']->do_else = false;
+?>
+                                            <?php if ($_smarty_tpl->tpl_vars['child']->value) {?>
+                                                <div class="rmbt-categories-tabs__category-child-level-3">
+
+                                                    <a href="<?php echo (($tmp = $_smarty_tpl->tpl_vars['child']->value->url ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+" class="rmbt-categories-tabs__parent-category"><?php echo (($tmp = $_smarty_tpl->tpl_vars['child']->value->name ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</a>
+
+                                                    <?php if ((isset($_smarty_tpl->tpl_vars['child']->value->subcategories)) && is_array($_smarty_tpl->tpl_vars['child']->value->subcategories)) {?>
+                                                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['child']->value->subcategories, 'child_data_level_3');
+$_smarty_tpl->tpl_vars['child_data_level_3']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['child_data_level_3']->value) {
+$_smarty_tpl->tpl_vars['child_data_level_3']->do_else = false;
+?>
+                                                            <?php if ($_smarty_tpl->tpl_vars['child_data_level_3']->value) {?>
+                                                                <a href="<?php echo (($tmp = $_smarty_tpl->tpl_vars['child_data_level_3']->value->url ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+" class="rmbt-categories-tabs__child-category"><?php echo (($tmp = $_smarty_tpl->tpl_vars['child_data_level_3']->value->name ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</a>
+                                                            <?php }?>
+                                                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                                                    <?php }?>
+
+                                                </div>
+                                            <?php }?>
+                                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                                    <?php }?>
+
+                                </div>
+                            <?php }?>
+                        <?php
+$_smarty_tpl->tpl_vars['category'] = $__foreach_category_1_saved;
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                    <?php }?>
+                </div>
+
+            </div>
+
+            <div class="mh-catalog-popup-header__right-column">
+                <?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['get_banner'][0], array( array('var'=>"banner_catalog_categories_menu",'group'=>"catalog_categories_menu"),$_smarty_tpl ) );?>
+
+                <?php if ($_smarty_tpl->tpl_vars['banner_catalog_categories_menu']->value->items) {?>
+                                            <div class="fn_banner_catalog_categories_menu swiper">
+                            <div class="swiper-wrapper">
+                                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['banner_catalog_categories_menu']->value->items, 'bi');
+$_smarty_tpl->tpl_vars['bi']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['bi']->value) {
+$_smarty_tpl->tpl_vars['bi']->do_else = false;
+?>
+                                    <div class="swiper-slide">
+                                        <?php if ($_smarty_tpl->tpl_vars['bi']->value->url) {?>
+                                            <a href="<?php echo $_smarty_tpl->tpl_vars['bi']->value->url;?>
+" target="_blank">
+                                        <?php }?>
+
+                                        <?php if ($_smarty_tpl->tpl_vars['bi']->value->image) {?>
+                                            <img src="<?php echo call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'resize' ][ 0 ], array( $_smarty_tpl->tpl_vars['bi']->value->image,1170,390,false,$_smarty_tpl->tpl_vars['config']->value->resized_banners_images_dir ));?>
+" alt="<?php echo $_smarty_tpl->tpl_vars['bi']->value->alt;?>
+" title="<?php echo $_smarty_tpl->tpl_vars['bi']->value->title;?>
+" />
+                                        <?php }?>
+
+                                        <div class="swiper-slide-text">
+
+                                            <span class="swiper-slide-title">
+                                                <?php echo $_smarty_tpl->tpl_vars['bi']->value->title;?>
+
+                                            </span>
+
+                                            <?php if ($_smarty_tpl->tpl_vars['bi']->value->description) {?>
+                                                <span class="swiper-slide-description">
+                                                    <?php echo $_smarty_tpl->tpl_vars['bi']->value->description;?>
+
+                                                </span>
+                                            <?php }?>
+                                        </div>
+                                        <?php if ($_smarty_tpl->tpl_vars['bi']->value->url) {?>
+                                            </a>
+                                        <?php }?>
+                                    </div>
+                                <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                            </div>
+                        </div>
+                                    <?php }?>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <?php echo '<script'; ?>
+>
+        {
+            *
+            const bannerCatalogCategoriesMenu = new Swiper(
+                '.fn_banner_catalog_categories_menu', {
+                    slidesPerView: 1,
+                    slidesPerGroup: 1,
+                    loop: true,
+                    speed: 500,
+                    autoplay: {
+                        delay: 8000,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                }
+            );*
+        }
+    <?php echo '</script'; ?>
+>
+<?php }
+}

@@ -297,6 +297,7 @@ class IndexView extends View
 
         // Категории товаров
         $all_categories = $this->categories->get_categories();
+
         $this->count_visible($this->categories->get_categories_tree(), $all_categories);
         $this->design->assign('categories', $this->categories->get_categories_tree());
 

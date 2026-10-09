@@ -94,9 +94,14 @@ class CategoryAdmin extends Okay
             }
 
         } else {
+
             $category->id = $this->request->get('id', 'integer');
             $category = $this->categories->get_category($category->id);
-            $category->prom_category = unserialize($category->prom_category);
+            
+            //!! только для локалки !!
+            if ($category) {
+                $category->prom_category = unserialize($category->prom_category);
+            }
         }
 
         $rozetka_feature_value_valid = false;

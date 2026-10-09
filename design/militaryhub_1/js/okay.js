@@ -1091,6 +1091,24 @@ $(function () {
     });
   }
 
+  if ($(".fn_banner_catalog_categories_menu").length > 0) {
+    var bannerCatalogCategoriesMenu = new Swiper(
+      ".fn_banner_catalog_categories_menu",
+      {
+        direction: "vertical",
+        slidesPerView: 2,
+        spaceBetween: 20,
+        loop: true,
+        mousewheel: true,
+
+        speed: 1500,
+        autoplay: {
+          delay: 1500,
+        },
+      },
+    );
+  }
+
   if ($(".fn_brands_slide").length) {
     $(".fn_brands_slide").each(function () {
       var swiper = new Swiper(this, {

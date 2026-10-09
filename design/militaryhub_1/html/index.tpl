@@ -110,7 +110,7 @@
                             <img src="design/{$settings->theme|escape}/images/logo.svg" alt="{$settings->site_name|escape}">
                         </a>
 
-                        <button type="button" class="rmbt-mh-catalog-button" data-rmbt-popup-target="catalog-popup-header" data-rmbt-popup-close="catalog-popup-header">
+                        <button id="catalog-popup-header-btn" type="button" class="rmbt-mh-catalog-button" data-rmbt-popup-target="catalog-popup-header" data-rmbt-popup-close="catalog-popup-header-btn">
                             <div class="rmbt-mh-catalog-button__icons-wrap">
                                 {include file="svg.tpl" svgId="icon_catalog_close"}
                                 {include file="svg.tpl" svgId="icon_catalog"}
@@ -497,7 +497,13 @@
     {* //!! *}
     <script type="module">
         import { Popups } from './design/{$settings->theme}/js/popup_2.0.js';
+        import Tabs  from './design/{$settings->theme}/js/tabs.js';
+        import Spoiler  from './design/{$settings->theme}/js/spoiler_2.0.js';
+
         Popups();
+        Tabs('categories');
+        Tabs('mh-featured-products');
+        Spoiler();
     </script>
 
     {* Social share buttons *}

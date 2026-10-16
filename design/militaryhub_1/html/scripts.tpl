@@ -278,7 +278,8 @@
             insertClose: -1,
             labelBack: "{$lang->mobile_menu_prev|escape}",
             labelClose: "{$lang->mobile_menu_close|escape}",
-            closeLevels: false
+            closeLevels: false,
+            
         };
         $main_nav.hcOffcanvasNav(defaultData);
     });

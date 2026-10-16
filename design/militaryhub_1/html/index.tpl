@@ -231,6 +231,36 @@
     {* Footer *}
     <footer class="footer">
         <div class="footer_bottom">
+
+                        {get_banner var="banner_footer_photos" group="footer_photos"}
+                        {if $banner_footer_photos->items}
+                            <div class="container hidden-md-down">
+                                <div class="fn_banner_footer_photos slick-banner">
+                                    {foreach $banner_footer_photos->items as $bi}
+                                        <div>
+                                            {if $bi->url}
+                                                <a href="{$bi->url}" target="_blank">
+                                            {/if}
+                                            {if $bi->image}
+                                                <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
+                                            {/if}
+                                            <span class="slick-name">
+                                                {$bi->title}
+                                            </span>
+                                            {if $bi->description}
+                                                <span class="slick-description">
+                                                    {$bi->description}
+                                                </span>
+                                            {/if}
+                                            {if $bi->url}
+                                                </a>
+                                            {/if}
+                                        </div>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        {/if}
+
             <div class="container">
                 <div class="row foot_container rmbt-foot_container">
                     <div class="foot rmbt-foot-left-column col-sm-6 col-lg-3">

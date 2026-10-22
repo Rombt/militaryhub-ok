@@ -873,8 +873,7 @@ header a {
   flex-grow: 1;
   min-width: 250px;
 }
-.foot_social_wrapper,
-.foot_payments_wrapper {
+.foot_social_wrapper{
   margin-top: 30px;
 }
 

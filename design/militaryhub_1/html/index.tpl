@@ -22,12 +22,12 @@
     <script>
         ut_tracker.start('parsing:head:css');
     </script>
-    <link href="design/{$settings->theme|escape}/css/libs.css         {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/style.css         {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/militaryhub.css         {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/fonts.css         {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/responsive.css         {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/media.css         {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/libs.css          {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/style.css          {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/militaryhub.css          {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/fonts.css          {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/responsive.css          {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/media.css          {if $css_version}?v={$css_version}  {/if}" rel="stylesheet">
 
     {* стили и скрипты из ModulesCore *}
     {$modules_head_css nofilter}
@@ -264,32 +264,32 @@
             {/if}
 
             <div class="container rmbt-subscribe_container">
-                    <div class="subscribe_wrapper rmbt-subscribe_wrapper">
-                        {* Subscribing *}
-                        <div id="subscribe_container">
-                            <span class="subscribe_text" data-language="subscribe_text">{$lang->subscribe_text}</span>
-                            <form class="subscribe_form fn_validate_subscribe" method="post">
-                                <input type="hidden" name="subscribe" value="1">
-                                <input class="subscribe_input" type="email" name="subscribe_email" value="" data-format="email" placeholder="{$lang->form_email}">
-                                <button class="subscribe_button" type="submit"><span data-language="subscribe_button">{$lang->subscribe_button}</span></button>
-                                {if $subscribe_error}
-                                    <div id="subscribe_error" class="popup">
-                                        {if $subscribe_error == 'email_exist'}
-                                            <span data-language="subscribe_already">{$lang->index_subscribe_already}</span>
-                                        {/if}
-                                        {if $subscribe_error == 'empty_email'}
-                                            <span data-language="form_enter_email">{$lang->form_enter_email}</span>
-                                        {/if}
-                                    </div>
-                                {/if}
-                                {if $subscribe_success}
-                                    <div id="fn_subscribe_sent" class="popup">
-                                        <span data-language="subscribe_sent">{$lang->index_subscribe_sent}</span>
-                                    </div>
-                                {/if}
-                            </form>
-                        </div>
+                <div class="subscribe_wrapper rmbt-subscribe_wrapper">
+                    {* Subscribing *}
+                    <div id="subscribe_container">
+                        <span class="subscribe_text" data-language="subscribe_text">{$lang->subscribe_text}</span>
+                        <form class="subscribe_form fn_validate_subscribe" method="post">
+                            <input type="hidden" name="subscribe" value="1">
+                            <input class="subscribe_input" type="email" name="subscribe_email" value="" data-format="email" placeholder="{$lang->form_email}">
+                            <button class="subscribe_button" type="submit"><span data-language="subscribe_button">{$lang->subscribe_button}</span></button>
+                            {if $subscribe_error}
+                                <div id="subscribe_error" class="popup">
+                                    {if $subscribe_error == 'email_exist'}
+                                        <span data-language="subscribe_already">{$lang->index_subscribe_already}</span>
+                                    {/if}
+                                    {if $subscribe_error == 'empty_email'}
+                                        <span data-language="form_enter_email">{$lang->form_enter_email}</span>
+                                    {/if}
+                                </div>
+                            {/if}
+                            {if $subscribe_success}
+                                <div id="fn_subscribe_sent" class="popup">
+                                    <span data-language="subscribe_sent">{$lang->index_subscribe_sent}</span>
+                                </div>
+                            {/if}
+                        </form>
                     </div>
+                </div>
             </div>
 
             <div class="container container-content">
@@ -386,15 +386,6 @@
                                     <span data-language="address_company">{$lang->address_company}</span>
                                 </div>
                             </div>
-                            <div class="foot_payments_wrapper" style="display:none;">
-                                <span class="foot_title" data-language="index_payments">{$lang->index_payments}</span>
-                                <div class="payments_wrapper">
-                                    {include file="svg.tpl" svgId="g_pay_icon"}
-                                    {include file="svg.tpl" svgId="apple_pay_icon"}
-                                    {include file="svg.tpl" svgId="visa_icon"}
-                                    {include file="svg.tpl" svgId="mastercard_icon"}
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -402,6 +393,15 @@
                 {* Copyright *}
                 <div class="copyright">
                     <span data-language="index_copyright">© {$lang->index_copyright} 2024 - {$smarty.now|date_format:"%Y"}</span>
+
+                    <div class="foot_payments_wrapper">
+                        <div class="payments_wrapper">
+                            {include file="svg.tpl" svgId="g_pay_icon"}
+                            {include file="svg.tpl" svgId="apple_pay_icon"}
+                            {include file="svg.tpl" svgId="visa_icon"}
+                            {include file="svg.tpl" svgId="mastercard_icon"}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -439,19 +439,19 @@
         ut_tracker.start('parsing:body_bottom:css');
     </script>
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
-        <link href="design/{$settings->theme|escape}/css/font-awesome.min.css         {if $css_version}?v={$css_version}
+        <link href="design/{$settings->theme|escape}/css/font-awesome.min.css          {if $css_version}?v={$css_version}
     {/if}"
         rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/jssocials.css         {if $css_version}?v={$css_version}{/if}"
+    <link href="design/{$settings->theme|escape}/css/jssocials.css          {if $css_version}?v={$css_version}{/if}"
         rel="stylesheet">
-    <link href="design/{$settings->theme|escape}/css/jssocials-theme-flat.css         {if $css_version}?v={$css_version}{/if}"
+    <link href="design/{$settings->theme|escape}/css/jssocials-theme-flat.css          {if $css_version}?v={$css_version}{/if}"
         rel="stylesheet">
     {/if}
     <script>
         ut_tracker.end('parsing:body_bottom:css');
     </script>
 
-    <link href="design/{$settings->theme|escape}/css/mobile_menu.css         {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/mobile_menu.css          {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
 
     {*template scripts*}
     {* JQuery UI *}
@@ -459,72 +459,72 @@
     <script>
         ut_tracker.start('parsing:body_bottom:js');
     </script>
-    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery-3.3.1.min.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
 
     {* JQuery migrate*}
     {if $module == "ProductsView"}
-        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js         {if $js_version}
+        <script src="design/{$settings->theme}/js/jquery-migrate-3.0.1.min.js          {if $js_version}
             ? v = { $js_version } {/if}">
         </script>
     {/if}
     {* Swiper slider *}
-    <script src="design/{$settings->theme}/js/swiper-bundle.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/swiper-bundle.min.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/lazyload.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/lazyload.min.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/mobile_menu.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/mobile_menu.js          {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
-    <script src="design/{$settings->theme}/js/jquery-ui.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery-ui.min.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
 
     {* Библиотека touch-punch *}
-    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/ui.touch-punch.min.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
 
     {* Fancybox *}
-    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css         {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
+    <link href="design/{$settings->theme|escape}/css/jquery.fancybox.min.css          {if $css_version}?v={$css_version}{/if}" rel="stylesheet">
     {*
-    <link href="design/{$settings->theme|escape}/css/fancybox.css         {if $css_version}?v={$css_version} {/if}"
+    <link href="design/{$settings->theme|escape}/css/fancybox.css          {if $css_version}?v={$css_version} {/if}"
     rel="stylesheet"> *}
 
-    <script src="design/{$settings->theme|escape}/js/jquery.fancybox.min.js         {if $js_version}
+    <script src="design/{$settings->theme|escape}/js/jquery.fancybox.min.js          {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
-    {* <script src="design/{$settings->theme|escape}/js/fancybox.umd.js         {if $js_version}
+    {* <script src="design/{$settings->theme|escape}/js/fancybox.umd.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script> *}
 
     {if $smarty.get.module == 'CartView'}
-        <script src="design/{$settings->theme}/js/select2.full.min.js         {if $js_version}
+        <script src="design/{$settings->theme}/js/select2.full.min.js          {if $js_version}
             ? v = { $js_version } {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js         {if $js_version}
+        <script src="design/{$settings->theme}/js/i18n/{$language->href_lang}.js          {if $js_version}
             ? v = { $js_version }  {/if}" defer>
         </script>
-        <script src="design/{$settings->theme}/js/cart.js         {if $js_version}
+        <script src="design/{$settings->theme}/js/cart.js          {if $js_version}
             ? v = { $js_version }  {/if}" defer>
         </script>
      {/if}
 
     {* Autocomplete *}
-    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery.autocomplete-min.js          {if $js_version}
         ? v = { $js_version }  {/if}" defer>
     </script>
 
     {$admintooltip}
 
     {* JQuery Validation *}
-    <script src="design/{$settings->theme}/js/jquery.validate.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/jquery.validate.min.js          {if $js_version}
         ? v = { $js_version }  {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/additional-methods.min.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/additional-methods.min.js          {if $js_version}
         ? v = { $js_version }  {/if}" defer>
     </script>
 
@@ -547,20 +547,20 @@
 
     {* Social share buttons *}
     {if $smarty.get.module == 'ProductView' || $smarty.get.module == "BlogView"}
-        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js         {if $js_version}
+        <script src="design/{$settings->theme|escape}/js/modernizr-custom.js          {if $js_version}
             ? v = { $js_version } {/if}">
         </script>
-        <script src="design/{$settings->theme|escape}/js/jssocials.min.js         {if $js_version}
+        <script src="design/{$settings->theme|escape}/js/jssocials.min.js          {if $js_version}
             ? v = { $js_version } {/if}">
         </script>
     {/if}
 
     {* Okay *}
     {include file="scripts.tpl"}
-    <script src="design/{$settings->theme}/js/okay.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/okay.js          {if $js_version}
         ? v = { $js_version } {/if}">
     </script>
-    <script src="design/{$settings->theme}/js/analytics.js         {if $js_version}
+    <script src="design/{$settings->theme}/js/analytics.js          {if $js_version}
         ? v = { $js_version } {/if}" defer>
     </script>
     {*template scripts*}

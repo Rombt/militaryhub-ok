@@ -89,7 +89,7 @@
                     <div class="header_social social">
                         {include file="messengers_buttons.tpl"}
                         <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" target="_blank" title="Instagram">{include file="svg.tpl" svgId="inst_icon"}</a>
-                        <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="facebook_icon"}</a>
+                        <a class="social_link" href="https://www.facebook.com/sportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="facebook_icon"}</a>
                     </div>
                     <div class="rmbt-drop-menu">
                         {$menu_phones}
@@ -305,15 +305,14 @@
                         </div>
 
                         {* Social buttons *}
-                        {* <div class="foot_social_wrapper">
-                            <span class="foot_title" data-language="index_in_networks">{$lang->index_in_networks}</span>
+                        <div class="foot_social_wrapper">
                             <div class="social">
-                                <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" title="Instagram">{include file="svg.tpl" svgId="inst_icon"}</a>
-                                <a class="social_link" href="https://www.facebook.com/SportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="fb_icon"}</a>
+                                <a class="social_link" href="https://www.instagram.com/sportfly.com.ua" target="_blank" title="Instagram">{include file="svg.tpl" svgId="inst_icon"}</a>
+                                <a class="social_link" href="https://www.facebook.com/sportFly.com.ua" target="_blank" title="Facebook">{include file="svg.tpl" svgId="facebook_icon"}</a>
                             </div>
                         </div>
 
-                        <div class="foot_payments_wrapper">
+                        {* <div class="foot_payments_wrapper">
                             <span class="foot_title" data-language="index_payments">{$lang->index_payments}</span>
                             <div class="payments_wrapper">
                                 {include file="svg.tpl" svgId="g_pay_icon"}

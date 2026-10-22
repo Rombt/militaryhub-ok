@@ -45,6 +45,7 @@ ul.fn_menu_list.menu_list.menu_list_1.group_location a {
 .social {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
 }
 /* .social {
@@ -3656,7 +3657,7 @@ input[type="checkbox"]:checked + label .inp-check:before {
   max-width: none;
   position: relative;
 
-  border: 1px solid #36f055;
+  /* border: 1px solid #36f055; */
 }
 
 .rmbt-foot-left-column {
@@ -3669,6 +3670,16 @@ input[type="checkbox"]:checked + label .inp-check:before {
 .rmbt-foot-left-column .foot_title {
   font-size: 16px;
   font-weight: 300;
+}
+
+.footer_bottom .social {
+  border-top: 1px solid #232323;
+  padding-top: 20px;
+}
+
+.footer_bottom .social svg {
+  width: 24px;
+  height: 24px;
 }
 
 .copyright {

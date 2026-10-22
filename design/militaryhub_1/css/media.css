@@ -8,6 +8,7 @@
   .military_hub_image {
     background-size: cover;
   }
+
 }
 
 @media (max-width: 1440px) {
@@ -45,7 +46,7 @@
     flex-grow: 2;
   }
 
-  #catalog-popup-header-btn{
+  #catalog-popup-header-btn {
     display: none;
   }
 
@@ -101,6 +102,19 @@
   .rmbt-mh-intro-section .mh-btn {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .footer_bottom .rmbt-subscribe_wrapper #subscribe_container {
+    flex-wrap: wrap;
+  }
+
+  .footer_bottom .subscribe_text{
+    min-width: 285px;
+    text-align: center;
+  }
+
+  .footer_bottom .subscribe_form{
+    min-width: 417px;
   }
 }
 
@@ -170,6 +184,11 @@
   .rmbt-drop-menu .menu_link {
     font-size: 14px;
     padding: 0px !important;
+  }
+
+  .rmbt-subscribe_wrapper {
+    padding-left: 60px;
+    padding-right: 60px;
   }
 }
 
@@ -333,17 +352,14 @@
     margin-bottom: 25px;
   }
   .rmbt-subscribe_wrapper #subscribe_container {
-    flex-wrap: wrap;
     width: 100%;
     margin: 0px;
   }
   .rmbt-subscribe_wrapper #subscribe_container .subscribe_text {
-    min-width: 330px;
     flex-grow: 1;
     text-align: center;
   }
   .rmbt-subscribe_wrapper #subscribe_container .subscribe_form {
-    min-width: 390px;
     flex-grow: 1;
     justify-content: center;
   }
@@ -588,7 +604,7 @@
 
   .rmbt-categories-tabs__title:first-of-type {
     padding-top: 12px;
-  } 
+  }
   .rmbt-categories-tabs__title:last-of-type {
     padding-bottom: 12px;
   }
@@ -598,15 +614,14 @@
     flex-wrap: wrap;
   }
 
-.mh-catalog-popup-header__title {
-  flex-basis: 100%;
-  display: flex;
-  align-items: center;
-  column-gap: 14px;
-  padding: 20px 20px 20px 20px;
-  border-bottom: 1px solid #dedede;
-}
-
+  .mh-catalog-popup-header__title {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 14px;
+    padding: 20px 20px 20px 20px;
+    border-bottom: 1px solid #dedede;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1415,6 +1430,23 @@
   .header_left_wrapper {
     gap: 15px;
   }
+
+  .rmbt-subscribe_wrapper {
+    width: auto;
+  }
+
+  .rmbt-subscribe_wrapper .subscribe_form {
+    flex-direction: column;
+    row-gap: 16px;
+  }
+  .rmbt-subscribe_wrapper .subscribe_input {
+    padding: 5px 25px 5px 25px;
+  }
+  .rmbt-subscribe_wrapper .subscribe_button {
+    position: static;
+    height: 50px;
+    width: 100%;
+  }
 }
 @media (max-width: 576px) {
   .sportfly_offers_items {
@@ -1516,7 +1548,7 @@
     height: 36px;
   }
 
-  .header_center{
+  .header_center {
     display: none;
   }
 }
@@ -1534,7 +1566,6 @@
     letter-spacing: 0, 05em;
   }
   .rmbt-subscribe_wrapper #subscribe_container .subscribe_form {
-    min-width: 390px;
     flex-grow: 1;
     justify-content: center;
     flex-wrap: wrap;
@@ -1543,7 +1574,7 @@
     #subscribe_container
     .subscribe_form
     .subscribe_input {
-    max-width: 80%;
+    /* max-width: 80%; */
   }
   .purchase_tr_popup {
     grid-template-columns: 20% 56% 18%;
@@ -1552,18 +1583,26 @@
     display: none;
   }
 
-  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li{
+  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li {
     flex-direction: column;
   }
 
-  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li .nav-item{
+  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li .nav-item {
     padding: 10px 0px;
     margin: 0px;
   }
-  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li .nav-item:first-of-type{
+  .hc-offcanvas-nav
+    .nav-content
+    .contact_ul_2
+    .contact_li
+    .nav-item:first-of-type {
     margin-top: 10px;
   }
-  .hc-offcanvas-nav .nav-content .contact_ul_2 .contact_li .nav-item:last-of-type{
+  .hc-offcanvas-nav
+    .nav-content
+    .contact_ul_2
+    .contact_li
+    .nav-item:last-of-type {
     margin-bottom: 10px;
   }
 }

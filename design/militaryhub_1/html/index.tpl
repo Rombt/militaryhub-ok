@@ -398,6 +398,7 @@
                         <div class="payments_wrapper">
                             {include file="svg.tpl" svgId="g_pay_icon"}
                             {include file="svg.tpl" svgId="apple_pay_icon"}
+                            {include file="svg.tpl" svgId="oplata_chastyamy_icon"}
                             {include file="svg.tpl" svgId="visa_icon"}
                             {include file="svg.tpl" svgId="mastercard_icon"}
                         </div>

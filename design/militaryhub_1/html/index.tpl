@@ -294,7 +294,7 @@
 
             <div class="container container-content">
                 <div class="row foot_container rmbt-foot_container">
-                    <div class="foot rmbt-foot-left-column col-sm-6 col-lg-3">
+                    <div class="foot rmbt-foot-left-column">
                         {* Logo *}
                         <a class="logo" href="{if $smarty.get.module=='MainView'}javascript:;{else}{$lang_link}{/if}">
                             <img class="lazy lazy-bg" data-src="design/{$settings->theme|escape}/images/logo.svg" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *} alt="{$settings->site_name|escape}">
@@ -312,19 +312,9 @@
                             </div>
                         </div>
 
-                        {* <div class="foot_payments_wrapper">
-                            <span class="foot_title" data-language="index_payments">{$lang->index_payments}</span>
-                            <div class="payments_wrapper">
-                                {include file="svg.tpl" svgId="g_pay_icon"}
-                                {include file="svg.tpl" svgId="apple_pay_icon"}
-                                {include file="svg.tpl" svgId="visa_icon"}
-                                {include file="svg.tpl" svgId="mastercard_icon"}
-                            </div>
-                        </div> *}
-
                     </div>
 
-                    <div class="foot rmbt-foot-right-column col-sm-6 col-lg-9">
+                    <div class="foot rmbt-foot-right-column">
                         {* Main menu *}
                         <div class="foot rmbt-foot-right-column-item foot_line col-sm-6 col-lg-2">
                             <div class="foot_heading fn_switch">

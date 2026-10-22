@@ -328,13 +328,7 @@
   .order_right_wrapper .purchase_tr {
     gap: 10px;
   }
-  .rmbt-foot_container {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  .rmbt-foot_container .foot.col-lg-9 {
-    width: 100%;
-  }
+
   .rmbt-foot-left-column {
     width: 100%;
     display: flex;
@@ -668,34 +662,7 @@
   .user_info_group_right {
     max-width: 320px;
   }
-  .rmbt-foot_container .rmbt-foot-left-column {
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  .rmbt-foot_container .rmbt-foot-left-column .logo {
-    width: 100%;
-    max-width: none;
-    text-align: center;
-  }
-  .rmbt-foot_container .rmbt-foot-left-column .logo img {
-    max-width: 360px;
-    min-width: 300px;
-  }
-  .rmbt-foot_container .rmbt-foot-left-column .foot_social_wrapper {
-    flex-basis: 30%;
-    flex-shrink: 1;
-    min-width: 200px;
-    text-align: center;
-  }
-  .rmbt-foot_container .rmbt-foot-left-column .foot_social_wrapper .social {
-    justify-content: center;
-  }
-  .rmbt-foot_container .rmbt-foot-left-column .foot_payments_wrapper {
-    flex-basis: 30%;
-    flex-shrink: 1;
-    text-align: center;
-    min-width: 215px;
-  }
+ 
   .products_item .installments_icon_info svg {
     width: 25px;
     height: 25px;

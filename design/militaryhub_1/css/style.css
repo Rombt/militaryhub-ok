@@ -878,7 +878,7 @@ header a {
   margin-top: 30px;
 }
 .foot_title {
-  line-height: 18px;
+  line-height: 130%;
   font-size: 16px;
   font-weight: 600;
   display: block;
@@ -890,7 +890,7 @@ header a {
 .foot_heading {
   font-size: 20px;
   font-weight: 700;
-  line-height: 14px;
+  line-height: 120%;
   margin-bottom: 35px;
   text-transform: uppercase;
   color: #7A7E2D;

@@ -301,7 +301,12 @@
                         </a>
 
                         <div class="foot_title_wrapper">
-                            <span class="foot_title" data-language="footer_title">{$lang->footer_title}</span>
+                            {* <span class="foot_title" data-language="footer_title"> *}
+                                
+                                {$lang->footer_title}
+                            
+                            
+                            {* </span> *}
                         </div>
 
                         {* Social buttons *}

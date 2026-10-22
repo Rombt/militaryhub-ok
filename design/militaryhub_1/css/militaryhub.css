@@ -3656,6 +3656,7 @@ input[type="checkbox"]:checked + label .inp-check:before {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  column-gap: 80px;
 }
 
 .footer_bottom .container-content {
@@ -3669,15 +3670,15 @@ input[type="checkbox"]:checked + label .inp-check:before {
   display: flex;
   flex-direction: column;
   row-gap: 25px;
-  padding-right: 40px !important;
-  padding-left: 15px;
   flex-grow: 1;
   align-items: center;
 }
 
-.rmbt-foot-left-column .foot_title {
+.rmbt-foot-left-column .foot_title_wrapper {
   font-size: 16px;
   font-weight: 300;
+  width: 80%;
+  text-align: center;
 }
 
 .foot_social_wrapper{

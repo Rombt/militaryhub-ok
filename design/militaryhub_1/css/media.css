@@ -9,6 +9,19 @@
     background-size: cover;
   }
 
+  .rmbt-foot_container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rmbt-foot-left-column {
+    order: 4;
+    max-width: 650px;
+  }
+
+  .footer_bottom .copyright {
+    margin-top: 20px;
+  }
 }
 
 @media (max-width: 1440px) {
@@ -108,12 +121,12 @@
     flex-wrap: wrap;
   }
 
-  .footer_bottom .subscribe_text{
+  .footer_bottom .subscribe_text {
     min-width: 285px;
     text-align: center;
   }
 
-  .footer_bottom .subscribe_form{
+  .footer_bottom .subscribe_form {
     min-width: 417px;
   }
 }
@@ -367,6 +380,8 @@
     font-size: 16px;
     padding-left: 30px;
     padding-top: 30px !important;
+
+    text-align: center;
   }
   .rmbt-foot-right-column-item a {
     font-size: inherit;
@@ -374,6 +389,11 @@
   .rmbt-foot-right-column-item .foot_heading {
     font-size: 18px;
   }
+
+  .rmbt-foot-right-column-item .footer_contacts {
+    align-items: center;
+  }
+
   .rmbt-copyright {
     text-align: center;
   }
@@ -662,7 +682,7 @@
   .user_info_group_right {
     max-width: 320px;
   }
- 
+
   .products_item .installments_icon_info svg {
     width: 25px;
     height: 25px;

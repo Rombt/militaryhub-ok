@@ -3683,11 +3683,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
   text-align: center;
 }
 
-.rmbt-foot-right-column{
-
-  border: 1px solid #35e8f5;
-}
-
 .foot_social_wrapper{
   align-self: stretch;
 }

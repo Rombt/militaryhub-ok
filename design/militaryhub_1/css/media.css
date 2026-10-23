@@ -1538,6 +1538,10 @@
   .header_center {
     display: none;
   }
+
+  .footer_bottom .subscribe_form {
+    min-width: auto;
+  }
 }
 
 @media (max-width: 480px) {

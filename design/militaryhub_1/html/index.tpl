@@ -250,22 +250,22 @@
 
                                     <picture>
                                         {* mobile webp *}
-                                        <source media="(max-width: 480px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
+                                        <source media="(max-width: 480px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:400:750:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:400:750:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
                                         {* mobile jpeg *}
-                                        <source media="(max-width: 480px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:500:200:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
+                                        <source media="(max-width: 480px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:400:750:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:400:750:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}>
                                         {* tablet webp *}
                                         
-                                        <source media="(max-width: 768px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}> 
+                                        <source media="(max-width: 768px)" type="image/webp" {if $bi@first} srcset="{$bi->image|resize:769:1192:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:769:1192:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif"  {/if}> 
                                         {* tablet jpeg *}
                                         
-                                        <source media="(max-width: 768px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:2500:950:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}> 
+                                        <source media="(max-width: 768px)" type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:769:1192:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:769:1192:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}> 
                                         {* desktop webp *}
-                                        <source type="image/webp" {if $bi@first} srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                                        <source type="image/webp" {if $bi@first} srcset="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
                                         {* desktop jpeg *}
-                                        <source type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                                        <source type="image/jpeg" {if $bi@first} srcset="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
 
                                         {* fallback img *}
-                                        <img {if $bi@first} src="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" fetchpriority="high" {else} class="lazy lazy-bg" data-src="{$bi->image|resize:1920:950:false:$config->resized_banners_images_dir}" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *} {/if}
+                                        <img {if $bi@first} src="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir}" fetchpriority="high" {else} class="lazy lazy-bg" data-src="{$bi->image|resize:1600:1338:false:$config->resized_banners_images_dir}" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *} {/if}
                                         alt="{$bi->alt}" title="{$bi->title}">
                                     </picture>
 

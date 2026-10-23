@@ -3639,11 +3639,17 @@ input[type="checkbox"]:checked + label .inp-check:before {
 
 .footer_bottom .container-background {
   width: 100%;
+
+  
+  height: 650px;
+  overflow: hidden;
+
+  border: 1px solid #ec0a0a;
 }
 
 .footer_bottom .container-background .fn_banner_footer_photos img {
-  width: 100%;
-  height: auto;
+  width: 1796px;
+  height: 800px;
   left: 0px;
   top: 0px;
 }

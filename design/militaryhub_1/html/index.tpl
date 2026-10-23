@@ -289,7 +289,10 @@
                 </div>
             {/if}
 
-            <div class="container rmbt-subscribe_container">
+      
+
+            <div class="container container-content">
+
                 <div class="subscribe_wrapper rmbt-subscribe_wrapper">
                     {* Subscribing *}
                     <div id="subscribe_container">
@@ -316,9 +319,8 @@
                         </form>
                     </div>
                 </div>
-            </div>
 
-            <div class="container container-content">
+
                 <div class="row foot_container rmbt-foot_container">
                     <div class="foot rmbt-foot-left-column">
                         {* Logo *}

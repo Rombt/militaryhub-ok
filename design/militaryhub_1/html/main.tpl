@@ -1,12 +1,13 @@
 {* The canonical address of the page *}
 {$canonical="" scope=parent}
 
-{* {get_categories var='featured_categories' category_visible=1 category_featured=1} *}
 {get_banner var="banner_second_main" group="second_main"}
 {if $banner_second_main->items}
     <div class="container">
         <div class="banner_second_main_items">
             {foreach $banner_second_main->items as $bi}
+                {if $bi@iteration > 5}{break}{/if}
+
                 <div class="banner_second_main_item">
                     {if $bi->url}
                         <a href="{$bi->url}">

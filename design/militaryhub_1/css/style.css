@@ -873,12 +873,12 @@ header a {
   flex-grow: 1;
   min-width: 250px;
 }
-.foot_social_wrapper,
-.foot_payments_wrapper {
+.foot_social_wrapper{
   margin-top: 30px;
 }
+
 .foot_title {
-  line-height: 18px;
+  line-height: 130%;
   font-size: 16px;
   font-weight: 600;
   display: block;
@@ -888,10 +888,12 @@ header a {
   margin-bottom: 14px;
 }
 .foot_heading {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 14px;
-  margin-bottom: 16px;
+  line-height: 120%;
+  margin-bottom: 35px;
+  text-transform: uppercase;
+  color: #7A7E2D;
 }
 .footer_contacts {
   display: flex;
@@ -943,10 +945,6 @@ header a {
 .foot_item a:hover,
 .foot_menu .menu_item:hover {
   opacity: 0.7;
-}
-.footer_bottom .foot_line {
-  border-top: 2px solid #ffffff;
-  padding-top: 16px;
 }
 .copyright {
   padding-top: 26px;

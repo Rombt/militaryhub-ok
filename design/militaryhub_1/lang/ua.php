@@ -420,4 +420,6 @@ $lang['intro_section_title'] = "Знижки";
 $lang['intro_section_subtitle'] = "для учасників бойових дій!";
 $lang['intro_section_description'] = "";
 $lang['intro_text_button'] = "До каталогу";
+$lang['popular_categories_text_button'] = "Показати всі категорії";
 $lang['footer_title'] = "Ваш експерт у військовій амуніції: широкий вибір, висока якість.";
+$lang['popular_categories_title'] = "Популярні категорії";

@@ -138,14 +138,6 @@
   .sportfly_offers_item_content {
     padding: 16px;
   }
-  .banner_second_main_item {
-    min-height: 320px;
-  }
-  .banner_second_main_item:nth-child(8),
-  .banner_second_main_item:nth-child(7),
-  .banner_second_main_item:nth-child(9) {
-    min-height: 230px;
-  }
   .banner_second_main_name {
     font-size: 16px;
   }
@@ -411,26 +403,6 @@
   .header_center_fixed {
     height: 60px;
   }
-  .banner_second_main_item:nth-child(2),
-  .banner_second_main_item:nth-child(4) {
-    order: -1;
-  }
-  .banner_second_main_item:nth-child(2),
-  .banner_second_main_item:nth-child(3) {
-    flex: 0 0 calc(100%);
-  }
-  .banner_second_main_item:nth-child(5),
-  .banner_second_main_item:nth-child(6) {
-    flex: 0 0 calc(50% - 5px);
-  }
-  .banner_second_main_item:first-child,
-  .banner_second_main_item:nth-child(4) {
-    flex: 0 0 calc(50% - 5px);
-  }
-  .banner_second_main_item:nth-child(2),
-  .banner_second_main_item:nth-child(3) {
-    max-width: 100%;
-  }
   .purchase_tr {
     display: flex;
   }
@@ -588,14 +560,6 @@
     line-height: 1.6;
     text-align: left;
   }
-  .banner_second_main_item:nth-child(8),
-  .banner_second_main_item:nth-child(7),
-  .banner_second_main_item:nth-child(9) {
-    min-height: 80px;
-  }
-  .banner_second_main_item {
-    min-height: 300px;
-  }
   .cart_step_2_right_wrapper .purchase_details {
     max-width: 320px;
     width: auto;
@@ -636,14 +600,36 @@
     padding: 20px 20px 20px 20px;
     border-bottom: 1px solid #dedede;
   }
+
+
+    .banner_second_main_items.swiper {
+        overflow: hidden;
+    }
+
+    .banner_second_main_items .swiper-wrapper {
+        display: flex;
+    }
+
+    .banner_second_main_items .swiper-slide {
+        flex-shrink: 0;
+        height: 280px;
+    }
+
+  .banner_second_main_item:nth-child(2),
+  .banner_second_main_item:nth-child(3){
+    max-height: none !important;
+    min-height: 0 !important;
+  }
+
+  .banner_second_main_item .swiper-slide{
+    min-height: 300px;
+  }
+
 }
 
 @media (max-width: 768px) {
   .banner_second_main_name {
     font-size: 12px;
-  }
-  .banner_second_main_item:nth-child(8) img {
-    min-height: 130px;
   }
   .fn_products_slide,
   .reviews_section {
@@ -752,9 +738,6 @@
   .banner_second_main_name {
     font-size: 8px;
     line-height: 14px;
-  }
-  .banner_second_main_item:nth-child(8) img {
-    min-height: 63px;
   }
   .main_section_title {
     font-size: 20px;
@@ -1443,11 +1426,6 @@
   .banner_second_main_item {
     min-height: 160px;
   }
-  .banner_second_main_item:nth-child(8),
-  .banner_second_main_item:nth-child(7),
-  .banner_second_main_item:nth-child(9) {
-    min-height: 60px;
-  }
   .brand_image {
     height: 100px;
   }
@@ -1539,6 +1517,15 @@
 
   .footer_bottom .subscribe_form {
     min-width: auto;
+  }
+
+  .banner_second_main_items .swiper-slide{
+    height: 200px !important;
+  }
+
+  .main_section_title h2{
+    font-size: 20px;
+    line-height: 28px;
   }
 }
 
@@ -1637,9 +1624,6 @@
     gap: 4px;
     justify-content: space-between;
   }
-  .banner_second_main_item:nth-child(8) img {
-    min-height: 53px;
-  }
   .sportfly_offers_items {
     gap: 16px;
   }
@@ -1687,12 +1671,6 @@
   }
   #fn_popup_referral {
     min-width: 320px;
-  }
-  .banner_second_main_item:nth-child(5),
-  .banner_second_main_item:nth-child(6),
-  .banner_second_main_item:first-child,
-  .banner_second_main_item:nth-child(4) {
-    max-width: 48.6%;
   }
   .delivery_name {
     padding-left: 34px;

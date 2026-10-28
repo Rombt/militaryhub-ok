@@ -4,46 +4,84 @@
 {get_banner var="banner_second_main" group="second_main"}
 {if $banner_second_main->items}
     <div class="container">
-        <div class="banner_second_main_items">
-            {foreach $banner_second_main->items as $bi}
-                {if $bi@iteration > 5}{break}{/if}
+        <div class="main_section_title">
+            <h2 data-language="popular_categories_title">{$lang->popular_categories_title}</h2>
+        </div>
+        <div class="banner_second_main_items swiper">
+            <div class="swiper-wrapper">
+                {foreach $banner_second_main->items as $bi}
+                    {if $bi@iteration > 5}{break}{/if}
 
-                <div class="banner_second_main_item">
-                    {if $bi->url}
-                        <a href="{$bi->url}">
-                    {/if}
-                    {if $bi->image}
-                        <picture>
-                            {* mobile webp *}
-                            <source media="(max-width: 480px)" type="image/webp" {if $is_mobile} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                    <div class="banner_second_main_item swiper-slide">
+                        {if $bi->url}
+                            <a href="{$bi->url}">
+                        {/if}
+                        {if $bi->image}
+                            <picture>
+                                {* mobile webp *}
+                                <source media="(max-width: 480px)" type="image/webp" {if $is_mobile} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
 
-                            {* desktop webp *}
-                            <source type="image/webp" {if $is_mobile} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                                {* desktop webp *}
+                                <source type="image/webp" {if $is_mobile} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" {else} data-srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir:null:null:true}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
 
-                            {* mobile jpeg *}
-                            <source media="(max-width: 480px)" type="image/jpeg" {if $is_mobile} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                                {* mobile jpeg *}
+                                <source media="(max-width: 480px)" type="image/jpeg" {if $is_mobile} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:480:200:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
 
-                            {* desktop jpeg *}
-                            <source type="image/jpeg" {if $is_mobile} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
+                                {* desktop jpeg *}
+                                <source type="image/jpeg" {if $is_mobile} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {else} data-srcset="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" srcset="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {/if}>
 
-                            {* fallback img *}
-                            <img fetchpriority="high" {if $is_mobile} src="{$bi->image|resize:480:100:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {else} class="lazy lazy-bg" data-src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *} {/if}
-                            alt="{$bi->alt}" title="{$bi->title}" data-x="{$bi@iteration}">
-                        </picture>
-                    {/if}
-                    {if $bi->title}
-                        <span class="banner_second_main_name">
-                            {$bi->title}
-                            {if $bi->annotation}
-                                <span>{$bi->annotation}</span>
-                            {/if}
-                        </span>
-                    {/if}
-                    {if $bi->url}
-                        </a>
-                    {/if}
+                                {* fallback img *}
+                                <img fetchpriority="high" {if $is_mobile} src="{$bi->image|resize:480:100:false:$config->resized_banners_images_dir}" {elseif !$is_mobile && $bi@iteration <= 2} src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" {else} class="lazy lazy-bg" data-src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" src="{$rootUrl}/design/{$settings->theme|escape}/images/xloading.gif" {* loading="lazy" *} {/if}
+                                alt="{$bi->alt}" title="{$bi->title}" data-x="{$bi@iteration}">
+                            </picture>
+                        {/if}
+                        {if $bi->title}
+                            <span class="banner_second_main_name">
+                                {$bi->title}
+                                {if $bi->annotation}
+                                    <span>{$bi->annotation}</span>
+                                {/if}
+                            </span>
+                        {/if}
+                        {if $bi->url}
+                            </a>
+                        {/if}
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+
+        {include
+            file="btn_link.tpl"
+            text=$lang->popular_categories_text_button|default:''
+            link=""|default:''
+            icon_id='long_arrow'
+        }
+    </div>
+{/if}
+
+{* Discount products *}
+{get_discounted_products var=discounted_products limit=8}
+{if $discounted_products}
+    <div class="main_section">
+        <div class="container fn_container">
+            <div class="main_section_title">
+                <span class="fn_container_name" data-language="main_discount_products">{$lang->main_discount_products}</span>
+                <a class="main_section_link" href="{$lang_link}discounted" data-language="main_look_all">{$lang->main_look_all}</a>
+            </div>
+
+            <div class="fn_products_slide main_products rmbt-main_discount_products swiper">
+                <div class="swiper-wrapper">
+                    {foreach $discounted_products as $product}
+                        <div class="products_item swiper-slide">
+                            {include "product_list.tpl" product_type="discounted"}
+                        </div>
+                    {/foreach}
                 </div>
-            {/foreach}
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
         </div>
     </div>
 {/if}
@@ -109,32 +147,6 @@
                     {foreach $featured_products as $product}
                         <div class="products_item swiper-slide">
                             {include "product_list.tpl" product_type="featured"}
-                        </div>
-                    {/foreach}
-                </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </div>
-{/if}
-
-{* Discount products *}
-{get_discounted_products var=discounted_products limit=8}
-{if $discounted_products}
-    <div class="main_section">
-        <div class="container fn_container">
-            <div class="main_section_title">
-                <span class="fn_container_name" data-language="main_discount_products">{$lang->main_discount_products}</span>
-                <a class="main_section_link" href="{$lang_link}discounted" data-language="main_look_all">{$lang->main_look_all}</a>
-            </div>
-
-            <div class="fn_products_slide main_products swiper">
-                <div class="swiper-wrapper">
-                    {foreach $discounted_products as $product}
-                        <div class="products_item swiper-slide">
-                            {include "product_list.tpl" product_type="discounted"}
                         </div>
                     {/foreach}
                 </div>

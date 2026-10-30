@@ -65,22 +65,22 @@
 {if $discounted_products}
     <div class="main_section">
         <div class="container fn_container">
-            <div class="main_section_title">
+            {* <div class="main_section_title">
                 <span class="fn_container_name" data-language="main_discount_products">{$lang->main_discount_products}</span>
                 <a class="main_section_link" href="{$lang_link}discounted" data-language="main_look_all">{$lang->main_look_all}</a>
-            </div>
+            </div> *}
 
             <div class="fn_products_slide main_products rmbt-main_discount_products swiper">
                 <div class="swiper-wrapper">
                     {foreach $discounted_products as $product}
                         <div class="products_item swiper-slide">
-                            {include "product_list.tpl" product_type="discounted"}
+                            {include "mh_product_list.tpl" product_type="discounted"}
                         </div>
                     {/foreach}
                 </div>
-                <div class="swiper-button-next"></div>
+                {* <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
-                <div class="swiper-pagination"></div>
+                <div class="swiper-pagination"></div> *}
             </div>
         </div>
     </div>

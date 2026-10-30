@@ -39,9 +39,6 @@
   .advantages_items {
     padding: 0 24px;
   }
-  .preview_img {
-    object-fit: contain;
-  }
   #fn_purchases {
     max-width: 940px;
   }
@@ -195,6 +192,11 @@
     padding-left: 60px;
     padding-right: 60px;
   }
+
+  .rmbt-main_discount_products .products_item .preview {
+    padding-left: 5%;
+    column-gap: 50px;
+  }
 }
 
 @media (max-width: 1025px) {
@@ -260,10 +262,10 @@
     line-height: 32px;
     margin-bottom: 16px;
   }
-  .fn_products_slide .swiper-button-next,
+  /* .fn_products_slide .swiper-button-next,
   .fn_products_slide .swiper-button-prev {
     top: 40%;
-  }
+  } */
   .sidebar {
     width: 100%;
     max-width: 300px;
@@ -549,9 +551,6 @@
     margin-bottom: 24px;
     padding-top: 0;
   }
-  .fn_products_slide .product_images {
-    display: none;
-  }
   .sportfly_offers_item_description {
     line-height: 1.6;
   }
@@ -601,40 +600,43 @@
     border-bottom: 1px solid #dedede;
   }
 
+  .banner_second_main_items.swiper {
+    overflow: hidden;
+  }
 
-    .banner_second_main_items.swiper {
-        overflow: hidden;
-    }
+  .banner_second_main_items .swiper-wrapper {
+    display: flex;
+  }
 
-    .banner_second_main_items .swiper-wrapper {
-        display: flex;
-    }
-
-    .banner_second_main_items .swiper-slide {
-        flex-shrink: 0;
-        height: 280px;
-    }
+  .banner_second_main_items .swiper-slide {
+    flex-shrink: 0;
+    height: 280px;
+  }
 
   .banner_second_main_item:nth-child(2),
-  .banner_second_main_item:nth-child(3){
+  .banner_second_main_item:nth-child(3) {
     max-height: none !important;
     min-height: 0 !important;
   }
 
-  .banner_second_main_item .swiper-slide{
+  .banner_second_main_item .swiper-slide {
     min-height: 300px;
   }
 
+  .rmbt-main_discount_products .product_name {
+    font-size: 38px;
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .banner_second_main_name {
     font-size: 12px;
   }
-  .fn_products_slide,
+  /* .fn_products_slide,
   .reviews_section {
     padding-bottom: 40px;
-  }
+  } */
   .main_section {
     padding-top: 40px;
   }
@@ -657,11 +659,11 @@
     height: 240px;
     line-height: 240px;
   }
-  .fn_products_slide,
+  /* .fn_products_slide,
   .reviews_section {
     padding-left: 0;
     padding-right: 0;
-  }
+  } */
   .user_info_group {
     flex-direction: column;
   }
@@ -802,10 +804,10 @@
     gap: 8px;
     padding-bottom: 10px;
   }
-  .fn_products_slide .swiper-button-next,
+  /* .fn_products_slide .swiper-button-next,
   .fn_products_slide .swiper-button-prev {
     top: 40%;
-  }
+  } */
   .reviews_container .swiper-button-prev,
   .reviews_container .swiper-button-next {
     top: 66%;
@@ -828,11 +830,11 @@
   .reviews_section {
     margin-top: 40px;
   }
-  .fn_products_slide {
+  /* .fn_products_slide {
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
-  }
+  } */
   .reviews_item a {
     padding: 16px;
   }
@@ -872,7 +874,6 @@
   .main_page {
     padding-bottom: 40px;
   }
-  /* .footer_bottom{font-size: 12px;} */
   .product-page__image {
     display: block !important;
     max-width: 100%;
@@ -1415,6 +1416,22 @@
     height: 50px;
     width: 100%;
   }
+
+  .rmbt-main_discount_products .products_item .preview {
+    padding-left: 0;
+  }
+  .rmbt-main_discount_products .rmbt_wrap_text {
+    padding-right: 20px;
+  }
+
+  .rmbt-main_discount_products .product_name {
+    line-height: 120%;
+    font-size: 32px;
+  }
+
+  .rmbt-main_discount_products .product_discount {
+    text-align: center;
+  }
 }
 @media (max-width: 576px) {
   .sportfly_offers_items {
@@ -1519,14 +1536,45 @@
     min-width: auto;
   }
 
-  .banner_second_main_items .swiper-slide{
+  .banner_second_main_items .swiper-slide {
     height: 200px !important;
   }
 
-  .main_section_title h2{
+  .main_section_title h2 {
     font-size: 20px;
     line-height: 28px;
   }
+
+
+  .rmbt-main_discount_products {
+    background-image: url("../images/main_discount_products_bg_580.jpg");
+  }  
+  
+  .rmbt-main_discount_products .products_item .preview {
+    flex-direction: column;
+    row-gap: 24px;
+  }
+
+  .rmbt-main_discount_products .products_item .rmbt_wrap_preview_image{
+    width: 60%;
+  }
+
+  .rmbt-main_discount_products .products_item .rmbt_wrap_text{
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rmbt-main_discount_products .product_name{
+    text-align: center;
+    width: 80%;
+  }
+
 }
 
 @media (max-width: 480px) {
@@ -1547,11 +1595,11 @@
     flex-wrap: wrap;
   }
 
-  .footer_bottom .container-content{
+  .footer_bottom .container-content {
     width: 360px;
   }
 
-  .footer_bottom .container-content .foot_items{
+  .footer_bottom .container-content .foot_items {
     justify-content: center;
   }
 
@@ -1584,8 +1632,6 @@
     .nav-item:last-of-type {
     margin-bottom: 10px;
   }
-
-
 }
 
 @media (max-width: 380px) {

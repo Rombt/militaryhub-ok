@@ -283,30 +283,5 @@
         };
         $main_nav.hcOffcanvasNav(defaultData);
     });
-    
-
-
-document.querySelectorAll('.banner_second_main_items.swiper').forEach((element) => {
-    let swiper = null;
-
-    const mediaQuery = window.matchMedia('(max-width: 991px)');
-
-    const toggleSwiper = () => {
-        if (mediaQuery.matches && !swiper) {
-            swiper = new Swiper(element, {
-                slidesPerView: 3,
-                spaceBetween: 12,
-                loop: true,
-            });
-        } else if (!mediaQuery.matches && swiper) {
-            swiper.destroy(true, true);
-            swiper = null;
-        }
-    };
-
-    toggleSwiper();
-    mediaQuery.addEventListener('change', toggleSwiper);
-});
-
 
 </script>

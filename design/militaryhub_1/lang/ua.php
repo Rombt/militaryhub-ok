@@ -425,3 +425,4 @@ $lang['footer_title'] = "Ваш експерт у військовій амун�
 $lang['popular_categories_title'] = "Популярні категорії";
 $lang['featured_product_label'] = "Хіт";
 $lang['discount_product_label'] = "Знижка";
+$lang['new_arrival_label'] = "Новинка";

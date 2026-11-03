@@ -48,10 +48,15 @@
                     {if $product->featured}
                         <div class="featured_product_label">{$lang->featured_product_label}</div>
                     {/if}
+
+                    {if $product->new_arrival}
+                        <div class="new_arrival_label">{$lang->new_arrival_label}</div>
+                    {/if}
     
                     {if {($product->variant->compare_price - $product->variant->price) > 0}}
                         <div class="discount_product_label">{$lang->discount_product_label}</div>
                     {/if}
+    
                 </div>
 
                 {$is_lazyload = (!isset($is_products_content) || (isset($is_products_content) && $product_iteration|default:0 > 6))}

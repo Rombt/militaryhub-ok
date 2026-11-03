@@ -3729,43 +3729,39 @@ input[type="checkbox"]:checked + label .inp-check:before {
   border: 1px solid #fa090925;
 }
 
-.preview{
+.preview {
   position: relative;
 }
 
-.preview .product_labels_container{
+.preview .product_labels_container {
   position: absolute;
   left: 0px;
   top: 0px;
   z-index: 3;
-
-  
 }
 
 .preview .product_labels_container .featured_product_label,
 .preview .product_labels_container .discount_product_label,
-.preview .product_labels_container .featured_product_label{
+.preview .product_labels_container .new_arrival_label {
   border-radius: 8px;
   font-size: 14px;
   margin-bottom: 12px;
   padding: 12px;
-  
+
   width: max-content;
 }
 
-
-.preview .featured_product_label{
-  
-  background-color: #FCD130;
+.preview .featured_product_label {
+  background-color: #fcd130;
   color: #1a1a1a;
-
-
-
+}
+.preview .new_arrival_label {
+  background-color: #7a7e2d;
+  color: #ffffff;
 }
 
-.preview .discount_product_label{
-
-  background-color: #DC5047;
+.preview .discount_product_label {
+  background-color: #dc5047;
   color: #ffffff;
 }
 

@@ -450,7 +450,7 @@ class Database extends Okay
                     // If it has a semicolon at the end, it's the end of the query
                     if (substr(trim($line), -1, 1) == ';') {
                         // Perform the query
-                        if ($this->mysqli->query($templine)) {
+                        if ($this->mysqli->query($this->placehold($templine))) {
                             $this->mysqli->query('SET AUTOCOMMIT = 1');
                             $result = true;
                         } else {

@@ -45,7 +45,6 @@
         {/if} *}
 
     </div>
-
     <div class="rmbt_wrap_text">
         <div class="product_discount">{$lang->main_discount_products} - {(($product->variant->compare_price - $product->variant->price) / $product->variant->compare_price * 100)|round}%</div>
         <div class="product_name">{$product->name}</div>

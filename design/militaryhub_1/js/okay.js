@@ -1213,6 +1213,55 @@ if ($(".fn_products_slide").length) {
       // autoplay: {
       //     delay: 3500,
       // },
+      spaceBetween: 8,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      // pagination: {
+      //   el: ".swiper-pagination",
+      //   type: "bullets",
+      //   // dynamicBullets: true,
+      //   clickable: true,
+      // },
+      watchOverflow: true,
+      noSwiping: true,
+      noSwipingClass: "product__variants_slider",
+      breakpoints: {
+        320: {
+          slidesPerView: 2,
+        },
+        360: {
+          slidesPerView: 2,
+        },
+        576: {
+          slidesPerView: 3,
+        },
+        767: {
+          slidesPerView: 3,
+        },
+        768: {
+          slidesPerView: 3,
+        },
+        1025: {
+          slidesPerView: 4,
+        },
+        1200: {
+          slidesPerView: 5,
+        },
+      },
+    });
+  });
+}
+
+if ($(".fn_products_slide_main_discount").length) {
+  $(".fn_products_slide_main_discount").each(function () {
+    var swiper = new Swiper(this, {
+      slidesPerView: 1,
+      loop: true,
+      autoplay: {
+        delay: 3500,
+      },
       // spaceBetween: 8,
       // navigation: {
       //   nextEl: ".swiper-button-next",

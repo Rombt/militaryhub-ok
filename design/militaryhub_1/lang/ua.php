@@ -423,3 +423,5 @@ $lang['intro_text_button'] = "До каталогу";
 $lang['popular_categories_text_button'] = "Показати всі категорії";
 $lang['footer_title'] = "Ваш експерт у військовій амуніції: широкий вибір, висока якість.";
 $lang['popular_categories_title'] = "Популярні категорії";
+$lang['featured_product_label'] = "Хіт";
+$lang['discount_product_label'] = "Знижка";

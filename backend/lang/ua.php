@@ -1322,3 +1322,5 @@ $backend_translations->orders_sort_set_default = 'За замовчування�
 $backend_translations->orders_sort_subtotal_asc = 'Від найдорожних до найдешевших';
 $backend_translations->orders_sort_subtotal_desc = 'Від найдешевших до найдорожних';
 
+
+$backend_translations->general_new_arrival = 'Новинка';

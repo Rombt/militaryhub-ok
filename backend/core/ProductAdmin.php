@@ -5,7 +5,7 @@
  * Time: 17:52:35
  */
 
-require_once('api/Okay.php');
+require_once 'api/Okay.php';
 
 class ProductAdmin extends Okay
 {
@@ -26,6 +26,8 @@ class ProductAdmin extends Okay
             $product->visible    = $this->request->post('visible', 'integer');
             $product->featured   = $this->request->post('featured');
             $product->main_order = $this->request->post('main_order');
+            // если поле отсутствует запустить миграции: php 1DB_changes/migrate
+            $product->new_arrival = $this->request->post('new_arrival');
             $product->brand_id   = $this->request->post('brand_id', 'integer');
 
             $product->url              = trim($this->request->post('url', 'string'));
@@ -289,7 +291,8 @@ class ProductAdmin extends Okay
 
                         if (!empty($variants_images)) {
                             foreach ($variants_ids as $i => $variant_id) {
-                                if (empty($variants_images[$variant_id])) continue;
+                                if (empty($variants_images[$variant_id])) { continue;
+                                }
                                 foreach ($variants_images[$variant_id] as $image_name) {
                                     $id_img = $this->products->add_image($product->id, $image_name, '', $variant_id);
                                     if ($id_img) {

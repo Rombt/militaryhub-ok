@@ -159,6 +159,17 @@
                             </div>
                             <div class="activity_of_switch_item"> {* row block *}
                                 <div class="main_switch clearfix">
+                                    <label class="switch_label">{$btr->general_new_arrival|escape}</label>
+                                    <label class="switch switch-default">
+                                        <input class="switch-input" name="new_arrival" value="1" type="checkbox"
+                                               id="new_arrival_checkbox" {if $product->new_arrival}checked=""{/if}/>
+                                        <span class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="activity_of_switch_item"> {* row block *}
+                                <div class="main_switch clearfix">
                                     <label class="switch_label">{$btr->product_translete_done|escape}</label>
                                     <label class="switch switch-default">
                                         <input class="switch-input" name="automatic_translation_done" value="1"

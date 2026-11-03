@@ -1324,3 +1324,8 @@ $backend_translations->payment_method_max_discount_value = 'Максимальн
 $backend_translations->orders_sort_set_default = 'По умолчанию (первоначально новые)';
 $backend_translations->orders_sort_subtotal_asc = 'От самых дорогих до самых дешевых';
 $backend_translations->orders_sort_subtotal_desc = 'От самых дешевых до дорожных';
+
+
+
+// mikitary hub
+$backend_translations->general_new_arrival = 'Новинка';

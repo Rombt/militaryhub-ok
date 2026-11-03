@@ -33,6 +33,7 @@ class Products extends Okay
             p.main_image_id,
             p.automatic_translation_done,
             p.bonuses,
+            p.new_arrival,
             $lang_sql->fields";
 
         if ($count === true) {

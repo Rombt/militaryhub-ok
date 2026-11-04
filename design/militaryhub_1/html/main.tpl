@@ -56,7 +56,7 @@
             text=$lang->popular_categories_text_button|default:''
             link=""|default:''
             icon_id='long_arrow'
-        }
+       }
     </div>
 {/if}
 
@@ -139,18 +139,59 @@
     <div class="main_section">
         <div class="container fn_container">
             <div class="main_section_title">
-                <span class="fn_container_name" data-language="main_recommended_products">{$lang->main_recommended_products}</span>
-                <a class="main_section_link" href="{$lang_link}bestsellers" data-language="main_look_all">{$lang->main_look_all}</a>
+                <h2 data-language="main_recommended_products">{$lang->main_recommended_products}</h2>
             </div>
-            <div class="fn_products_slide main_products rmbt-main_featured_products swiper">
-                <div class="swiper-wrapper">
-                    {foreach $featured_products as $product}
-                        <div class="products_item swiper-slide">
-                            {include "product_list.tpl" product_type="featured"}
+
+
+            <div class="rmbt-mh-featured-products-tabs">
+                <nav>
+                    <div class="rmbt-mh-featured-products-tabs__title rmbt-mh-featured-products-tabs__title-active" data-tab="{$lang->featured_products_tabs_label_1}">
+                        {$lang->featured_products_tabs_label_1}
+                    </div>
+                    <div class="rmbt-mh-featured-products-tabs__title" data-tab="{$lang->featured_products_tabs_label_2}">
+                       {$lang->featured_products_tabs_label_2}
+                    </div>
+                    <div class="rmbt-mh-featured-products-tabs__title" data-tab="{$lang->featured_products_tabs_label_3}">
+                        {$lang->featured_products_tabs_label_3}
+                    </div>
+                </nav>
+                <div class="rmbt-mh-featured-products-tabs__content">
+
+
+                    <div class="rmbt-mh-featured-products-tabs__body rmbt-mh-featured-products-tabs__body-active" data-tab-name="Хіти">
+
+                        <div class="fn_products_slide main_products rmbt-main_featured_products swiper">
+                            <div class="swiper-wrapper">
+                                {foreach $featured_products as $product}
+                                    <div class="products_item swiper-slide">
+                                        {include "product_list.tpl" product_type="featured"}
+                                    </div>
+                                {/foreach}
+                            </div>
                         </div>
-                    {/foreach}
+                        {include
+                            file="btn_link.tpl"
+                            text=$lang->main_look_all|default:''
+                            link="{$lang_link}bestsellers"|default:''
+                            icon_id='long_arrow'
+                       }
+
+                    </div>
+
+                    <div class="rmbt-mh-featured-products-tabs__body" data-tab-name="Новинки">
+                    </div>
+
+                    <div class="rmbt-mh-featured-products-tabs__body" data-tab-name="Акції">
+                    </div>
+
+
                 </div>
             </div>
+
+
+
+
+
         </div>
     </div>
 {/if}

@@ -3842,6 +3842,50 @@ input[type="checkbox"]:checked + label .inp-check:before {
 
 /*----------  /product card  ----------------*/
 
+/*----------  product_featured block  ----------------*/
+
+.rmbt-mh-featured-products-tabs nav {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.rmbt-mh-featured-products-tabs__title {
+  min-width: 75px;
+  display: inline-block;
+  padding: 12px;
+  border: 1px solid #dedede;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.rmbt-mh-featured-products-tabs__title:not(:last-of-type) {
+  margin-right: 12px;
+}
+
+.rmbt-mh-featured-products-tabs__title-active {
+  background-color: #fcd130;
+}
+
+.rmbt-mh-featured-products-tabs__body {
+  display: none;
+  min-height: 528px;
+}
+
+.rmbt-mh-featured-products-tabs__body .mh-featured-products-navigation-prev {
+  left: 70px;
+}
+
+.rmbt-mh-featured-products-tabs__body .mh-featured-products-navigation-next {
+  right: 70px;
+}
+
+.rmbt-mh-featured-products-tabs__body-active {
+  display: block;
+  height: 100%;
+}
+
+/*----------  /product_featured block  ----------------*/
+
 /*----------  footer ----------------*/
 
 .footer_bottom {

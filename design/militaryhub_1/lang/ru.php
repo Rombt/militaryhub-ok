@@ -428,3 +428,6 @@ $lang['popular_categories_title'] = "Популярные категории";
 $lang['featured_product_label'] = "Хит";
 $lang['discount_product_label'] = "Скидка";
 $lang['new_arrival_label'] = "Новинка";
+$lang['featured_products_tabs_label_1'] = "Хиты";
+$lang['featured_products_tabs_label_2'] = "Новинки";
+$lang['featured_products_tabs_label_3'] = "Акции";

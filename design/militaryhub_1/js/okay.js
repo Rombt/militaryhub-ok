@@ -1210,32 +1210,25 @@ if ($(".fn_products_slide").length) {
     var swiper = new Swiper(this, {
       slidesPerView: 1,
       loop: true,
-      // autoplay: {
-      //     delay: 3500,
-      // },
-      spaceBetween: 8,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+      autoplay: {
+          delay: 3500,
       },
-      // pagination: {
-      //   el: ".swiper-pagination",
-      //   type: "bullets",
-      //   // dynamicBullets: true,
-      //   clickable: true,
-      // },
+      spaceBetween: 8,
       watchOverflow: true,
       noSwiping: true,
       noSwipingClass: "product__variants_slider",
       breakpoints: {
         320: {
-          slidesPerView: 2,
+          slidesPerView: 1,
         },
         360: {
-          slidesPerView: 2,
+          slidesPerView: 1,
+        },
+        480: {
+          slidesPerView: 1,
         },
         576: {
-          slidesPerView: 3,
+          slidesPerView: 2,
         },
         767: {
           slidesPerView: 3,

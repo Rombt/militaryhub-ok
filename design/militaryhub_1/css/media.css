@@ -821,11 +821,16 @@
     top: 6px;
     right: 6px;
   }
+  .preview_form{
+    height: 120px;
+  }
+
   .preview_form,
   .product_name,
   .price_container {
-    padding: 0 5px;
+    line-height: 150%;
   }
+  
   .military_hub_wrapper,
   .reviews_section {
     margin-top: 40px;
@@ -1545,21 +1550,20 @@
     line-height: 28px;
   }
 
-
   .rmbt-main_discount_products {
     background-image: url("../images/main_discount_products_bg_580.jpg");
-  }  
-  
+  }
+
   .rmbt-main_discount_products .products_item .preview {
     flex-direction: column;
     row-gap: 24px;
   }
 
-  .rmbt-main_discount_products .products_item .rmbt_wrap_preview_image{
+  .rmbt-main_discount_products .products_item .rmbt_wrap_preview_image {
     width: 60%;
   }
 
-  .rmbt-main_discount_products .products_item .rmbt_wrap_text{
+  .rmbt-main_discount_products .products_item .rmbt_wrap_text {
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
@@ -1570,11 +1574,14 @@
     justify-content: center;
   }
 
-  .rmbt-main_discount_products .product_name{
+  .rmbt-main_discount_products .product_name {
     text-align: center;
     width: 80%;
   }
 
+    .preview_form{
+    height: 100px;
+  }
 }
 
 @media (max-width: 480px) {

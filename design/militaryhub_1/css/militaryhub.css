@@ -2972,9 +2972,9 @@ input[type="checkbox"]:checked + label .inp-check:before {
   }
 }
 
-/* .products_item {
-  position: relative;
-} */
+.products_item {
+  max-width: 300px;
+}
 .fn_banner_before2021 {
   width: 50px;
   height: 50px;
@@ -3724,10 +3724,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
 /*----------  /main_discount_products block ----------------*/
 
 /*----------  product card ----------------*/
-
-.rmbt-main_featured_products .preview {
-  border: 1px solid #fa090925;
-}
 
 .preview {
   position: relative;

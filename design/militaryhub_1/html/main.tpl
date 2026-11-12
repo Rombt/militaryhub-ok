@@ -222,7 +222,7 @@
                         {include
                             file="btn_link.tpl"
                             text=$lang->main_look_all|default:''
-                            link="{$lang_link}bestsellers"|default:''    
+                            link="{$lang_link}bestsellers"|default:''
                             icon_id='long_arrow'
                         }
 
@@ -266,8 +266,16 @@
                                 </span>
                             {/if}
                             {if $bi->url}
+
+                                <span class="offers-banner-button">
+                                    Переглянути
+                                    {include file="svg.tpl" svgId="long_arrow"}
+                                </span>
+
                                 </a>
                             {/if}
+
+
                         </div>
                     {/foreach}
                 </div>

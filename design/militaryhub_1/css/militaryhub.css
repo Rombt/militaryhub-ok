@@ -3898,6 +3898,9 @@ input[type="checkbox"]:checked + label .inp-check:before {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
+  max-width: 648px;
+  max-height: 348px;
+  min-width: 26px;
 }
 
 .main_offers_block a img {
@@ -3905,6 +3908,52 @@ input[type="checkbox"]:checked + label .inp-check:before {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.offers-banner-name {
+  position: absolute;
+  color: #ffffff;
+  left: 6.17%;
+  top: 34.5%;
+  z-index: 1;
+  text-transform: capitalize;
+  font-size: clamp(16px, 2vw, 32px);
+  font-weight: 800;
+}
+
+.offers-banner-description {
+  position: absolute;
+  color: #fcd130;
+  left: 6.17%;
+  top: 23%;
+  z-index: 1;
+  /* font-size: 20px; */
+  font-size: clamp(13px, 2vw, 20px);
+}
+
+.offers-banner-button {
+  display: block;
+  position: absolute;
+  color: #ffffff;
+  left: 6.17%;
+  top: 63.2%;
+  z-index: 1;
+  font-size: 14px;
+
+  width: 198px;
+  height: 50px;
+
+  border: 1px solid #ffffff;
+  border-radius: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 8px;
+}
+
+.offers-banner-button svg {
+  fill: #ffffff;
 }
 
 .main_offers_block a::after {

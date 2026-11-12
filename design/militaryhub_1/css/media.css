@@ -821,7 +821,7 @@
     top: 6px;
     right: 6px;
   }
-  .preview_form{
+  .preview_form {
     height: 120px;
   }
 
@@ -830,7 +830,7 @@
   .price_container {
     line-height: 150%;
   }
-  
+
   .military_hub_wrapper,
   .reviews_section {
     margin-top: 40px;
@@ -1437,6 +1437,11 @@
   .rmbt-main_discount_products .product_discount {
     text-align: center;
   }
+
+  .main_offers_block a {
+    max-width: 348px;
+    height: 348px;
+  }
 }
 @media (max-width: 576px) {
   .sportfly_offers_items {
@@ -1579,9 +1584,19 @@
     width: 80%;
   }
 
-    .preview_form{
+  .preview_form {
     height: 100px;
   }
+
+  .main_offers_block {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 24px;
+  }
+
+  .main_offers_block a {
+    max-width: 548px;
+}
 }
 
 @media (max-width: 480px) {

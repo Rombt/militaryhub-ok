@@ -1216,7 +1216,7 @@ if ($(".fn_products_slide").length) {
       spaceBetween: 8,
       watchOverflow: true,
       noSwiping: true,
-      noSwipingClass: "product__variants_slider",
+      // noSwipingClass: "product__variants_slider",
       breakpoints: {
         320: {
           slidesPerView: 1,

@@ -222,7 +222,7 @@
                         {include
                             file="btn_link.tpl"
                             text=$lang->main_look_all|default:''
-                            link="{$lang_link}bestsellers"|default:''
+                            link="{$lang_link}bestsellers"|default:''    
                             icon_id='long_arrow'
                         }
 
@@ -239,6 +239,45 @@
 
     </div>
 </div>
+
+
+
+<div class="main_section">
+    <div class="container fn_container">
+
+        {get_banner var="banner_offers_block" group="offers_block"}
+        {if $banner_offers_block->items}
+            <div class="container hidden-md-down">
+                <div class="fn_banner_offers_block main_offers_block">
+                    {foreach $banner_offers_block->items as $bi}
+                        <div>
+                            {if $bi->url}
+                                <a href="{$bi->url}" target="_blank">
+                            {/if}
+                            {if $bi->image}
+                                <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
+                            {/if}
+                            <span class="offers-banner-name">
+                                {$bi->title}
+                            </span>
+                            {if $bi->description}
+                                <span class="offers-banner-description">
+                                    {$bi->description}
+                                </span>
+                            {/if}
+                            {if $bi->url}
+                                </a>
+                            {/if}
+                        </div>
+                    {/foreach}
+                </div>
+            </div>
+        {/if}
+
+    </div>
+</div>
+
+
 
 
 {get_banner var="banner_military_hub" group="military_hub"}

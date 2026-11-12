@@ -2972,9 +2972,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
   }
 }
 
-.products_item {
-  max-width: 300px;
-}
 .fn_banner_before2021 {
   width: 50px;
   height: 50px;
@@ -3880,7 +3877,47 @@ input[type="checkbox"]:checked + label .inp-check:before {
   height: 100%;
 }
 
+.rmbt-mh-featured-products-tabs .products_item {
+  max-width: 300px;
+}
+
 /*----------  /product_featured block  ----------------*/
+
+/*----------  main_offers_block  ----------------*/
+
+.main_offers_block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 8px;
+  overflow: hidden;
+}
+
+.main_offers_block a {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.main_offers_block a img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main_offers_block a::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: linear-gradient(90deg, #10100f 22.3699%, transparent 100%);
+}
+
+/*----------  /main_offers_block  ----------------*/
 
 /*----------  footer ----------------*/
 

@@ -627,6 +627,10 @@
     font-size: 38px;
     width: 100%;
   }
+
+  .main_about_us {
+    background-image: url("../images/about_us_bg_2.jpg");
+  }
 }
 
 @media (max-width: 768px) {
@@ -1437,10 +1441,6 @@
   .main_offers_block a {
     max-width: 348px;
     height: 348px;
-  }
-
-  .main_about_us {
-    background-image: url("../images/about_us_bg_2.jpg");
   }
 }
 @media (max-width: 576px) {

@@ -1114,9 +1114,10 @@ $(function () {
       var swiper = new Swiper(this, {
         slidesPerView: 5,
         loop: true,
-        // autoplay: {
-        //     delay: 3500,
-        // },
+        autoplay: {
+          delay: 3500,
+        },
+        speed: 800,
         spaceBetween: 24,
         navigation: {
           nextEl: $(this)
@@ -1210,8 +1211,9 @@ if ($(".fn_products_slide").length) {
     var swiper = new Swiper(this, {
       slidesPerView: 1,
       loop: true,
+      speed: 800,
       autoplay: {
-          delay: 3500,
+        delay: 3200,
       },
       spaceBetween: 8,
       watchOverflow: true,
@@ -1292,6 +1294,34 @@ if ($(".fn_products_slide_main_discount").length) {
       //     slidesPerView: 5,
       //   },
       // },
+    });
+  });
+}
+
+
+if ($(".fn_news_items").length) {
+  $(".fn_news_items").each(function () {
+    var swiper = new Swiper(this, {
+      slidesPerView: 3,
+      loop: true,
+      speed: 800,
+      spaceBetween: 24,
+      centeredSlides: true,
+      watchOverflow: true,
+      autoplay: {
+        delay: 3800,
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+        },
+        576: {
+          slidesPerView: 2,
+        },
+        767: {
+          slidesPerView: 3,
+        },
+      },
     });
   });
 }

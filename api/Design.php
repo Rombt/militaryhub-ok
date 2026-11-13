@@ -5,7 +5,7 @@
  * Time: 09:48:50
  */
 
-require_once('Okay.php');
+require_once 'Okay.php';
 
 class Design extends Okay
 {
@@ -102,6 +102,7 @@ class Design extends Okay
         $this->smarty->registerPlugin('modifier', 'balance', array($this, 'balance_modifier'));
         $this->smarty->registerPlugin('function', 'api', array($this, 'api_plugin'));
         $this->smarty->registerPlugin('modifier', 'first_letter', array($this, 'first_letter_modifier'));
+        $this->smarty->registerPlugin('modifier', 'trim_words', array($this, 'trim_words'));
 
         if ($this->config->smarty_html_minify) {
             $this->smarty->loadFilter('output', 'trimwhitespace');
@@ -349,5 +350,255 @@ class Design extends Okay
         $res = $this->detect->isTablet();
         return $res;
     }
+
+    //!! rmbt 
+    /**
+     * Truncates HTML text to a specified number of words,
+     * preserving allowed HTML tags and safe attributes.
+     *
+     * @param string $html      Source HTML content.
+     * @param int    $num_words Maximum number of words.
+     * @param string $more      Suffix appended when content is truncated.
+     *
+     * @return string Truncated HTML content.
+     */
+    function trim_words($html, $num_words = 55, $more = '…')
+    {
+        if (!is_string($html) || $html === '') {
+            return '';
+        }
+
+        $num_words = (int) $num_words;
+        $more = (string) $more;
+
+        if ($num_words < 1) {
+            return '';
+        }
+
+        $allowed_tags = [
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 'a'
+        ];
+
+        $remove_with_content = [
+        'script', 'style', 'iframe', 'object',
+        'embed', 'svg', 'math', 'template'
+        ];
+
+        $previous_errors = libxml_use_internal_errors(true);
+
+        try {
+            $dom = new DOMDocument('1.0', 'UTF-8');
+
+            $dom->loadHTML(
+                '<?xml encoding="UTF-8">' .
+                '<div id="trim-root">' . $html . '</div>',
+                LIBXML_HTML_NODEFDTD | LIBXML_NONET
+            );
+
+            $xpath = new DOMXPath($dom);
+            $root = $xpath->query('//*[@id="trim-root"]')->item(0);
+
+            if (!$root) {
+                return '';
+            }
+
+            // Проверка безопасности URL
+            $is_safe_url = function ($url) {
+                $url = trim($url);
+
+                if ($url === '' || preg_match('/[\x00-\x20\x7F\\\\]/', $url)) {
+                    return false;
+                }
+
+                // Запрещаем внешние URL без схемы
+                if (strpos($url, '//') === 0) {
+                    return false;
+                }
+
+                // Проверяем наличие схемы
+                $normalized = preg_replace('/\s+/', '', $url);
+
+                if (preg_match('/^([a-z][a-z0-9+.-]*):/i', $normalized, $matches)) {
+                    $scheme = strtolower($matches[1]);
+
+                    if (!in_array($scheme, ['http', 'https', 'mailto', 'tel'], true)) {
+                        return false;
+                    }
+
+                    if (in_array($scheme, ['http', 'https'], true)) {
+                        $parts = parse_url($url);
+
+                        return !empty($parts['host']);
+                    }
+
+                    return true;
+                }
+
+                // Разрешаем относительные ссылки, якоря и query string
+                return true;
+            };
+
+            // 1. Очистка HTML
+            $sanitize = function ($parent) use (
+                &$sanitize,
+                $allowed_tags,
+                $remove_with_content,
+                $is_safe_url
+            ) {
+                foreach (iterator_to_array($parent->childNodes) as $node) {
+
+                    if ($node instanceof DOMComment) {
+                        $parent->removeChild($node);
+                        continue;
+                    }
+
+                    if (!$node instanceof DOMElement) {
+                        continue;
+                    }
+
+                    $tag = strtolower($node->tagName);
+
+                    // Удаляем опасные элементы вместе с содержимым
+                    if (in_array($tag, $remove_with_content, true)) {
+                        $parent->removeChild($node);
+                        continue;
+                    }
+
+                    // Сначала обрабатываем вложенные элементы
+                    $sanitize($node);
+
+                    // Удаляем запрещённые теги, сохраняя содержимое
+                    if (!in_array($tag, $allowed_tags, true)) {
+
+                        while ($node->firstChild) {
+                            $parent->insertBefore($node->firstChild, $node);
+                        }
+
+                        $parent->removeChild($node);
+                        continue;
+                    }
+
+                    // Сохраняем только разрешённые атрибуты ссылок
+                    $href = $node->getAttribute('href');
+                    $title = $node->getAttribute('title');
+
+                    foreach (iterator_to_array($node->attributes) as $attribute) {
+                        $node->removeAttribute($attribute->name);
+                    }
+
+                    if ($tag === 'a') {
+
+                        if ($href !== '' && $is_safe_url($href)) {
+                            $node->setAttribute('href', $href);
+                        }
+
+                        if ($title !== '') {
+                            $node->setAttribute('title', $title);
+                        }
+                    }
+                }
+            };
+
+            $sanitize($root);
+
+            // 2. Подсчёт слов
+            $pattern = '/[\p{L}\p{N}]+(?:[\'’][\p{L}\p{N}]+)*/u';
+
+            $text = $root->textContent;
+
+            $total_words = preg_match_all($pattern, $text);
+
+            if ($total_words === false) {
+                return '';
+            }
+
+            // Если обрезка не требуется
+            if ($total_words <= $num_words) {
+                $result = '';
+
+                foreach ($root->childNodes as $child) {
+                    $result .= $dom->saveHTML($child);
+                }
+
+                return $result;
+            }
+
+            // 3. Обрезка с сохранением HTML-структуры
+            $remaining = $num_words;
+
+            $truncate = function ($parent) use (
+                &$truncate,
+                &$remaining,
+                $pattern,
+                $more
+            ) {
+                foreach (iterator_to_array($parent->childNodes) as $node) {
+
+                    if ($node instanceof DOMText) {
+
+                        $count = preg_match_all(
+                            $pattern,
+                            $node->nodeValue,
+                            $words,
+                            PREG_OFFSET_CAPTURE
+                        );
+
+                        if ($count === false) {
+                            continue;
+                        }
+
+                        if ($count >= $remaining && $count > 0) {
+
+                            $last_word = $words[0][$remaining - 1];
+
+                            $end = $last_word[1] + strlen($last_word[0]);
+
+                            $node->nodeValue =
+                            substr($node->nodeValue, 0, $end) . $more;
+
+                            // Удаляем все последующие узлы на этом уровне
+                            while ($node->nextSibling) {
+                                $parent->removeChild($node->nextSibling);
+                            }
+
+                            return true;
+                        }
+
+                        $remaining -= $count;
+
+                    } elseif ($node instanceof DOMElement) {
+
+                        if ($truncate($node)) {
+
+                            // Удаляем все последующие соседние элементы
+                            while ($node->nextSibling) {
+                                $parent->removeChild($node->nextSibling);
+                            }
+
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            };
+
+            $truncate($root);
+
+            // 4. Получение HTML-фрагмента
+            $result = '';
+
+            foreach ($root->childNodes as $child) {
+                $result .= $dom->saveHTML($child);
+            }
+
+            return $result;
+
+        } finally {
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous_errors);
+        }
+    }
+
 
 }

@@ -431,3 +431,4 @@ $lang['new_arrival_label'] = "Новинка";
 $lang['featured_products_tabs_label_1'] = "Хиты";
 $lang['featured_products_tabs_label_2'] = "Новинки";
 $lang['featured_products_tabs_label_3'] = "Акции";
+$lang['news_reed_more'] = "Подробнее";

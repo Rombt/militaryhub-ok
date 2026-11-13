@@ -429,3 +429,4 @@ $lang['new_arrival_label'] = "Новинка";
 $lang['featured_products_tabs_label_1'] = "Хіти";
 $lang['featured_products_tabs_label_2'] = "Новинки";
 $lang['featured_products_tabs_label_3'] = "Акції";
+$lang['news_reed_more'] = "Детальніше";

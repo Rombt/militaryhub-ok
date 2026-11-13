@@ -33,9 +33,6 @@
             {/if}
         {/if}
 
-        <script>
-            console.log({$product|json_encode nofilter});
-        </script>
         {* Product preview *}
         <div class="preview fn_product">
             <div class="fn_transfer clearfix">

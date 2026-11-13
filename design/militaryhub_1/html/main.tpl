@@ -64,7 +64,7 @@
 {get_discounted_products var=discounted_products limit=8}
 {if $discounted_products}
     <div class="main_section">
-        <div class="container fn_container">
+        {* <div class="container fn_container"> *}
             <div class="fn_products_slide_main_discount main_products rmbt-main_discount_products swiper">
                 <div class="swiper-wrapper">
                     {foreach $discounted_products as $product}
@@ -74,7 +74,8 @@
                     {/foreach}
                 </div>
             </div>
-        </div>
+            {*
+        </div> *}
     </div>
 {/if}
 
@@ -278,9 +279,41 @@
 {get_discounted_products var=discounted_products limit=8}
 {if $discounted_products}
     <div class="main_section">
-        <div class="container fn_container">
+        {* <div class="container fn_container"> *}
             <div class="main_about_us">
+                <div class="main_about_us__img">
+
+                    {get_banner var="banner_about_us" group="about_us"}
+                    {if $banner_about_us->items}
+                        {foreach $banner_about_us->items as $bi}
+                            <div>
+                                {if $bi->url}
+                                    <a href="{$bi->url}" target="_blank">
+                                {/if}
+                                {if $bi->image}
+                                    <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
+                                {/if}
+                                <span class="slick-name">
+                                    {$bi->title}
+                                </span>
+                                {if $bi->description}
+                                    <span class="slick-description">
+                                        {$bi->description}
+                                    </span>
+                                {/if}
+                                {if $bi->url}
+                                    </a>
+                                {/if}
+                            </div>
+                        {/foreach}
+                    {/if}
+
+
+                </div>
+                <div class="main_about_us__text">
+                </div>
             </div>
-        </div>
+            {*
+        </div> *}
     </div>
 {/if}

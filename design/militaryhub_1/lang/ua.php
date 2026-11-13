@@ -430,3 +430,5 @@ $lang['featured_products_tabs_label_1'] = "Хіти";
 $lang['featured_products_tabs_label_2'] = "Новинки";
 $lang['featured_products_tabs_label_3'] = "Акції";
 $lang['news_reed_more'] = "Детальніше";
+$lang['news_reed_more'] = "Детальніше";
+$lang['about_us_title'] = "Про нас";

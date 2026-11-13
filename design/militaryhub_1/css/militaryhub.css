@@ -4036,7 +4036,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
 }
 /*----------  /main_news  ----------------*/
 
-
 /*----------  about us block ----------------*/
 .main_about_us {
   background-image: url("../images/about_us_bg_1.jpg");
@@ -4054,43 +4053,55 @@ input[type="checkbox"]:checked + label .inp-check:before {
   column-gap: 48px;
 }
 
-
-.main_about_us__img{
+.main_about_us__img {
   width: 624px;
   height: 426px;
 
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    aspect-ratio: 1.5 / 1;
-    gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  aspect-ratio: 1.5 / 1;
+  gap: 12px;
 }
 
-.main_about_us__img div{
-    min-height: 0;
-    overflow: hidden;
-    border-radius: 8px;
+.main_about_us__img div {
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .main_about_us__img > div:nth-child(3) {
-    grid-column: 2;
-    grid-row: 1 / 3;
+  grid-column: 2;
+  grid-row: 1 / 3;
 }
 
 .main_about_us__img div img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-
-.main_about_us__text{
+.main_about_us__text {
   width: 648px;
   height: 426px;
-  border: 1px solid #ff0000;
 }
 
+.main_about_us__text-title {
+  font-size: 36px;
+  text-transform: capitalize;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.main_about_us__text p {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.main_about_us__text .mh-btn {
+  margin-left: 0;
+}
 
 /*----------  footer ----------------*/
 

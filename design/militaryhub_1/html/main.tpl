@@ -279,41 +279,56 @@
 {get_discounted_products var=discounted_products limit=8}
 {if $discounted_products}
     <div class="main_section">
-        {* <div class="container fn_container"> *}
-            <div class="main_about_us">
-                <div class="main_about_us__img">
-
-                    {get_banner var="banner_about_us" group="about_us"}
-                    {if $banner_about_us->items}
-                        {foreach $banner_about_us->items as $bi}
-                            <div>
-                                {if $bi->url}
-                                    <a href="{$bi->url}" target="_blank">
-                                {/if}
-                                {if $bi->image}
-                                    <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
-                                {/if}
-                                <span class="slick-name">
-                                    {$bi->title}
+        <div class="main_about_us">
+            <div class="main_about_us__img">
+                {get_banner var="banner_about_us" group="about_us"}
+                {if $banner_about_us->items}
+                    {foreach $banner_about_us->items as $bi}
+                        <div>
+                            {if $bi->url}
+                                <a href="{$bi->url}" target="_blank">
+                            {/if}
+                            {if $bi->image}
+                                <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
+                            {/if}
+                            <span class="slick-name">
+                                {$bi->title}
+                            </span>
+                            {if $bi->description}
+                                <span class="slick-description">
+                                    {$bi->description}
                                 </span>
-                                {if $bi->description}
-                                    <span class="slick-description">
-                                        {$bi->description}
-                                    </span>
-                                {/if}
-                                {if $bi->url}
-                                    </a>
-                                {/if}
-                            </div>
-                        {/foreach}
-                    {/if}
-
-
-                </div>
-                <div class="main_about_us__text">
-                </div>
+                            {/if}
+                            {if $bi->url}
+                                </a>
+                            {/if}
+                        </div>
+                    {/foreach}
+                {/if}
             </div>
-            {*
-        </div> *}
+            <div class="main_about_us__text">
+                <div class="main_about_us__text-title">{$lang->about_us_title}</div>
+
+                <p>
+                    Ми - ваш надійний партнер у справах безпеки та захисту. У нас ви знайдете широкий вибір
+                    військового обладнання, амуніції та аксесуарів високої якості. Незалежно від того, чи ви
+                    військовослужбовець, поліцейський, рятувальник або просто цікавитесь такими речами -
+                    ми маємо все необхідне для вашого захисту та безпеки.
+                </p>
+                <p>
+                    Наші товари відомі своєю надійністю, довговічністю та відповідають найвищим стандартам
+                    якості. Довіряйте професіоналам та обирайте наш магазин з бездоганною репутацією
+                    та високоякісним сервісом. Оберіть нас для максимальної безпеки і спокою.
+                </p>
+                <p>
+                    Наша команда завжди на зв'язку, щоб надати вам кваліфіковану консультацію та допомогу
+                    в підборі необхідних товарів. Наша мета - зробити ваш досвід покупки якомога зручнішим
+                    і приємнішим.
+                </p>
+
+
+                {include file="btn_link.tpl" text={$lang->main_all_news}|default:'' link="{$lang_link}blog"|default:'' icon_id='long_arrow' }
+            </div>
+        </div>
     </div>
 {/if}

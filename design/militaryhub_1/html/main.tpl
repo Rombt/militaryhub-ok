@@ -212,6 +212,7 @@
     </div>
 </div>
 
+{* Blog block *}
 {get_posts var=last_posts limit=4 type_post="blog"}
 {if $last_posts}
     <div class="main_section">
@@ -268,6 +269,18 @@
                 link="{$lang_link}blog"|default:''
                 icon_id='long_arrow'
             }
+        </div>
+    </div>
+{/if}
+
+
+{* about us block *}
+{get_discounted_products var=discounted_products limit=8}
+{if $discounted_products}
+    <div class="main_section">
+        <div class="container fn_container">
+            <div class="main_about_us">
+            </div>
         </div>
     </div>
 {/if}

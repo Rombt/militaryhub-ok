@@ -4036,6 +4036,19 @@ input[type="checkbox"]:checked + label .inp-check:before {
 }
 /*----------  /main_news  ----------------*/
 
+
+/*----------  about us block ----------------*/
+.main_about_us {
+  background-image: url("../images/about_us_bg_1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+  background-position: 30% center;
+
+  height: 760px;
+}
+
+
 /*----------  footer ----------------*/
 
 .footer_bottom {

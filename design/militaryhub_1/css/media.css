@@ -1438,6 +1438,10 @@
     max-width: 348px;
     height: 348px;
   }
+
+  .main_about_us {
+    background-image: url("../images/about_us_bg_2.jpg");
+  }
 }
 @media (max-width: 576px) {
   .sportfly_offers_items {
@@ -1592,7 +1596,7 @@
 
   .main_offers_block a {
     max-width: 548px;
-}
+  }
 }
 
 @media (max-width: 480px) {
@@ -1677,6 +1681,10 @@
   .rmbt-mh-catalog-button {
     width: 48px;
     height: 48px;
+  }
+
+  .main_about_us {
+    background-image: url("../images/about_us_bg_3.jpg");
   }
 }
 @media (max-width: 360px) {

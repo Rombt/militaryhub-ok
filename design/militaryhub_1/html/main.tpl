@@ -290,8 +290,8 @@
                             {/if}
                             {if $bi->image}
                                 <img src="{$bi->image|resize:1170:390:false:$config->resized_banners_images_dir}" alt="{$bi->alt}" title="{$bi->title}" />
-                            
-                            
+
+
                             {/if}
                             <span class="slick-name">
                                 {$bi->title}
@@ -334,3 +334,60 @@
         </div>
     </div>
 {/if}
+
+
+{* Benefits block *}
+<div class="main_section">
+    <div class="container benefits_wrap">
+        {include file="svg.tpl" svgId=""}
+        <div class="benefits_content">
+            {* benefits name *}
+            <div class="benefits_name">
+                <span>{$post->name|escape}</span>
+            </div>
+            {* benefits description *}
+            <div class="benefits_description">
+                <span>{$post->description|trim_words:20:' ...'}</span>
+            </div>
+        </div>
+    </div>
+    <div class="container benefits_wrap">
+        {include file="svg.tpl" svgId=""}
+        <div class="benefits_content">
+            {* benefits name *}
+            <div class="benefits_name">
+                <span>{$post->name|escape}</span>
+            </div>
+            {* benefits description *}
+            <div class="benefits_description">
+                <span>{$post->description|trim_words:20:' ...'}</span>
+            </div>
+        </div>
+    </div>
+    <div class="container benefits_wrap">
+        {include file="svg.tpl" svgId=""}
+        <div class="benefits_content">
+            {* benefits name *}
+            <div class="benefits_name">
+                <span>{$post->name|escape}</span>
+            </div>
+            {* benefits description *}
+            <div class="benefits_description">
+                <span>{$post->description|trim_words:20:' ...'}</span>
+            </div>
+        </div>
+    </div>
+    <div class="container benefits_wrap">
+        {include file="svg.tpl" svgId=""}
+        <div class="benefits_content">
+            {* benefits name *}
+            <div class="benefits_name">
+                <span>{$post->name|escape}</span>
+            </div>
+            {* benefits description *}
+            <div class="benefits_description">
+                <span>{$post->description|trim_words:20:' ...'}</span>
+            </div>
+        </div>
+    </div>
+    </div>

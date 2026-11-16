@@ -627,6 +627,26 @@
     font-size: 38px;
     width: 100%;
   }
+
+  .main_about_us {
+    flex-direction: column;
+    row-gap: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    background-image: url("../images/about_us_bg_2.jpg");
+    background-position: center;
+  }
+
+  .main_about_us__text {
+    order: 1;
+    width: 100%;
+  }
+
+  .main_about_us__img {
+    order: 2;
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1438,10 +1458,6 @@
     max-width: 348px;
     height: 348px;
   }
-
-  .main_about_us {
-    background-image: url("../images/about_us_bg_2.jpg");
-  }
 }
 @media (max-width: 576px) {
   .sportfly_offers_items {
@@ -1597,6 +1613,21 @@
   .main_offers_block a {
     max-width: 548px;
   }
+
+  .main_about_us {
+    background-image: url("../images/about_us_bg_3.jpg");
+  }
+
+  .main_about_us__text {
+    order: 2;
+  }
+
+  .main_about_us__img {
+    order: 1;
+    min-width: auto;
+  }
+
+
 }
 
 @media (max-width: 480px) {
@@ -1654,6 +1685,7 @@
     .nav-item:last-of-type {
     margin-bottom: 10px;
   }
+
 }
 
 @media (max-width: 380px) {

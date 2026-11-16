@@ -4044,18 +4044,24 @@ input[type="checkbox"]:checked + label .inp-check:before {
   background-position: left;
   background-position: 30% center;
 
-  height: 760px;
+  min-height: 760px;
+
+  padding-top: 150px;
+  padding-bottom: 150px;
+
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   column-gap: 48px;
+
 }
 
 .main_about_us__img {
-  width: 624px;
+  width: 31.68%;
   height: 426px;
+  min-width: 430px;
 
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4083,8 +4089,9 @@ input[type="checkbox"]:checked + label .inp-check:before {
 }
 
 .main_about_us__text {
-  width: 648px;
-  height: 426px;
+  width: 32.89%;
+  min-height: 426px;
+
 }
 
 .main_about_us__text-title {

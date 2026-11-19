@@ -4049,13 +4049,11 @@ input[type="checkbox"]:checked + label .inp-check:before {
   padding-top: 150px;
   padding-bottom: 150px;
 
-
   display: flex;
   align-items: center;
   justify-content: center;
 
   column-gap: 48px;
-
 }
 
 .main_about_us__img {
@@ -4091,7 +4089,6 @@ input[type="checkbox"]:checked + label .inp-check:before {
 .main_about_us__text {
   width: 32.89%;
   min-height: 426px;
-
 }
 
 .main_about_us__text-title {
@@ -4109,6 +4106,52 @@ input[type="checkbox"]:checked + label .inp-check:before {
 .main_about_us__text .mh-btn {
   margin-left: 0;
 }
+/*----------  /about us block ----------------*/
+
+/*----------  benefits block ----------------*/
+.benefits_wrap {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px 30px;
+
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+
+.benefit_wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 300px;
+}
+
+.benefit_wrap svg {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.benefits_content {
+  min-width: 0;
+}
+
+.benefits_title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.benefits_text {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/*----------  /benefits block ----------------*/
 
 /*----------  footer ----------------*/
 

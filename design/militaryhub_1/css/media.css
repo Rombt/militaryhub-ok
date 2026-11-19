@@ -731,6 +731,14 @@
   .rmbt_swiper-pagination .swiper-pagination-bullet-active::before {
     display: none;
   }
+
+  .benefits_wrap {
+    flex-wrap: wrap;
+  }
+
+  .benefit_wrap {
+    width: calc(50% - 15px);
+  }
 }
 
 @media (max-width: 767px) {
@@ -1626,8 +1634,12 @@
     order: 1;
     min-width: auto;
   }
-
-
+  .benefits_wrap {
+    flex-direction: column;
+  }
+  .benefit_wrap {
+    width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1685,7 +1697,6 @@
     .nav-item:last-of-type {
     margin-bottom: 10px;
   }
-
 }
 
 @media (max-width: 380px) {

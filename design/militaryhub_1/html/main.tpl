@@ -219,7 +219,7 @@
     <div class="main_section">
         <div class="container">
             <div class="main_section_title">
-                <span data-language="main_news">{$lang->main_news}</span>
+                <h2 data-language="main_news">{$lang->main_news}</h2>
             </div>
 
             <div class="fn_news_items swiper">
@@ -339,55 +339,49 @@
 {* Benefits block *}
 <div class="main_section">
     <div class="container benefits_wrap">
-        {include file="svg.tpl" svgId=""}
-        <div class="benefits_content">
-            {* benefits name *}
-            <div class="benefits_name">
-                <span>{$post->name|escape}</span>
+        <div class="benefit_wrap">
+            {include file="svg.tpl" svgId="icon_truck_fast"}
+            <div class="benefits_content">
+                <div class="benefits_title">
+                    <span>{$lang->benefit_1_title|escape}</span>
+                </div>
+                <div class="benefits_text">
+                    <span>{$lang->benefit_1_text|escape}</span>
+                </div>
             </div>
-            {* benefits description *}
-            <div class="benefits_description">
-                <span>{$post->description|trim_words:20:' ...'}</span>
+        </div>
+        <div class="benefit_wrap">
+            {include file="svg.tpl" svgId="icon_quality"}
+            <div class="benefits_content">
+                <div class="benefits_title">
+                    <span>{$lang->benefit_2_title|escape}</span>
+                </div>
+                <div class="benefits_text">
+                    <span>{$lang->benefit_2_text|escape}</span>
+                </div>
+            </div>
+        </div>
+        <div class="benefit_wrap">
+            {include file="svg.tpl" svgId="rmbt_icon_price"}
+            <div class="benefits_content">
+                <div class="benefits_title">
+                    <span>{$lang->benefit_3_title|escape}</span>
+                </div>
+                <div class="benefits_text">
+                    <span>{$lang->benefit_3_text|escape}</span>
+                </div>
+            </div>
+        </div>
+        <div class="benefit_wrap">
+            {include file="svg.tpl" svgId="icon_sale_line"}
+            <div class="benefits_content">
+                <div class="benefits_title">
+                    <span>{$lang->benefit_4_title|escape}</span>
+                </div>
+                <div class="benefits_text">
+                    <span>{$lang->benefit_4_text|escape}</span>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container benefits_wrap">
-        {include file="svg.tpl" svgId=""}
-        <div class="benefits_content">
-            {* benefits name *}
-            <div class="benefits_name">
-                <span>{$post->name|escape}</span>
-            </div>
-            {* benefits description *}
-            <div class="benefits_description">
-                <span>{$post->description|trim_words:20:' ...'}</span>
-            </div>
-        </div>
-    </div>
-    <div class="container benefits_wrap">
-        {include file="svg.tpl" svgId=""}
-        <div class="benefits_content">
-            {* benefits name *}
-            <div class="benefits_name">
-                <span>{$post->name|escape}</span>
-            </div>
-            {* benefits description *}
-            <div class="benefits_description">
-                <span>{$post->description|trim_words:20:' ...'}</span>
-            </div>
-        </div>
-    </div>
-    <div class="container benefits_wrap">
-        {include file="svg.tpl" svgId=""}
-        <div class="benefits_content">
-            {* benefits name *}
-            <div class="benefits_name">
-                <span>{$post->name|escape}</span>
-            </div>
-            {* benefits description *}
-            <div class="benefits_description">
-                <span>{$post->description|trim_words:20:' ...'}</span>
-            </div>
-        </div>
-    </div>
-    </div>
+</div>

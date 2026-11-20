@@ -1,9 +1,9 @@
 <?php
 
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Snapshot\Snapshot;
-use ProductsImport\Repositories\LanguageFlyRepository;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\LanguageFlyRepository;
 
 class LanguageImporter
 {

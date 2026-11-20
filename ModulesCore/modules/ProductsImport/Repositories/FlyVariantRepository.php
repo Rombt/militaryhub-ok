@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport\Repositories;
+namespace ModulesCore\modules\ProductsImport\Repositories;
 
 use Database;
 use RuntimeException;

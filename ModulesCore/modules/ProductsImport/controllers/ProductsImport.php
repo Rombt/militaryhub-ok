@@ -3,39 +3,39 @@
 namespace ProductsImport;
 
 use Okay;
-use ProductsImport\Snapshot\SnapshotLoader;
-use ProductsImport\DatabaseManager;
-use ProductsImport\Services\ImportService;
-use ProductsImport\Services\ImportResetService;
-use ProductsImport\Importers\LanguageImporter;
-use ProductsImport\Importers\BrandImporter;
-use ProductsImport\Repositories\BrandFlyRepository;
-use ProductsImport\Repositories\BrandMapRepository;
-use ProductsImport\Importers\CategoryImporter;
-use ProductsImport\Importers\FeatureImporter;
-use ProductsImport\Importers\FeatureValueImporter;
-use ProductsImport\Importers\ProductImporter;
-use ProductsImport\Importers\ProductLanguageImporter;
-use ProductsImport\Importers\VariantImporter;
-use ProductsImport\Importers\VariantLanguageImporter;
-use ProductsImport\Repositories\LanguageFlyRepository;
-use ProductsImport\Repositories\CategoryFlyRepository;
-use ProductsImport\Repositories\FeatureFlyRepository;
-use ProductsImport\Repositories\FeatureValueFlyRepository;
-use ProductsImport\Repositories\ProductFlyRepository;
-use ProductsImport\Repositories\FlyVariantRepository;
-use ProductsImport\Repositories\CategoryMapRepository;
-use ProductsImport\Repositories\FeatureMapRepository;
-use ProductsImport\Repositories\FeatureValueMapRepository;
-use ProductsImport\Repositories\ProductMapRepository;
-use ProductsImport\Repositories\VariantMapRepository;
-use ProductsImport\Importers\ImageImporter;
-use ProductsImport\Repositories\ImageFlyRepository;
-use ProductsImport\Repositories\ImageMapRepository;
-use ProductsImport\Repositories\ImageTransferRepository;
-use ProductsImport\Services\ImageTransferService;
+use ModulesCore\modules\ProductsImport\Snapshot\SnapshotLoader;
+use ModulesCore\modules\ProductsImport\DatabaseManager;
+use ModulesCore\modules\ProductsImport\Services\ImportService;
+use ModulesCore\modules\ProductsImport\Services\ImportResetService;
+use ModulesCore\modules\ProductsImport\Importers\LanguageImporter;
+use ModulesCore\modules\ProductsImport\Importers\BrandImporter;
+use ModulesCore\modules\ProductsImport\Repositories\BrandFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\BrandMapRepository;
+use ModulesCore\modules\ProductsImport\Importers\CategoryImporter;
+use ModulesCore\modules\ProductsImport\Importers\FeatureImporter;
+use ModulesCore\modules\ProductsImport\Importers\FeatureValueImporter;
+use ModulesCore\modules\ProductsImport\Importers\ProductImporter;
+use ModulesCore\modules\ProductsImport\Importers\ProductLanguageImporter;
+use ModulesCore\modules\ProductsImport\Importers\VariantImporter;
+use ModulesCore\modules\ProductsImport\Importers\VariantLanguageImporter;
+use ModulesCore\modules\ProductsImport\Repositories\LanguageFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\CategoryFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureValueFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\ProductFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FlyVariantRepository;
+use ModulesCore\modules\ProductsImport\Repositories\CategoryMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureValueMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\ProductMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\VariantMapRepository;
+use ModulesCore\modules\ProductsImport\Importers\ImageImporter;
+use ModulesCore\modules\ProductsImport\Repositories\ImageFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\ImageMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\ImageTransferRepository;
+use ModulesCore\modules\ProductsImport\Services\ImageTransferService;
 
-require_once __DIR__ . '/../DatabaseManager.php';
+
 
 class ProductsImport extends Okay
 {

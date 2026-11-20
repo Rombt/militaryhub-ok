@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport\Snapshot;
+namespace ModulesCore\modules\ProductsImport\Snapshot;
 
 use mysqli;
 use RuntimeException;

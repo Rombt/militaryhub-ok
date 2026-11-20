@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport;
+namespace ModulesCore\modules\ProductsImport;
 
 /**
  * Compatibility layer for OkayCMS Database::query().

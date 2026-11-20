@@ -1,10 +1,10 @@
 <?php
 
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Repositories\ImageFlyRepository;
-use ProductsImport\Repositories\ImageMapRepository;
-use ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\ImageFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\ImageMapRepository;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
 
 class ImageImporter
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport\Services;
+namespace ModulesCore\modules\ProductsImport\Services;
 
 use RuntimeException;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Repositories\FlyVariantRepository;
-use ProductsImport\Repositories\VariantMapRepository;
-use ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\FlyVariantRepository;
+use ModulesCore\modules\ProductsImport\Repositories\VariantMapRepository;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
 
 class VariantImporter
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Snapshot\Snapshot;
-use ProductsImport\Repositories\CategoryFlyRepository;
-use ProductsImport\Repositories\CategoryMapRepository;
-use ProductsImport\Repositories\FeatureMapRepository;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\CategoryFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\CategoryMapRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureMapRepository;
 
 class CategoryImporter
 {

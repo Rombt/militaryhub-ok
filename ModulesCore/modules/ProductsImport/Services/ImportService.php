@@ -1,18 +1,18 @@
 <?php
 
-namespace ProductsImport\Services;
+namespace ModulesCore\modules\ProductsImport\Services;
 
-use ProductsImport\Snapshot\Snapshot;
-use ProductsImport\Importers\LanguageImporter;
-use ProductsImport\Importers\BrandImporter;
-use ProductsImport\Importers\CategoryImporter;
-use ProductsImport\Importers\FeatureImporter;
-use ProductsImport\Importers\FeatureValueImporter;
-use ProductsImport\Importers\ProductImporter;
-use ProductsImport\Importers\ProductLanguageImporter;
-use ProductsImport\Importers\VariantImporter;
-use ProductsImport\Importers\VariantLanguageImporter;
-use ProductsImport\Importers\ImageImporter;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Importers\LanguageImporter;
+use ModulesCore\modules\ProductsImport\Importers\BrandImporter;
+use ModulesCore\modules\ProductsImport\Importers\CategoryImporter;
+use ModulesCore\modules\ProductsImport\Importers\FeatureImporter;
+use ModulesCore\modules\ProductsImport\Importers\FeatureValueImporter;
+use ModulesCore\modules\ProductsImport\Importers\ProductImporter;
+use ModulesCore\modules\ProductsImport\Importers\ProductLanguageImporter;
+use ModulesCore\modules\ProductsImport\Importers\VariantImporter;
+use ModulesCore\modules\ProductsImport\Importers\VariantLanguageImporter;
+use ModulesCore\modules\ProductsImport\Importers\ImageImporter;
 
 class ImportService
 {

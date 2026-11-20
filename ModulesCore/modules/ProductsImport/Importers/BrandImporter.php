@@ -1,10 +1,10 @@
 <?php
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Snapshot\Snapshot;
-use ProductsImport\Repositories\BrandFlyRepository;
-use ProductsImport\Repositories\BrandMapRepository;
-use ProductsImport\Services\ImageTransferService;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\BrandFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\BrandMapRepository;
+use ModulesCore\modules\ProductsImport\Services\ImageTransferService;
 
 class BrandImporter
 {

@@ -15,8 +15,7 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "ModulesCore\\": "ModulesCore/",
-      "ProductsImport\\": "ModulesCore/modules/ProductsImport/"
+      "ModulesCore\\": "ModulesCore/"
     }
   },
   "scripts": {

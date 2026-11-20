@@ -1,10 +1,10 @@
 <?php
 
-namespace ProductsImport\Importers;
+namespace ModulesCore\modules\ProductsImport\Importers;
 
-use ProductsImport\Snapshot\Snapshot;
-use ProductsImport\Repositories\FeatureFlyRepository;
-use ProductsImport\Repositories\FeatureMapRepository;
+use ModulesCore\modules\ProductsImport\Snapshot\Snapshot;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureFlyRepository;
+use ModulesCore\modules\ProductsImport\Repositories\FeatureMapRepository;
 
 class FeatureImporter
 {

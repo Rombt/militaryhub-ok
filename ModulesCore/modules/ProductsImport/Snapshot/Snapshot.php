@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport\Snapshot;
+namespace ModulesCore\modules\ProductsImport\Snapshot;
 
 /**
  * Полный снимок необходимых данных Sportfly.

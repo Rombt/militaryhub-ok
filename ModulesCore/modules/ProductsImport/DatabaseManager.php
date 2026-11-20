@@ -1,6 +1,6 @@
 <?php
 
-namespace ProductsImport;
+namespace ModulesCore\modules\ProductsImport;
 
 use Database;
 use mysqli;
@@ -31,7 +31,7 @@ class DatabaseManager
             );
         }
 
-        require_once __DIR__ . '/SafeDatabase.php';
+        
         $this->target = new SafeDatabase($this->targetPrefix);
 
         $this->ensureTables();

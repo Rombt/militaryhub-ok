@@ -15,11 +15,14 @@
                 Перенести изображения
             </button>
 
-            {if $rollback_run && $rollback_run.state == 'ready'}
-                <button id="rollback_import" class="btn btn_small btn_red" type="button">
+            <button id="rollback_import" class="btn btn_small btn_red" type="button"
+                {if !$rollback_run || $rollback_run.state != 'ready'}style="display:none" disabled{/if}>
+                {if $rollback_run && $rollback_run.state == 'ready'}
                     Откатить последний импорт (№{$rollback_run.id}, {$rollback_run.changed_rows} записей)
-                </button>
-            {/if}
+                {else}
+                    Откатить последний импорт
+                {/if}
+            </button>
 
             <button id="reset_import" class="btn btn_small btn_red" type="button" title="Полностью удалить каталог и данные импорта (только разработка)">
                 Полный сброс каталога (DEV)
@@ -205,6 +208,32 @@
         }
 
 
+        async function refreshRollbackButton() {
+            if (!rollbackImport) return;
+            try {
+                const url = new URL(window.location.href);
+                url.searchParams.set('products_import_rollback_status', '1');
+                const response = await fetch(url.toString(), {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    cache: 'no-store',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const state = await response.json();
+                const available = state.available === true;
+                rollbackImport.style.display = available ? '' : 'none';
+                rollbackImport.disabled = !available;
+                if (available) {
+                    rollbackImport.textContent = 'Откатить последний импорт (№' +
+                        state.id + ', ' + state.changed_rows + ' записей)';
+                }
+            } catch (error) {
+                // Preserve the last known state on network errors.
+                console.error('Не удалось обновить состояние отката:', error);
+            }
+        }
+
         function sendRequest(formData, button) {
 
             productImportStatusBox.classList.add('rmbt-hide');
@@ -306,7 +335,7 @@
                     errorMassageBox.classList.remove('rmbt-hide');
                 })
                 .finally(() => {
-
+                    refreshRollbackButton();
                     if (button) {
                         button.disabled = false;
                     }

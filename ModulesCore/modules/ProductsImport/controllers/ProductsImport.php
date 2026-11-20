@@ -208,6 +208,19 @@ class ProductsImport extends Okay
             return $this->design->fetch('products_import.tpl');
         }
 
+        // Lightweight AJAX status endpoint: read actual rollback state after each operation.
+        if (isset($_GET['products_import_rollback_status'])) {
+            header('Content-Type: application/json; charset=utf-8');
+            header('Cache-Control: no-store, no-cache, must-revalidate');
+            $run = $this->rollbackService->latest();
+            echo json_encode([
+                'available' => $run !== null && $run['state'] === 'ready',
+                'id' => $run !== null ? (int)$run['id'] : null,
+                'changed_rows' => $run !== null ? (int)$run['changed_rows'] : 0,
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
         if (!empty($_POST['rollback_import'])) {
             try {
                 $result = $this->rollbackService->rollback();

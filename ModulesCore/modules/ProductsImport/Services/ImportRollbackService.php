@@ -86,14 +86,18 @@ class ImportRollbackService
         $result = $this->rows('SHOW KEYS FROM ' . $this->quote($physical) . " WHERE Key_name = 'PRIMARY'");
         usort($result, fn($a, $b) => (int)$a['Seq_in_index'] <=> (int)$b['Seq_in_index']);
         $keys = array_column($result, 'Column_name');
-        if (!$keys) throw new \RuntimeException('Откат запрещён: у таблицы ' . $physical . ' нет PRIMARY KEY');
+        // Legacy OkayCMS relation tables can legitimately have no primary key.
         return $this->keys[$table] = $keys;
     }
 
     private function keyFor(string $table, array $row): string
     {
         $key = [];
-        foreach ($this->primaryKeys($table) as $column) $key[$column] = $row[$column];
+        $columns = $this->primaryKeys($table);
+        if (!$columns) {
+            return json_encode(['__row_hash' => hash('sha256', $this->encode($row))], JSON_THROW_ON_ERROR);
+        }
+        foreach ($columns as $column) $key[$column] = $row[$column];
         return json_encode($key, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
     }
 
@@ -109,6 +113,15 @@ class ImportRollbackService
         $rows = [];
         while ($row = $result->fetch_assoc()) {
             $key = $this->keyFor($table, $row);
+            if (!$this->primaryKeys($table)) {
+                // Multiset semantics: identical rows are separate records.
+                $base = json_decode($key, true, 512, JSON_THROW_ON_ERROR);
+                $ordinal = 0;
+                do {
+                    $base['__ordinal'] = $ordinal++;
+                    $key = json_encode($base, JSON_THROW_ON_ERROR);
+                } while (isset($rows[$key]));
+            }
             $rows[$key] = $this->encode($row);
             if (count($rows) > $this->maxRows) {
                 throw new \RuntimeException('Лимит снимка отката превышен для ' . $table);
@@ -282,6 +295,16 @@ class ImportRollbackService
 
     private function findRow(string $table, array $key): ?array
     {
+        if (!$this->primaryKeys($table)) {
+            $matched = 0;
+            $result = $this->sql('SELECT * FROM ' . $this->quote($this->db->table($table)));
+            while ($row = $result->fetch_assoc()) {
+                if (hash('sha256', $this->encode($row)) === ($key['__row_hash'] ?? '')) {
+                    if ($matched++ === (int)($key['__ordinal'] ?? 0)) return $row;
+                }
+            }
+            return null;
+        }
         $where = implode(' AND ', array_map(fn($column) => $this->quote($column) . '=?', array_keys($key)));
         $rows = $this->rows('SELECT * FROM ' . $this->quote($this->db->table($table)) . ' WHERE ' . $where . ' LIMIT 1', ...array_values($key));
         return $rows[0] ?? null;
@@ -289,6 +312,15 @@ class ImportRollbackService
 
     private function deleteRow(string $table, array $key): void
     {
+        if (!$this->primaryKeys($table)) {
+            $lookup = $key;
+            $lookup['__ordinal'] = 0;
+            $row = $this->findRow($table, $lookup);
+            if ($row === null) throw new \RuntimeException('Строка таблицы связей отсутствует: ' . $table);
+            $where = implode(' AND ', array_map(fn($column) => $this->quote($column) . ' <=> ?', array_keys($row)));
+            $this->sql('DELETE FROM ' . $this->quote($this->db->table($table)) . ' WHERE ' . $where . ' LIMIT 1', ...array_values($row));
+            return;
+        }
         $where = implode(' AND ', array_map(fn($column) => $this->quote($column) . '=?', array_keys($key)));
         $this->sql('DELETE FROM ' . $this->quote($this->db->table($table)) . ' WHERE ' . $where, ...array_values($key));
     }
@@ -301,6 +333,9 @@ class ImportRollbackService
 
     private function updateRow(string $table, array $key, array $row): void
     {
+        if (!$this->primaryKeys($table)) {
+            throw new \RuntimeException('UPDATE не поддерживается для таблицы без первичного ключа: ' . $table);
+        }
         $where = implode(' AND ', array_map(fn($column) => $this->quote($column) . '=?', array_keys($key)));
         $set = implode(',', array_map(fn($column) => $this->quote($column) . '=?', array_keys($row)));
         $this->sql('UPDATE ' . $this->quote($this->db->table($table)) . ' SET ' . $set . ' WHERE ' . $where, ...array_values($row), ...array_values($key));

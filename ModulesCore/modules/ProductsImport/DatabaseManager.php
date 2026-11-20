@@ -213,5 +213,63 @@ class DatabaseManager
                 );
             }
         }
+
+        // Idempotent migration of module-owned tables only.
+        // Never alter OkayCMS core tables (products_features_values, etc.).
+        $this->migrateModulePrimaryKeys();
+    }
+
+    private function migrateModulePrimaryKeys(): void
+    {
+        $owned = [
+            'rmbt_product_import_map' => ['id'],
+            'rmbt_category_import_map' => ['id'],
+            'rmbt_brand_import_map' => ['sportfly_brand_id'],
+            'rmbt_variant_import_map' => ['id'],
+            'rmbt_feature_import_map' => ['id'],
+            'rmbt_feature_value_import_map' => ['id'],
+            'rmbt_image_import_map' => ['sportfly_image_id'],
+            'rmbt_image_transfer' => ['id'],
+        ];
+        foreach ($owned as $table => $columns) {
+            $physical = $this->targetTable($table);
+            if (!preg_match('/^[A-Za-z0-9_]+$/D', $physical)) {
+                throw new RuntimeException('Некорректное имя таблицы миграции.');
+            }
+            $name = '`' . $physical . '`';
+            $keys = $this->target->query("SHOW KEYS FROM $name WHERE Key_name = 'PRIMARY'");
+            if ($keys === false) {
+                throw new RuntimeException('Не удалось проверить первичный ключ ' . $physical . ': ' . $this->target->error());
+            }
+            if ($keys->num_rows > 0) {
+                continue;
+            }
+            $fields = $this->target->query("SHOW COLUMNS FROM $name");
+            if ($fields === false) {
+                throw new RuntimeException('Не удалось проверить столбцы ' . $physical);
+            }
+            $existing = [];
+            while ($field = $fields->fetch_assoc()) {
+                $existing[$field['Field']] = $field;
+            }
+            foreach ($columns as $column) {
+                if (!isset($existing[$column])) {
+                    throw new RuntimeException('Миграция ' . $physical . ': отсутствует поле ' . $column);
+                }
+                if (strtoupper($existing[$column]['Null']) !== 'NO') {
+                    throw new RuntimeException('Миграция ' . $physical . ': ключевое поле допускает NULL: ' . $column);
+                }
+            }
+            $quoted = array_map(static fn($column) => '`' . $column . '`', $columns);
+            $group = implode(',', $quoted);
+            $duplicates = $this->target->query("SELECT $group FROM $name GROUP BY $group HAVING COUNT(*) > 1 LIMIT 1");
+            if ($duplicates === false || $duplicates->num_rows > 0) {
+                throw new RuntimeException('Миграция ' . $physical . ': обнаружены дубликаты ключей либо ошибка проверки.');
+            }
+            // Adding a PK to existing AUTO_INCREMENT columns preserves existing values.
+            if (!$this->target->query("ALTER TABLE $name ADD PRIMARY KEY ($group)")) {
+                throw new RuntimeException('Не удалось добавить PRIMARY KEY в ' . $physical . ': ' . $this->target->error());
+            }
+        }
     }
 }

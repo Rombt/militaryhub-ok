@@ -22,6 +22,7 @@ class ImportRollbackService
         'rmbt_image_transfer'
     ];
     private array $keys = [];
+    private array $columnTypes = [];
 
     public function __construct($db, string $root, int $maxRows = 100000)
     {
@@ -54,9 +55,22 @@ class ImportRollbackService
 
     private function sql(string $query, ...$args)
     {
-        $result = $this->db->query($query, ...$args);
+        if (trim($query) === '') {
+            throw new \RuntimeException('Откат: попытка выполнить пустой SQL-запрос.');
+        }
+        try {
+            $result = $args ? $this->db->queryPrepared($query, $args) : $this->db->query($query);
+        } catch (\Throwable $e) {
+            throw new \RuntimeException(
+                'SQL отката [' . substr(preg_replace('/\\s+/', ' ', trim($query)), 0, 220) .
+                ']: ' . $e->getMessage(), 0, $e
+            );
+        }
         if ($result === false) {
-            throw new \RuntimeException('Ошибка SQL журнала отката: ' . $this->db->error());
+            throw new \RuntimeException(
+                'Ошибка SQL отката [' . substr(preg_replace('/\\s+/', ' ', trim($query)), 0, 220) .
+                ']: ' . $this->db->error()
+            );
         }
         return $result;
     }
@@ -237,15 +251,30 @@ class ImportRollbackService
         if (!$run || $run['state'] !== 'ready') throw new \RuntimeException('Нет завершённого импорта, доступного для отката.');
         $id = (int)$run['id'];
         $changes = $this->rows('SELECT * FROM __rmbt_rollback_rows WHERE run_id=?', $id);
-        // Preflight: fail closed if a row was edited after import.
+        // Check ALL journal rows before any rollback write. Report precise differences.
+        $conflicts = [];
+        $totalConflicts = 0;
         foreach ($changes as $change) {
             $table = $change['table_name'];
-            if (!in_array($table, $this->tables, true)) throw new \RuntimeException('Неизвестная таблица журнала');
+            if (!in_array($table, $this->tables, true)) {
+                throw new \RuntimeException('Неизвестная таблица журнала: ' . $table);
+            }
             $key = json_decode($change['row_key'], true, 512, JSON_THROW_ON_ERROR);
             $current = $this->findRow($table, $key);
-            if (($current === null ? null : $this->encode($current)) !== $change['after_json']) {
-                throw new \RuntimeException('Откат отменён: запись ' . $table . ' была изменена после импорта.');
+            $expected = $change['after_json'] === null ? null :
+                json_decode($change['after_json'], true, 512, JSON_THROW_ON_ERROR);
+            if ($this->rowsEqual($table, $current, $expected)) continue;
+            ++$totalConflicts;
+            if (count($conflicts) < 20) {
+                $conflicts[] = $this->describeConflict($table, $key, $expected, $current);
             }
+        }
+        if ($totalConflicts > 0) {
+            throw new \RuntimeException(
+                'Откат отменён ДО изменения данных. Конфликтов: ' . $totalConflicts .
+                '. Первые ' . count($conflicts) . ': ' .
+                json_encode($conflicts, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR)
+            );
         }
         $newFiles = json_decode($run['created_files'] ?: '{}', true, 512, JSON_THROW_ON_ERROR);
         foreach ($newFiles as $relative => $expectedHash) {
@@ -257,9 +286,9 @@ class ImportRollbackService
                 throw new \RuntimeException('Откат отменён: файл изменён или удалён после импорта: ' . $relative);
             }
         }
-        $this->sql("UPDATE __rmbt_rollback_runs SET state='rolling_back' WHERE id=?", $id);
         $this->sql('START TRANSACTION');
         try {
+            $this->sql("UPDATE __rmbt_rollback_runs SET state='rolling_back' WHERE id=?", $id);
             // Foreign keys disabled only within this connection; no TRUNCATE/DDL.
             $this->sql('SET FOREIGN_KEY_CHECKS=0');
             foreach (array_reverse($changes) as $change) {
@@ -277,8 +306,14 @@ class ImportRollbackService
             $this->sql("UPDATE __rmbt_rollback_runs SET state='rolled_back',finished_at=NOW() WHERE id=?", $id);
             $this->sql('COMMIT');
         } catch (\Throwable $e) {
-            $this->sql('ROLLBACK');
-            $this->sql("UPDATE __rmbt_rollback_runs SET state='ready' WHERE id=?", $id);
+            try {
+                $this->sql('ROLLBACK');
+            } catch (\Throwable $rollbackError) {
+                throw new \RuntimeException(
+                    'Откат SQL-транзакции завершился ошибкой: ' . $rollbackError->getMessage() .
+                    '; исходная ошибка: ' . $e->getMessage(), 0, $e
+                );
+            }
             throw $e;
         } finally {
             $this->sql('SET FOREIGN_KEY_CHECKS=1');
@@ -293,13 +328,114 @@ class ImportRollbackService
         return ['run_id' => $id, 'restored_rows' => count($changes), 'files_not_deleted' => $failedFiles];
     }
 
+    /**
+     * Normalize according to actual MySQL column types, not loose PHP equality.
+     * Integer values are compared as canonical decimal strings (no float casts).
+     * NULL, empty strings, decimal precision and ordinary text stay distinct.
+     */
+    private function columnTypes(string $table): array
+    {
+        if (isset($this->columnTypes[$table])) return $this->columnTypes[$table];
+        $physical = $this->quote($this->db->table($table));
+        $types = [];
+        foreach ($this->rows('SHOW COLUMNS FROM ' . $physical) as $column) {
+            $types[$column['Field']] = strtolower($column['Type']);
+        }
+        return $this->columnTypes[$table] = $types;
+    }
+
+    private function canonicalValue(string $table, string $column, $value)
+    {
+        if ($value === null) return null;
+        $types = $this->columnTypes($table);
+        $type = $types[$column] ?? '';
+        if (preg_match('/^(tinyint|smallint|mediumint|int|integer|bigint)\b/', $type)) {
+            $string = (string)$value;
+            if (preg_match('/^[+-]?[0-9]+$/D', $string)) {
+                $negative = isset($string[0]) && $string[0] === '-';
+                $digits = ltrim(ltrim($string, '+-'), '0');
+                if ($digits === '') $digits = '0';
+                return $negative && $digits !== '0' ? '-' . $digits : $digits;
+            }
+        }
+        // MySQL BIT, DECIMAL, FLOAT, DOUBLE, text and binary are intentionally
+        // not converted to numeric PHP values (which can lose precision).
+        return is_string($value) ? $value : (is_int($value) || is_float($value) ? (string)$value : $value);
+    }
+
+    private function valuesEqual(string $table, string $column, $left, $right): bool
+    {
+        return $this->canonicalValue($table, $column, $left)
+            === $this->canonicalValue($table, $column, $right);
+    }
+
+    private function canonicalRow(string $table, array $row): array
+    {
+        foreach ($row as $column => $value) {
+            $row[$column] = $this->canonicalValue($table, $column, $value);
+        }
+        return $row;
+    }
+
+    private function rowsEqual(string $table, ?array $left, ?array $right): bool
+    {
+        if ($left === null || $right === null) return $left === $right;
+        if (count($left) !== count($right)) return false;
+        foreach ($left as $column => $value) {
+            if (!array_key_exists($column, $right) ||
+                !$this->valuesEqual($table, $column, $value, $right[$column])) return false;
+        }
+        return true;
+    }
+
+    private function describeConflict(string $table, array $key, ?array $expected, ?array $current): array
+    {
+        $entry = ['table' => $table, 'key' => $key];
+        if ($expected === null) {
+            $entry['type'] = 'unexpected_row';
+            $entry['current'] = $this->compactValues($current ?? []);
+        } elseif ($current === null) {
+            $entry['type'] = 'missing_row';
+            $entry['expected'] = $this->compactValues($expected);
+        } else {
+            $entry['type'] = 'changed_row';
+            $diff = [];
+            foreach (array_unique(array_merge(array_keys($expected), array_keys($current))) as $column) {
+                if (array_key_exists($column, $expected) && array_key_exists($column, $current)
+                    && $this->valuesEqual($table, $column, $expected[$column], $current[$column])) continue;
+                $diff[$column] = [
+                    'after_import' => $this->compactValue($expected[$column] ?? null),
+                    'current' => $this->compactValue($current[$column] ?? null),
+                ];
+            }
+            $entry['fields'] = $diff;
+        }
+        return $entry;
+    }
+
+    private function compactValues(array $row): array
+    {
+        $values = [];
+        foreach ($row as $column => $value) {
+            $values[$column] = $this->compactValue($value);
+        }
+        return $values;
+    }
+
+    private function compactValue($value)
+    {
+        if (!is_string($value) || strlen($value) <= 160) return $value;
+        return substr($value, 0, 160) . '… [bytes=' . strlen($value) .
+            ', sha256=' . hash('sha256', $value) . ']';
+    }
+
     private function findRow(string $table, array $key): ?array
     {
         if (!$this->primaryKeys($table)) {
             $matched = 0;
             $result = $this->sql('SELECT * FROM ' . $this->quote($this->db->table($table)));
             while ($row = $result->fetch_assoc()) {
-                if (hash('sha256', $this->encode($row)) === ($key['__row_hash'] ?? '')) {
+                if (hash('sha256', $this->encode($this->canonicalRow($table, $row))) === ($key['__row_hash'] ?? '')) {
                     if ($matched++ === (int)($key['__ordinal'] ?? 0)) return $row;
                 }
             }

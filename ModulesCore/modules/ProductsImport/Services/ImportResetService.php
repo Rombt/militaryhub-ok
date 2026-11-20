@@ -62,6 +62,8 @@ class ImportResetService
 
             // Таблица результатов импорта
             '__rmbt_image_transfer',
+            '__rmbt_rollback_rows',
+            '__rmbt_rollback_runs',
         ];
 
         // Preflight prevents partial truncation when a table is missing.

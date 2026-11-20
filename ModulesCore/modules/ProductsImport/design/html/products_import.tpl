@@ -15,6 +15,12 @@
                 Перенести изображения
             </button>
 
+            {if $rollback_run && $rollback_run.state == 'ready'}
+                <button id="rollback_import" class="btn btn_small btn_red" type="button">
+                    Откатить последний импорт (№{$rollback_run.id}, {$rollback_run.changed_rows} записей)
+                </button>
+            {/if}
+
             <button id="reset_import" class="btn btn_small btn_red" type="button" title="Полностью удалить каталог и данные импорта (только разработка)">
                 Полный сброс каталога (DEV)
             </button>
@@ -93,6 +99,7 @@
         const syncProducts = document.getElementById('sync_products');
         const transferImages = document.getElementById('transfer_images');
         const resetImport = document.getElementById('reset_import');
+        const rollbackImport = document.getElementById('rollback_import');
 
         const syncProductsResults = document.getElementById('sync_products_results');
         const taskStatus = document.getElementById('rmbt_task_status');
@@ -142,6 +149,18 @@
             });
         }
 
+
+        if (rollbackImport) {
+            rollbackImport.addEventListener('click', function() {
+                if (!confirm('Откатить последний импорт? Созданные записи будут удалены, изменённые восстановлены.')) return;
+                const formData = createFormData('rollback_import');
+                if (!formData) return;
+                hideMessages();
+                showTaskStatus('Откат імпорту виконується, очікуйте...');
+                rollbackImport.disabled = true;
+                sendRequest(formData, rollbackImport);
+            });
+        }
 
         if (resetImport) {
             resetImport.addEventListener('click', function() {

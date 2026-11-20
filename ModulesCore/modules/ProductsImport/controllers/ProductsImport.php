@@ -7,6 +7,7 @@ use ModulesCore\modules\ProductsImport\Snapshot\SnapshotLoader;
 use ModulesCore\modules\ProductsImport\DatabaseManager;
 use ModulesCore\modules\ProductsImport\Services\ImportService;
 use ModulesCore\modules\ProductsImport\Services\ImportResetService;
+use ModulesCore\modules\ProductsImport\Services\ImportRollbackService;
 use ModulesCore\modules\ProductsImport\Importers\LanguageImporter;
 use ModulesCore\modules\ProductsImport\Importers\BrandImporter;
 use ModulesCore\modules\ProductsImport\Repositories\BrandFlyRepository;
@@ -46,6 +47,7 @@ class ProductsImport extends Okay
     private $databaseManager;
     private $importService;
     private $resetService;
+    private $rollbackService;
     private $imageTransferRepository;
     private $importConfig;
     private $filesystemConfig;
@@ -140,6 +142,13 @@ class ProductsImport extends Okay
                 )
             );
 
+            $this->rollbackService = new ImportRollbackService(
+                $this->targetDb,
+                $this->filesystemConfig['target_files_root'],
+                (int)($this->importConfig['rollback_max_rows_per_table'] ?? 100000)
+            );
+            $this->rollbackService->ensureTables();
+
             // Сервис сброса данных импорта.
             $this->resetService = new ImportResetService($this->targetDb, !empty($this->importConfig['allow_full_reset']));
         } catch (\Throwable $e) {
@@ -172,7 +181,8 @@ class ProductsImport extends Okay
             $isAjaxAction =
                 !empty($_POST['reset_import'])
                 || !empty($_POST['sync_products'])
-                || !empty($_POST['transfer_images']);
+                || !empty($_POST['transfer_images'])
+                || !empty($_POST['rollback_import']);
 
             if ($isAjaxAction) {
                 header('Content-Type: application/json; charset=utf-8');
@@ -196,6 +206,23 @@ class ProductsImport extends Okay
             $this->design->assign('errors', $this->errors);
 
             return $this->design->fetch('products_import.tpl');
+        }
+
+        if (!empty($_POST['rollback_import'])) {
+            try {
+                $result = $this->rollbackService->rollback();
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode([
+                    'success' => empty($result['files_not_deleted']),
+                    'success_message' => 'Откат последнего импорта выполнен.',
+                    'errors' => empty($result['files_not_deleted']) ? [] : ['Некоторые файлы не удалось удалить; проверьте results.'],
+                    'results' => $result,
+                ], JSON_UNESCAPED_UNICODE);
+            } catch (\Throwable $e) {
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['success' => false, 'success_message' => '', 'errors' => [$e->getMessage()], 'results' => null], JSON_UNESCAPED_UNICODE);
+            }
+            exit;
         }
 
         /*
@@ -249,8 +276,10 @@ class ProductsImport extends Okay
             ini_set('max_execution_time', '0');
 
             $productImportId = null;
+            $rollbackRunId = null;
 
             try {
+                $rollbackRunId = $this->rollbackService->begin();
                 $productImportId = $this->imageTransferRepository->createProductImport();
 
 
@@ -340,6 +369,7 @@ class ProductsImport extends Okay
                     $productImportId,
                     $status
                 );
+                $this->rollbackService->finish($rollbackRunId);
 
                 header(
                     'Content-Type: application/json; charset=utf-8'
@@ -390,22 +420,16 @@ class ProductsImport extends Okay
                     }
                 }
 
-                header(
-                    'Content-Type: application/json; charset=utf-8'
-                );
+                if ($rollbackRunId !== null) {
+                    try {
+                        $this->rollbackService->finish($rollbackRunId);
+                    } catch (\Throwable $journalException) {
+                        error_log('[ProductsImport] Rollback journal finalization failed: ' . $journalException->getMessage());
+                    }
+                }
 
-                echo json_encode(
-                    [
-                        'success' => false,
-                        'success_message' => '',
-                        'errors' => [
-                            $e->getMessage()
-                        ],
-                        'results' => null,
-                    ],
-                    JSON_UNESCAPED_UNICODE
-                );
-
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['success' => false, 'success_message' => '', 'errors' => [$e->getMessage()], 'results' => null], JSON_UNESCAPED_UNICODE);
                 exit;
             }
         }
@@ -472,6 +496,7 @@ class ProductsImport extends Okay
                         $productImportId,
                         $status
                     );
+                $this->rollbackService->refreshTransfer();
 
                 header(
                     'Content-Type: application/json; charset=utf-8'
@@ -524,6 +549,7 @@ class ProductsImport extends Okay
             $productImportStatus
         );
 
+        $this->design->assign('rollback_run', $this->rollbackService->latest());
         $this->design->assign(
             'title',
             'Импорт товаров'

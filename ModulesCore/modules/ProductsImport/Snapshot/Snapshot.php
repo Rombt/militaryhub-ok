@@ -9,6 +9,7 @@ namespace ProductsImport\Snapshot;
  */
 class Snapshot
 {
+    private $brandsById = [];
     private $productsById;
     private $productLanguagesByProductId;
     private $productCategoryLinksByProductId;
@@ -45,7 +46,9 @@ class Snapshot
         array $languagesById,
         array $imagesById,
         array $imageIdsByProductId,
+        array $brandsById = [],
     ) {
+        $this->brandsById = $brandsById;
         $this->productsById = $productsById;
         $this->productLanguagesByProductId = $productLanguagesByProductId;
         $this->productCategoryLinksByProductId = $productCategoryLinksByProductId;
@@ -63,6 +66,11 @@ class Snapshot
         $this->languagesById = $languagesById;
         $this->imagesById = $imagesById;
         $this->imageIdsByProductId = $imageIdsByProductId;
+    }
+
+    public function getBrands()
+    {
+        return $this->brandsById;
     }
 
     public function getImage($imageId)

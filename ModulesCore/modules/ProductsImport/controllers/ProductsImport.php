@@ -8,6 +8,9 @@ use ProductsImport\DatabaseManager;
 use ProductsImport\Services\ImportService;
 use ProductsImport\Services\ImportResetService;
 use ProductsImport\Importers\LanguageImporter;
+use ProductsImport\Importers\BrandImporter;
+use ProductsImport\Repositories\BrandFlyRepository;
+use ProductsImport\Repositories\BrandMapRepository;
 use ProductsImport\Importers\CategoryImporter;
 use ProductsImport\Importers\FeatureImporter;
 use ProductsImport\Importers\FeatureValueImporter;
@@ -44,6 +47,7 @@ class ProductsImport extends Okay
     private $importService;
     private $resetService;
     private $imageTransferRepository;
+    private $importConfig;
     private $filesystemConfig;
     private $imageTransferService;
     private $imageFlyRepository;
@@ -65,6 +69,8 @@ class ProductsImport extends Okay
             }
 
             $this->filesystemConfig = $config['filesystem'];
+            $this->importConfig = $config['import'] ?? [];
+            $this->importConfig['source_prefix'] = $config['tables']['source_prefix'] ?? null;
 
             // Подключения к базам данных.
             $this->databaseManager = new DatabaseManager($config);
@@ -74,7 +80,8 @@ class ProductsImport extends Okay
             // Сервис переноса изображений.
             $this->imageTransferService = new ImageTransferService(
                 $this->filesystemConfig['source_files_url'],
-                $this->filesystemConfig['target_files_root']
+                $this->filesystemConfig['target_files_root'],
+                $config['download'] ?? []
             );
 
             // Репозитории.
@@ -94,6 +101,11 @@ class ProductsImport extends Okay
             $this->importService = new ImportService(
                 new LanguageImporter(
                     new LanguageFlyRepository($this->targetDb)
+                ),
+                new BrandImporter(
+                    new BrandFlyRepository($this->targetDb),
+                    new BrandMapRepository($this->targetDb),
+                    $this->imageTransferService
                 ),
                 new CategoryImporter(
                     new CategoryFlyRepository($this->targetDb),
@@ -129,7 +141,7 @@ class ProductsImport extends Okay
             );
 
             // Сервис сброса данных импорта.
-            $this->resetService = new ImportResetService($this->targetDb);
+            $this->resetService = new ImportResetService($this->targetDb, !empty($this->importConfig['allow_full_reset']));
         } catch (\Throwable $e) {
             $this->initializationFailed = true;
 
@@ -180,7 +192,7 @@ class ProductsImport extends Okay
 
             // Обычный GET-запрос: показываем страницу модуля с ошибкой.
             $this->design->assign('product_import_status', null);
-            $this->design->assign('title', 'Импорт товаров');
+            $this->design->assign('title', 'Импорт товаров категории Мілітарі');
             $this->design->assign('errors', $this->errors);
 
             return $this->design->fetch('products_import.tpl');
@@ -278,9 +290,10 @@ class ProductsImport extends Okay
                 /*
                  * 1. Загружаем Snapshot из Sportfly
                  */
-                $snapshotLoader = new SnapshotLoader($this->sourceDb);
+                $snapshotLoader = new SnapshotLoader($this->sourceDb, $this->importConfig);
 
                 $snapshot = $snapshotLoader->load();
+                $selectionStats = $snapshotLoader->getSelectionStats();
 
                 /*
                  * 2. Закрываем Sportfly DB
@@ -290,6 +303,8 @@ class ProductsImport extends Okay
                 /*
                  * 3. Импортируем данные из Snapshot в Fly
                  */
+                $this->databaseManager->assertProductsSchema();
+
                 $dependencyResults = $this->importService->importDependencies(
                     $snapshot
                 );
@@ -301,17 +316,25 @@ class ProductsImport extends Okay
                     $snapshot,
                     $dependencyResults['languageMap'],
                     $dependencyResults['categoryMap'],
-                    $dependencyResults['featureValueMap']
+                    $dependencyResults['featureValueMap'],
+                    $dependencyResults['brandMap']
                 );
 
                 $results = [
-                    // 'dependencies' => $dependencyResults,
+                    'import_settings' => $selectionStats,
+                    'dependencies' => [
+                        'brands' => count($dependencyResults['brandMap']),
+                        'languages' => count($dependencyResults['languageMap']),
+                        'features' => count($dependencyResults['featureMap']),
+                        'feature_values' => count($dependencyResults['featureValueMap']),
+                        'categories' => count($dependencyResults['categoryMap']),
+                    ],
                     'products' => $productResults,
                 ];
 
-                $status = !empty($this->errors)
-                    ? 'completed_with_errors'
-                    : 'success';
+                $failedCount = (int) ($productResults['errors'] ?? 0);
+                $hasImportErrors = !empty($this->errors) || $failedCount > 0;
+                $status = $hasImportErrors ? 'completed_with_errors' : 'success';
 
                 $this->imageTransferRepository->completeProductImport(
                     $productImportId,
@@ -325,15 +348,19 @@ class ProductsImport extends Okay
                 echo json_encode(
                     [
                         'success' =>
-                            empty($this->errors),
+                            !$hasImportErrors,
 
                         'success_message' =>
-                            empty($this->errors)
+                            !$hasImportErrors
                                 ? 'Синхронизация успешно завершена.'
-                                : 'Синхронизация завершена с ошибками.',
+                                : (($failedCount > 0 && $failedCount === (int) ($productResults['total'] ?? 0))
+                                    ? 'Синхронизация не выполнена: все товары завершились ошибкой.'
+                                    : 'Синхронизация завершена с ошибками.'),
 
                         'errors' =>
-                            $this->errors,
+                            array_merge($this->errors, $failedCount > 0
+                                ? [sprintf('Ошибок товаров: %d из %d.', $failedCount, (int) $productResults['total'])]
+                                : []),
 
                         'results' =>
                             $results,
@@ -343,12 +370,24 @@ class ProductsImport extends Okay
 
                 exit;
             } catch (\Throwable $e) {
+                error_log(
+                    '[ProductsImport] Import failed: ' . $e->getMessage()
+                    . ' in ' . $e->getFile() . ':' . $e->getLine()
+                );
+
                 if ($productImportId !== null) {
-                    $this->imageTransferRepository
-                        ->completeProductImport(
-                            $productImportId,
-                            'completed_with_errors'
+                    try {
+                        $this->imageTransferRepository
+                            ->completeProductImport(
+                                $productImportId,
+                                'completed_with_errors'
+                            );
+                    } catch (\Throwable $statusException) {
+                        error_log(
+                            '[ProductsImport] Status update failed: '
+                            . $statusException->getMessage()
                         );
+                    }
                 }
 
                 header(
@@ -395,7 +434,7 @@ class ProductsImport extends Okay
                 $productImportId = (int) $productImport->id;
 
                 /*
-                 * 2. Получаем актуальные изображения из Fly db_images
+                 * 2. Получаем актуальные изображения из Fly __images
                  */
                 $images = $this->imageFlyRepository
                     ->findAllForTransfer();

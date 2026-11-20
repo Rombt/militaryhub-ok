@@ -18,7 +18,7 @@ class CategoryFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_categories
+             FROM __categories
              WHERE id = ?
              LIMIT 1",
             $categoryId
@@ -36,7 +36,7 @@ class CategoryFlyRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_categories SET ?%",
+            "INSERT INTO __categories SET ?%",
             $data
         );
 
@@ -60,7 +60,7 @@ class CategoryFlyRepository
     public function update($categoryId, array $data)
     {
         $this->db->query(
-            "UPDATE db_categories
+            "UPDATE __categories
              SET ?%
              WHERE id = ?",
             $data,
@@ -71,7 +71,7 @@ class CategoryFlyRepository
     public function attachFeature($categoryId, $featureId)
     {
         $this->db->query(
-            "INSERT IGNORE INTO db_categories_features
+            "INSERT IGNORE INTO __categories_features
                 (category_id, feature_id)
              VALUES (?, ?)",
             $categoryId,
@@ -82,7 +82,7 @@ class CategoryFlyRepository
     public function detachFeatures($categoryId)
     {
         $this->db->query(
-            "DELETE FROM db_categories_features
+            "DELETE FROM __categories_features
              WHERE category_id = ?",
             $categoryId
         );
@@ -94,7 +94,7 @@ class CategoryFlyRepository
     ) {
         $this->db->query(
             "SELECT category_id
-             FROM db_lang_categories
+             FROM __lang_categories
              WHERE lang_id = ?
                AND category_id = ?
              LIMIT 1",
@@ -108,7 +108,7 @@ class CategoryFlyRepository
     public function createLanguage(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_lang_categories SET ?%",
+            "INSERT INTO __lang_categories SET ?%",
             $data
         );
     }
@@ -119,7 +119,7 @@ class CategoryFlyRepository
         array $data
     ) {
         $this->db->query(
-            "UPDATE db_lang_categories
+            "UPDATE __lang_categories
              SET ?%
              WHERE lang_id = ?
                AND category_id = ?",

@@ -21,7 +21,7 @@ class ProductFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_products
+             FROM __products
              WHERE id = ?
              LIMIT 1",
             $productId
@@ -49,7 +49,7 @@ class ProductFlyRepository
 
         $this->db->query(
             "SELECT id
-             FROM db_brands
+             FROM __brands
              WHERE name = ?
              LIMIT 1",
             'Fly'
@@ -76,7 +76,7 @@ class ProductFlyRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_products SET ?% ",
+            "INSERT INTO __products SET ?% ",
             $data
         );
 
@@ -103,7 +103,7 @@ class ProductFlyRepository
     public function update($productId, array $data)
     {
         $this->db->query(
-            "UPDATE db_products SET ?% WHERE id=?",
+            "UPDATE __products SET ?% WHERE id=?",
             $data,
             $productId
         );
@@ -126,7 +126,7 @@ class ProductFlyRepository
     ) {
         $this->db->query(
             "SELECT product_id
-             FROM db_lang_products
+             FROM __lang_products
              WHERE lang_id = ?
                AND product_id = ?
              LIMIT 1",
@@ -151,7 +151,7 @@ class ProductFlyRepository
         if ($exists) {
 
             $this->db->query(
-                "UPDATE db_lang_products
+                "UPDATE __lang_products
                  SET ?%
                  WHERE lang_id = ?
                    AND product_id = ?",
@@ -163,7 +163,7 @@ class ProductFlyRepository
         } else {
 
             $this->db->query(
-                "INSERT INTO db_lang_products SET ?%",
+                "INSERT INTO __lang_products SET ?%",
                 $data
             );
         }
@@ -178,7 +178,7 @@ class ProductFlyRepository
         int $position = 0
     ): void {
         $this->db->query(
-            "INSERT INTO db_products_categories
+            "INSERT INTO __products_categories
             (product_id, category_id, position)
          VALUES (?, ?, ?)
          ON DUPLICATE KEY UPDATE
@@ -192,7 +192,7 @@ class ProductFlyRepository
     public function deleteProductCategories(int $productId): void
     {
         $this->db->query(
-            "DELETE FROM db_products_categories
+            "DELETE FROM __products_categories
          WHERE product_id = ?",
             $productId
         );
@@ -204,7 +204,7 @@ class ProductFlyRepository
     public function deleteProductFeatureValues(int $productId): void
     {
         $this->db->query(
-            "DELETE FROM db_products_features_values
+            "DELETE FROM __products_features_values
             WHERE product_id = ?",
             $productId
         );
@@ -218,7 +218,7 @@ class ProductFlyRepository
         int $valueId
     ): void {
         $this->db->query(
-            "INSERT IGNORE INTO db_products_features_values
+            "INSERT IGNORE INTO __products_features_values
                 (product_id, value_id)
             VALUES (?, ?)",
             $productId,

@@ -18,7 +18,7 @@ class LanguageFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_languages
+             FROM __languages
              WHERE label = ?
              LIMIT 1",
             $label
@@ -36,7 +36,7 @@ class LanguageFlyRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_languages SET ?%",
+            "INSERT INTO __languages SET ?%",
             $data
         );
 
@@ -60,7 +60,7 @@ class LanguageFlyRepository
     public function update($languageId, array $data)
     {
         $this->db->query(
-            "UPDATE db_languages
+            "UPDATE __languages
              SET ?%
              WHERE id = ?",
             $data,

@@ -23,7 +23,8 @@ class ProductImporter
         \stdClass $sourceProduct,
         Snapshot $snapshot,
         array $categoryMap,
-        array $featureValueMap
+        array $featureValueMap,
+        array $brandMap
     ): array {
         $sourceProductId = (int) $sourceProduct->id;
 
@@ -32,13 +33,13 @@ class ProductImporter
         if ($flyProductId !== null) {
             $this->flyRepository->update(
                 $flyProductId,
-                $this->prepareUpdateData($sourceProduct, $categoryMap)
+                $this->prepareUpdateData($sourceProduct, $categoryMap, $brandMap, $snapshot)
             );
 
             $status = 'updated';
         } else {
             $flyProductId = $this->flyRepository->create(
-                $this->prepareCreateData($sourceProduct, $categoryMap)
+                $this->prepareCreateData($sourceProduct, $categoryMap, $brandMap, $snapshot)
             );
 
             $this->mapRepository->save(
@@ -70,17 +71,37 @@ class ProductImporter
     }
 
 
+    public function setMainImageId(int $productId, int $imageId): void
+    {
+        $this->flyRepository->update($productId, ['main_image_id' => $imageId]);
+    }
+
     private function prepareCreateData(
         \stdClass $product,
-        array $categoryMap
+        array $categoryMap,
+        array $brandMap,
+        Snapshot $snapshot
     ): array {
         $sourceMainCategoryId = (int) $product->main_category_id;
 
         $mainCategoryId = $categoryMap[$sourceMainCategoryId] ?? null;
+        if (!$mainCategoryId) {
+            foreach ($snapshot->getProductCategoryLinks((int) $product->id) as $link) {
+                if (isset($categoryMap[(int) $link->category_id])) {
+                    $mainCategoryId = $categoryMap[(int) $link->category_id];
+                    break;
+                }
+            }
+        }
+        $sourceBrandId = (int) $product->brand_id;
+        if ($sourceBrandId > 0 && !isset($brandMap[$sourceBrandId])) {
+            throw new \RuntimeException('Не сопоставлен бренд ' . $sourceBrandId . ' товара ' . $product->id);
+        }
+        $targetBrandId = $sourceBrandId ? $brandMap[$sourceBrandId] : 0;
 
         return [
         'url' => $product->url,
-        'brand_id' => $product->brand_id,
+        'brand_id' => $targetBrandId,
         'name' => $product->name,
         'annotation' => $product->annotation,
         'description' => $product->description,
@@ -95,22 +116,37 @@ class ProductImporter
         'rating' => $product->rating,
         'votes' => $product->votes,
         'special' => $product->special,
-        'product_code' => '0',
         'main_category_id' => $mainCategoryId,
+        'main_order' => 0,
         ];
     }
 
     private function prepareUpdateData(
         \stdClass $product,
-        array $categoryMap
+        array $categoryMap,
+        array $brandMap,
+        Snapshot $snapshot
     ): array {
         $sourceMainCategoryId = (int) $product->main_category_id;
 
         $mainCategoryId = $categoryMap[$sourceMainCategoryId] ?? null;
+        if (!$mainCategoryId) {
+            foreach ($snapshot->getProductCategoryLinks((int) $product->id) as $link) {
+                if (isset($categoryMap[(int) $link->category_id])) {
+                    $mainCategoryId = $categoryMap[(int) $link->category_id];
+                    break;
+                }
+            }
+        }
+        $sourceBrandId = (int) $product->brand_id;
+        if ($sourceBrandId > 0 && !isset($brandMap[$sourceBrandId])) {
+            throw new \RuntimeException('Не сопоставлен бренд ' . $sourceBrandId . ' товара ' . $product->id);
+        }
+        $targetBrandId = $sourceBrandId ? $brandMap[$sourceBrandId] : 0;
 
         return [
         'url' => $product->url,
-        'brand_id' => $product->brand_id,
+        'brand_id' => $targetBrandId,
         'name' => $product->name,
         'annotation' => $product->annotation,
         'description' => $product->description,
@@ -125,8 +161,6 @@ class ProductImporter
         'rating' => $product->rating,
         'votes' => $product->votes,
         'special' => $product->special,
-        'product_code' => '0',
-        'main_image_id' => $product->main_image_id,
         'main_category_id' => $mainCategoryId,
         ];
     }

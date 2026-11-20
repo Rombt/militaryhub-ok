@@ -8,19 +8,83 @@ class ImageTransferService
 {
     private string $sourceFilesUrl;
     private string $targetFilesRoot;
+    private bool $sslVerify;
+    private string $caBundle;
 
     public function __construct(
         string $sourceFilesUrl,
-        string $targetFilesRoot
+        string $targetFilesRoot,
+        array $downloadConfig = []
     ) {
         $this->sourceFilesUrl = rtrim($sourceFilesUrl, '/');
         $this->targetFilesRoot = rtrim($targetFilesRoot, DIRECTORY_SEPARATOR);
+        $this->sslVerify = (bool) ($downloadConfig['ssl_verify'] ?? true);
+        $this->caBundle = (string) ($downloadConfig['ca_bundle'] ?? '');
+        if ($this->sslVerify && $this->caBundle !== '' && !is_readable($this->caBundle)) {
+            throw new RuntimeException('CA bundle не найден или недоступен: ' . $this->caBundle);
+        }
+    }
+
+    /** Shared TLS options for both brand logos and product images. */
+    private function sslOptions(): array
+    {
+        $options = [
+            CURLOPT_SSL_VERIFYPEER => $this->sslVerify,
+            CURLOPT_SSL_VERIFYHOST => $this->sslVerify ? 2 : 0,
+        ];
+        if ($this->sslVerify && $this->caBundle !== '') {
+            $options[CURLOPT_CAINFO] = $this->caBundle;
+        }
+        return $options;
+    }
+
+    /** Transfers a brand logo from the standard OkayCMS files/brands directory.
+     * The filename is namespaced to prevent collisions with local brand assets.
+     */
+    public function transferBrandLogo(string $filename, int $sourceBrandId): string
+    {
+        $filename = basename(str_replace('\\', '/', $filename));
+        if ($filename === '' || $filename === '.' || $filename === '..') {
+            throw new RuntimeException('Некорректное имя логотипа бренда');
+        }
+        $targetName = 'sportfly_' . $sourceBrandId . '_' . $filename;
+        $directory = $this->targetFilesRoot . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'brands';
+        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
+            throw new RuntimeException('Не удалось создать каталог логотипов');
+        }
+        $target = $directory . DIRECTORY_SEPARATOR . $targetName;
+        if (is_file($target) && filesize($target) > 0) return $targetName;
+        $url = $this->sourceFilesUrl . '/files/brands/' . rawurlencode($filename);
+        $tmp = $target . '.tmp.' . getmypid();
+        $handle = fopen($tmp, 'wb');
+        if (!$handle) throw new RuntimeException('Не удалось открыть файл логотипа');
+        $curl = curl_init($url);
+        curl_setopt_array($curl, [
+            CURLOPT_FILE => $handle,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 60,
+            CURLOPT_FAILONERROR => true,
+        ] + $this->sslOptions());
+        $ok = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        fclose($handle);
+        if (!$ok || !is_file($tmp) || filesize($tmp) === 0) {
+            @unlink($tmp);
+            throw new RuntimeException('Не удалось перенести логотип бренда: ' . $error);
+        }
+        if (!rename($tmp, $target)) {
+            @unlink($tmp);
+            throw new RuntimeException('Не удалось сохранить логотип бренда');
+        }
+        return $targetName;
     }
 
     /**
      * Переносит один файл изображения.
      *
-     * @param string $relativePath Относительный путь из db_images
+     * @param string $relativePath Относительный путь из __images
      *
      * @return string
      *
@@ -86,16 +150,7 @@ class ImageTransferService
             CURLOPT_CONNECTTIMEOUT  => 10,
             CURLOPT_TIMEOUT         => 60,
             CURLOPT_FAILONERROR     => true,
-            // CURLOPT_SSL_VERIFYPEER  => true,
-            // CURLOPT_SSL_VERIFYHOST  => 2,
-            // для локальной разработки
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => 0,
-
-            CURLOPT_RESOLVE        => [
-                'sportfly.com.ua:443:159.69.87.214',
-            ],
-        ]);
+        ] + $this->sslOptions());
 
         $success = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);

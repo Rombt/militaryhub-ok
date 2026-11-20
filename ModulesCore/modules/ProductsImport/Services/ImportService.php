@@ -4,6 +4,7 @@ namespace ProductsImport\Services;
 
 use ProductsImport\Snapshot\Snapshot;
 use ProductsImport\Importers\LanguageImporter;
+use ProductsImport\Importers\BrandImporter;
 use ProductsImport\Importers\CategoryImporter;
 use ProductsImport\Importers\FeatureImporter;
 use ProductsImport\Importers\FeatureValueImporter;
@@ -15,6 +16,7 @@ use ProductsImport\Importers\ImageImporter;
 
 class ImportService
 {
+    private $brandImporter;
     private $languageImporter;
     private $categoryImporter;
     private $featureImporter;
@@ -28,6 +30,7 @@ class ImportService
 
     public function __construct(
         LanguageImporter $languageImporter,
+        BrandImporter $brandImporter,
         CategoryImporter $categoryImporter,
         FeatureImporter $featureImporter,
         FeatureValueImporter $featureValueImporter,
@@ -37,7 +40,8 @@ class ImportService
         VariantLanguageImporter $variantLanguageImporter,
         ImageImporter $imageImporter,
     ) {
-        $this->languageImporter = $languageImporter;
+$this->languageImporter = $languageImporter;
+        $this->brandImporter = $brandImporter;
         $this->categoryImporter = $categoryImporter;
         $this->featureImporter = $featureImporter;
         $this->featureValueImporter = $featureValueImporter;
@@ -68,6 +72,8 @@ class ImportService
          *
          * sportfly feature_id => fly feature_id
          */
+        $brandMap = $this->brandImporter->import($snapshot);
+
         $featureMap = $this->featureImporter->import(
             $snapshot,
             $languageMap
@@ -93,6 +99,7 @@ class ImportService
         );
 
         return [
+            'brandMap'        => $brandMap,
             'languageMap'     => $languageMap,
             'featureMap'      => $featureMap,
             'featureValueMap' => $featureValueMap,
@@ -111,7 +118,8 @@ class ImportService
         Snapshot $snapshot,
         array $languageMap,
         array $categoryMap,
-        array $featureValueMap
+        array $featureValueMap,
+        array $brandMap
     ) {
         $products = $snapshot->getProducts();
 
@@ -138,16 +146,12 @@ class ImportService
                     $sourceProduct,
                     $snapshot,
                     $categoryMap,
-                    $featureValueMap
+                    $featureValueMap,
+                    $brandMap
                 );
 
                 $flyProductId = $productResult['fly_product_id'];
 
-                if ($productResult['status'] === 'created') {
-                    $results['created']++;
-                } elseif ($productResult['status'] === 'updated') {
-                    $results['updated']++;
-                }
 
 
                 /*
@@ -172,12 +176,21 @@ class ImportService
                 /*
                 * 5. Изображения товара.
                 */
-                $this->imageImporter->import(
+                $imageMap = $this->imageImporter->import(
                     $snapshot,
                     $sourceProductId,
                     $flyProductId,
                     $variantMap
                 );
+                $sourceMainImageId = (int) ($sourceProduct->main_image_id ?? 0);
+                if ($sourceMainImageId > 0 && isset($imageMap[$sourceMainImageId])) {
+                    $this->productImporter->setMainImageId($flyProductId, (int) $imageMap[$sourceMainImageId]);
+                }
+                if ($productResult['status'] === 'created') {
+                    $results['created']++;
+                } elseif ($productResult['status'] === 'updated') {
+                    $results['updated']++;
+                }
 
                 $results['items'][] = [
                     'sportfly_product_id' => $sourceProductId,

@@ -21,7 +21,7 @@ class FlyVariantRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_variants
+             FROM __variants
              WHERE id = ?
              LIMIT 1",
             $variantId
@@ -46,7 +46,7 @@ class FlyVariantRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_variants
+             FROM __variants
              WHERE product_id = ?
                AND external_id = ?
              LIMIT 1",
@@ -71,7 +71,7 @@ class FlyVariantRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_variants SET ?%",
+            "INSERT INTO __variants SET ?%",
             $data
         );
 
@@ -98,7 +98,7 @@ class FlyVariantRepository
     public function update($variantId, array $data)
     {
         $this->db->query(
-            "UPDATE db_variants
+            "UPDATE __variants
              SET ?%
              WHERE id = ?",
             $data,
@@ -118,7 +118,7 @@ class FlyVariantRepository
         $units
     ) {
         $this->db->query(
-            "INSERT INTO db_lang_variants
+            "INSERT INTO __lang_variants
                 (lang_id, variant_id, name, units)
              VALUES (?, ?, ?, ?)
              ON DUPLICATE KEY UPDATE

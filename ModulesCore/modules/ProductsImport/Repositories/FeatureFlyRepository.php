@@ -18,7 +18,7 @@ class FeatureFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_features
+             FROM __features
              WHERE id = ?
              LIMIT 1",
             $featureId
@@ -37,7 +37,7 @@ class FeatureFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_features
+             FROM __features
              WHERE external_id = ?
              LIMIT 1",
             $externalId
@@ -55,7 +55,7 @@ class FeatureFlyRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_features SET ?%",
+            "INSERT INTO __features SET ?%",
             $data
         );
 
@@ -79,7 +79,7 @@ class FeatureFlyRepository
     public function update($featureId, array $data)
     {
         $this->db->query(
-            "UPDATE db_features
+            "UPDATE __features
              SET ?%
              WHERE id = ?",
             $data,
@@ -93,7 +93,7 @@ class FeatureFlyRepository
         $name
     ) {
         $this->db->query(
-            "INSERT INTO db_lang_features
+            "INSERT INTO __lang_features
                 (lang_id, feature_id, name)
              VALUES (?, ?, ?)
              ON DUPLICATE KEY UPDATE

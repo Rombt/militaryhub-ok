@@ -21,7 +21,7 @@ class ImageFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_images
+             FROM __images
              WHERE id = ?
              LIMIT 1",
             $imageId
@@ -45,7 +45,7 @@ class ImageFlyRepository
     {
         $this->db->query(
             "SELECT id, name, product_id, variant_id, filename, position
-             FROM db_images
+             FROM __images
              WHERE product_id = ?
              ORDER BY position, id",
             $productId
@@ -68,7 +68,7 @@ class ImageFlyRepository
     public function create(array $data): int
     {
         $this->db->query(
-            "INSERT INTO db_images SET ?%",
+            "INSERT INTO __images SET ?%",
             $data
         );
 
@@ -95,7 +95,7 @@ class ImageFlyRepository
     public function update(int $imageId, array $data): void
     {
         $this->db->query(
-            "UPDATE db_images
+            "UPDATE __images
              SET ?%
              WHERE id = ?",
             $data,
@@ -116,7 +116,7 @@ class ImageFlyRepository
     public function delete(int $imageId): void
     {
         $this->db->query(
-            "DELETE FROM db_images
+            "DELETE FROM __images
              WHERE id = ?",
             $imageId
         );
@@ -133,7 +133,7 @@ class ImageFlyRepository
     {
         $this->db->query(
             "SELECT id, filename
-            FROM db_images
+            FROM __images
             WHERE filename != ''
             ORDER BY id"
         );

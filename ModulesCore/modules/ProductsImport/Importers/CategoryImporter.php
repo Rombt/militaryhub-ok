@@ -163,7 +163,7 @@ class CategoryImporter
             'auto_meta_desc'     => $category->auto_meta_desc,
             'auto_description'   => $category->auto_description,
             'created'            => $category->created,
-            'attach_brand_id'    => $category->attach_brand_id,
+            'attach_brand_id'    => 0,
             'parent_menu_name'   => $category->parent_menu_name,
         ];
     }

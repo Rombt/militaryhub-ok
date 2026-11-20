@@ -10,9 +10,13 @@ class DatabaseManager
 {
     private $source;
     private $target;
+    private $sourcePrefix;
+    private $targetPrefix;
 
     public function __construct(array $config)
     {
+        $this->sourcePrefix = $this->validatePrefix($config['tables']['source_prefix'] ?? null, 'source_prefix');
+        $this->targetPrefix = $this->validatePrefix($config['tables']['target_prefix'] ?? null, 'target_prefix');
         $this->source = new mysqli(
             $config['source']['host'],
             $config['source']['username'],
@@ -27,9 +31,56 @@ class DatabaseManager
             );
         }
 
-        $this->target = new Database();
+        require_once __DIR__ . '/SafeDatabase.php';
+        $this->target = new SafeDatabase($this->targetPrefix);
 
         $this->ensureTables();
+    }
+
+    private function validatePrefix($value, string $setting): string
+    {
+        if (!is_string($value) || !preg_match('/^[A-Za-z0-9_]*$/D', $value)) {
+            throw new RuntimeException('Укажите корректный tables.' . $setting . ' в config.php.');
+        }
+        return $value;
+    }
+
+    public function sourceTable(string $name): string
+    {
+        if (!preg_match('/^[A-Za-z0-9_]+$/D', $name)) {
+            throw new RuntimeException('Некорректное имя исходной таблицы.');
+        }
+        return $this->sourcePrefix . $name;
+    }
+
+    public function targetTable(string $name): string
+    {
+        return $this->target->table($name);
+    }
+
+    /** Проверка обязательных колонок до массовой записи товаров. */
+    public function assertProductsSchema(): void
+    {
+        $required = [
+            'url', 'brand_id', 'name', 'annotation', 'description', 'visible',
+            'position', 'meta_title', 'meta_keywords', 'meta_description',
+            'created', 'featured', 'external_id', 'rating', 'votes', 'special',
+            'main_category_id', 'main_image_id', 'main_order'
+        ];
+        $result = $this->target->query('SHOW COLUMNS FROM __products');
+        if ($result === false) {
+            throw new RuntimeException('Не удалось проверить структуру таблицы products.');
+        }
+        $columns = [];
+        while ($row = $result->fetch_assoc()) {
+            $columns[$row['Field']] = true;
+        }
+        $missing = array_values(array_filter($required, function ($column) use ($columns) {
+            return !isset($columns[$column]);
+        }));
+        if ($missing) {
+            throw new RuntimeException('В целевой таблице products отсутствуют столбцы: ' . implode(', ', $missing));
+        }
     }
 
     public function getSource()
@@ -78,6 +129,16 @@ class DatabaseManager
                 PRIMARY KEY (id),
                 UNIQUE KEY uq_sportfly_category_id (sportfly_category_id),
                 UNIQUE KEY uq_fly_category_id (fly_category_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
+            ",
+
+            // Соответствие брендов (many source brands -> one existing target brand is allowed)
+            "
+            CREATE TABLE IF NOT EXISTS __rmbt_brand_import_map (
+                sportfly_brand_id INT UNSIGNED NOT NULL,
+                fly_brand_id INT UNSIGNED NOT NULL,
+                PRIMARY KEY (sportfly_brand_id),
+                KEY idx_fly_brand_id (fly_brand_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
             ",
 

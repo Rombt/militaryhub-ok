@@ -7,7 +7,7 @@
 
             <button id="sync_products" class="btn btn_small btn_blue" type="button">
                 {include file='svg_icon.tpl' svgId='checked'}
-                Импортировать товары
+                Импортировать товары категории Мілітарі
             </button>
 
             <button id="transfer_images" class="btn btn_small btn_blue" type="button">
@@ -15,8 +15,8 @@
                 Перенести изображения
             </button>
 
-            <button id="reset_import" class="btn btn_small btn_red" type="button">
-                Очистить таблицы импорта
+            <button id="reset_import" class="btn btn_small btn_red" type="button" title="Полностью удалить каталог и данные импорта (только разработка)">
+                Полный сброс каталога (DEV)
             </button>
 
             <input type="hidden" name="session_id" value="{$smarty.session.id}">
@@ -146,7 +146,7 @@
         if (resetImport) {
             resetImport.addEventListener('click', function() {
 
-                if (!confirm('Удалить все данные импорта из Fly?')) {
+                if (!confirm('ВНИМАНИЕ! Будут безвозвратно удалены ВСЕ товары, варианты, категории, характеристики, бренды и данные импорта militaryhub. Продолжить?')) {
                     return;
                 }
 
@@ -216,6 +216,9 @@
                         }
 
                         errorMassageText.innerHTML = '';
+                        const summary = document.createElement('p');
+                        summary.textContent = data.success_message || 'Ошибка импорта';
+                        errorMassageText.appendChild(summary);
 
                         if (data.errors && data.errors.length > 0) {
 

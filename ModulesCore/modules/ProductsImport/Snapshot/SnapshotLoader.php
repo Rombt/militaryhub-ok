@@ -11,28 +11,81 @@ use RuntimeException;
 class SnapshotLoader
 {
     private $db;
+    private $sourcePrefix;
 
-    public function __construct(mysqli $db)
+    private $categoryId;
+    private $includeSubcategories;
+    private $productLimit;
+    private $productOffset;
+    private $newestFirst;
+    private $selectionStats = [];
+
+    public function __construct(mysqli $db, array $config = [])
     {
         $this->db = $db;
+        $this->sourcePrefix = $config['source_prefix'] ?? null;
+        if (!is_string($this->sourcePrefix) || !preg_match('/^[A-Za-z0-9_]*$/D', $this->sourcePrefix)) {
+            throw new RuntimeException('Некорректный source_prefix в настройках SnapshotLoader.');
+        }
+        $this->categoryId = (int) ($config['source_category_id'] ?? 250);
+        $this->includeSubcategories = (bool) ($config['include_subcategories'] ?? true);
+        foreach (['product_limit', 'product_offset'] as $key) {
+            $value = $config[$key] ?? 0;
+            if (!is_int($value) || $value < 0) {
+                throw new RuntimeException('Настройка ' . $key . ' должна быть целым неотрицательным числом.');
+            }
+        }
+        if (isset($config['newest_first']) && !is_bool($config['newest_first'])) {
+            throw new RuntimeException('Настройка newest_first должна быть true или false.');
+        }
+        $this->productLimit = $config['product_limit'] ?? 0;
+        $this->productOffset = $config['product_offset'] ?? 0;
+        $this->newestFirst = $config['newest_first'] ?? true;
     }
 
     public function load()
     {
-        // 1. Товары
-        $products = $this->fetchAll(
-            "SELECT p.*
-             FROM sfly_products p
-             INNER JOIN sfly_brands b ON b.id = p.brand_id
-             WHERE b.name = 'Fly'
-             ORDER BY p.id"
+        // Category tree is the only source of products; never filter by brand.
+        $allCategories = $this->fetchAll('SELECT * FROM __categories ORDER BY id');
+        $treeIds = $this->categoryTreeIds($allCategories);
+        // Отбор выполняется в SQL ДО загрузки вариантов, изображений и переводов.
+        // DISTINCT исключает повторения товаров из нескольких категорий.
+        $totalRows = $this->fetchAllByIds(
+            'SELECT COUNT(DISTINCT pc.product_id) AS total
+             FROM __products_categories pc
+             INNER JOIN __products p ON p.id = pc.product_id
+             WHERE pc.category_id IN (%s)',
+            $treeIds
+        );
+        $available = (int) ($totalRows[0]->total ?? 0);
+        $direction = $this->newestFirst ? 'DESC' : 'ASC';
+        $query = 'SELECT DISTINCT p.* FROM __products p
+             INNER JOIN __products_categories pc ON pc.product_id = p.id
+             WHERE pc.category_id IN (%s)
+             ORDER BY p.created ' . $direction . ', p.id ' . $direction;
+        if ($this->productLimit > 0) {
+            $query .= ' LIMIT ' . $this->productLimit . ' OFFSET ' . $this->productOffset;
+        } elseif ($this->productOffset > 0) {
+            $query .= ' LIMIT 18446744073709551615 OFFSET ' . $this->productOffset;
+        }
+        $products = $this->fetchAllByIds($query, $treeIds);
+        $this->selectionStats = [
+            'product_limit' => $this->productLimit,
+            'product_offset' => $this->productOffset,
+            'newest_first' => $this->newestFirst,
+            'limited' => $this->productLimit > 0 || $this->productOffset > 0,
+            'available' => $available,
+            'selected' => count($products),
+        ];
+        $brands = $this->fetchByIds(
+            '__brands', 'id', $this->getIds($products, 'brand_id')
         );
 
         $productIds = $this->getIds($products, 'id');
 
         // 2. Языки товаров
         $productLanguages = $this->fetchByIds(
-            'sfly_lang_products',
+            '__lang_products',
             'product_id',
             $productIds
         );
@@ -40,38 +93,43 @@ class SnapshotLoader
         // 3. Товар → категории
         $productCategoryLinks = $this->fetchAllByIds(
             'SELECT product_id, category_id, position
-             FROM sfly_products_categories
+             FROM __products_categories
              WHERE product_id IN (%s)
              ORDER BY product_id, position',
             $productIds
         );
 
+        $productCategoryLinks = array_values(array_filter(
+            $productCategoryLinks,
+            function ($link) use ($treeIds) {
+                return in_array((int) $link->category_id, $treeIds, true);
+            }
+        ));
+
         // 4. Товар → значения характеристик.
         // feature_id получаем сразу через JOIN.
         $productFeatureLinks = $this->fetchAllByIds(
             'SELECT pfv.product_id, pfv.value_id, fv.feature_id
-             FROM sfly_products_features_values pfv
-             INNER JOIN sfly_features_values fv ON fv.id = pfv.value_id
+             FROM __products_features_values pfv
+             INNER JOIN __features_values fv ON fv.id = pfv.value_id
              WHERE pfv.product_id IN (%s)
              ORDER BY pfv.product_id, pfv.value_id',
             $productIds
         );
 
-        // 5. Все категории нужны для построения иерархии по parent_id.
-        $allCategories = $this->fetchAll(
-            'SELECT * FROM sfly_categories ORDER BY id'
-        );
-
-        $categories = $this->filterCategories(
+        // Only the source category subtree, not unrelated ancestors or branches.
+        $categories = array_values(array_filter(
             $allCategories,
-            $this->groupBy($productCategoryLinks, 'product_id')
-        );
+            function ($category) use ($treeIds) {
+                return in_array((int) $category->id, $treeIds, true);
+            }
+        ));
 
         $categoryIds = $this->getIds($categories, 'id');
 
         // 6. Языки категорий
         $categoryLanguages = $this->fetchByIds(
-            'sfly_lang_categories',
+            '__lang_categories',
             'category_id',
             $categoryIds
         );
@@ -79,7 +137,7 @@ class SnapshotLoader
         // 7. Категория → характеристики
         $categoryFeatureLinks = $this->fetchAllByIds(
             'SELECT category_id, feature_id
-             FROM sfly_categories_features
+             FROM __categories_features
              WHERE category_id IN (%s)
              ORDER BY category_id, feature_id',
             $categoryIds
@@ -94,14 +152,14 @@ class SnapshotLoader
         );
 
         $features = $this->fetchByIds(
-            'sfly_features',
+            '__features',
             'id',
             $featureIds
         );
 
         // 9. Языки характеристик
         $featureLanguages = $this->fetchByIds(
-            'sfly_lang_features',
+            '__lang_features',
             'feature_id',
             $featureIds
         );
@@ -110,14 +168,14 @@ class SnapshotLoader
         $valueIds = $this->getIds($productFeatureLinks, 'value_id');
 
         $featureValues = $this->fetchByIds(
-            'sfly_features_values',
+            '__features_values',
             'id',
             $valueIds
         );
 
         // 11. Языки значений
         $featureValueLanguages = $this->fetchByIds(
-            'sfly_lang_features_values',
+            '__lang_features_values',
             'feature_value_id',
             $valueIds
         );
@@ -125,7 +183,7 @@ class SnapshotLoader
         // 12. Варианты
         $variants = $this->fetchAllByIds(
             'SELECT *
-             FROM sfly_variants
+             FROM __variants
              WHERE product_id IN (%s)
              ORDER BY product_id, id',
             $productIds
@@ -136,7 +194,7 @@ class SnapshotLoader
         // 13. Изображения товаров
         $images = $this->fetchAllByIds(
             'SELECT *
-            FROM sfly_images
+            FROM __images
             WHERE product_id IN (%s)
             ORDER BY product_id, position, id',
             $productIds
@@ -146,14 +204,14 @@ class SnapshotLoader
 
         // 14. Языки вариантов
         $variantLanguages = $this->fetchByIds(
-            'sfly_lang_variants',
+            '__lang_variants',
             'variant_id',
             $variantIds
         );
 
         // 15. Языки Sportfly
         $languages = $this->fetchAll(
-            'SELECT * FROM sfly_languages ORDER BY id'
+            'SELECT * FROM __languages ORDER BY id'
         );
 
         return new Snapshot(
@@ -185,7 +243,45 @@ class SnapshotLoader
             $this->indexById($languages, 'id'),
             $this->indexById($images, 'id'),
             $this->groupIds($images, 'product_id', 'id'),
+            $this->indexById($brands, 'id'),
         );
+    }
+
+    public function getSelectionStats(): array
+    {
+        return $this->selectionStats;
+    }
+
+    private function categoryTreeIds(array $categories)
+    {
+        $children = [];
+        $exists = false;
+        foreach ($categories as $category) {
+            $id = (int) $category->id;
+            if ($id === $this->categoryId) $exists = true;
+            $children[(int) $category->parent_id][] = $id;
+        }
+        if (!$exists) {
+            throw new RuntimeException('Исходная категория не найдена: ' . $this->categoryId);
+        }
+        $seen = [];
+        $queue = [$this->categoryId];
+        while ($queue) {
+            $id = array_shift($queue);
+            if (isset($seen[$id])) continue;
+            $seen[$id] = true;
+            if ($this->includeSubcategories) {
+                foreach ($children[$id] ?? [] as $childId) $queue[] = $childId;
+            }
+        }
+        return array_map('intval', array_keys($seen));
+    }
+
+    private function resolveSourceTables(string $sql): string
+    {
+        return preg_replace_callback('/(?<![A-Za-z0-9_])__([A-Za-z][A-Za-z0-9_]*)/', function ($m) {
+            return $this->sourcePrefix . $m[1];
+        }, $sql);
     }
 
     private function fetchByIds($table, $column, array $ids)
@@ -222,7 +318,7 @@ class SnapshotLoader
             $placeholders
         );
 
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->db->prepare($this->resolveSourceTables($query));
 
         if (!$stmt) {
             throw new RuntimeException(
@@ -263,7 +359,7 @@ class SnapshotLoader
 
     private function fetchAll($query)
     {
-        $result = $this->db->query($query);
+        $result = $this->db->query($this->resolveSourceTables($query));
 
         if ($result === false) {
             throw new RuntimeException(

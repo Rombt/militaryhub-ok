@@ -18,7 +18,7 @@ class FeatureValueFlyRepository
     {
         $this->db->query(
             "SELECT id
-             FROM db_features_values
+             FROM __features_values
              WHERE id = ?
              LIMIT 1",
             $valueId
@@ -39,7 +39,7 @@ class FeatureValueFlyRepository
     ) {
         $this->db->query(
             "SELECT id
-             FROM db_features_values
+             FROM __features_values
              WHERE feature_id = ?
                AND value = ?
              LIMIT 1",
@@ -59,7 +59,7 @@ class FeatureValueFlyRepository
     public function create(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_features_values SET ?%",
+            "INSERT INTO __features_values SET ?%",
             $data
         );
 
@@ -83,7 +83,7 @@ class FeatureValueFlyRepository
     public function update($valueId, array $data)
     {
         $this->db->query(
-            "UPDATE db_features_values
+            "UPDATE __features_values
              SET ?%
              WHERE id = ?",
             $data,
@@ -97,7 +97,7 @@ class FeatureValueFlyRepository
     ) {
         $this->db->query(
             "SELECT feature_value_id
-             FROM db_lang_features_values
+             FROM __lang_features_values
              WHERE lang_id = ?
                AND feature_value_id = ?
              LIMIT 1",
@@ -111,7 +111,7 @@ class FeatureValueFlyRepository
     public function createLanguage(array $data)
     {
         $this->db->query(
-            "INSERT INTO db_lang_features_values SET ?%",
+            "INSERT INTO __lang_features_values SET ?%",
             $data
         );
     }
@@ -122,7 +122,7 @@ class FeatureValueFlyRepository
         array $data
     ) {
         $this->db->query(
-            "UPDATE db_lang_features_values
+            "UPDATE __lang_features_values
              SET ?%
              WHERE lang_id = ?
                AND feature_value_id = ?",

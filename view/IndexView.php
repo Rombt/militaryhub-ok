@@ -225,8 +225,6 @@ class IndexView extends View
                 $this->count_visible($this->menu->get_menu_items_tree((int)$menu->id), $all_menu_items, 'submenus');
                 $this->design->assign("menu_items", $this->menu->get_menu_items_tree((int)$menu->id));
                 $this->design->assign(Menu::MENU_VAR_PREFIX . $menu->group_id, $this->design->fetch("menu.tpl"));
-                //!! rmbt
-                $this->design->assign("menu_items_" . $menu->group_id, $this->menu->get_menu_items_tree((int)$menu->id));
             }
         }
 
@@ -297,7 +295,6 @@ class IndexView extends View
 
         // Категории товаров
         $all_categories = $this->categories->get_categories();
-
         $this->count_visible($this->categories->get_categories_tree(), $all_categories);
         $this->design->assign('categories', $this->categories->get_categories_tree());
 

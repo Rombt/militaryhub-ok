@@ -103,7 +103,7 @@ class Variants extends Okay
                 $order = 'v.position';
                 break;
             case 'image':
-                $order = '(SELECT count(distinct i.id) > 0 FROM __images i WHERE i.variant_id = v.id LIMIT 1) DESC, IF(stock=0, 0, 1) DESC, v.position, v.id';
+                $order = '(SELECT count(distinct i.id) > 0 FROM mh_images i WHERE i.variant_id = v.id LIMIT 1) DESC, IF(stock=0, 0, 1) DESC, v.position, v.id';
                 break;
             default:
                 $order = 'IF(stock=0, 0, 1) DESC, v.position, v.id';
@@ -335,7 +335,7 @@ class Variants extends Okay
                 (i.variant_id = 0 OR i.variant_id IS NULL)
                 AND v.position = (
                     SELECT MIN(v2.position)
-                    FROM __variants v2
+                    FROM mh_variants v2
                     WHERE v2.product_id = v.product_id
                 )
             )

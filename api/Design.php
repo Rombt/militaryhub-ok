@@ -150,7 +150,7 @@ class Design extends Okay
     }
 
     /*Функция ресайза для изображений*/
-    public function resize_modifier($filename, $width = 0, $height = 0, $set_watermark = false, $resized_dir = null, $crop_position_x = null, $crop_position_y = null, $webp = false)
+    public function resize_modifier($filename, $width = 0, $height = 0, $set_watermark = false, $resized_dir = null, $crop_position_x = null, $crop_position_y = null, $webp = false, $expand_canvas = false)
     {
 
         if (!empty($crop_position_x) && !empty($crop_position_y)) {
@@ -158,7 +158,7 @@ class Design extends Okay
             $crop_params['y_pos'] = $crop_position_y;
         }
 
-        $resized_filename         = $this->image->add_resize_params($filename, $width, $height, $set_watermark, $crop_params, $webp);
+        $resized_filename         = $this->image->add_resize_params($filename, $width, $height, $set_watermark, $crop_params, $webp, $expand_canvas);
         $resized_filename_encoded = $resized_filename;
 
         $size = $width . 'x' . $height . $set_watermark;
@@ -351,7 +351,7 @@ class Design extends Okay
         return $res;
     }
 
-    //!! rmbt 
+        //!! rmbt 
     /**
      * Truncates HTML text to a specified number of words,
      * preserving allowed HTML tags and safe attributes.
@@ -599,6 +599,5 @@ class Design extends Okay
             libxml_use_internal_errors($previous_errors);
         }
     }
-
 
 }

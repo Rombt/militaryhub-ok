@@ -160,12 +160,32 @@ foreach ( $products as $product ) {
         if (is_array($images[ $product->color ]['urls']) ) {
             foreach ( $images[ $product->color ]['urls'] as $i => $image ) {
                 if ($i == 0 ) {
-                    print "\t\t\t<g:image_link>" . $okay->design->resize_modifier($image, 800, 800, false, $dir) . "
-         </g:image_link>\n";
+                    // print "\t\t\t<g:image_link>" . $okay->design->resize_modifier($image, 800, 800, false, $dir) . " </g:image_link>\n";
+                    print "\t\t\t<g:image_link>" . $okay->design->resize_modifier(
+                        $image,
+                        800,
+                        800,
+                        false,
+                        $dir,
+                        null,
+                        null,
+                        false,
+                        true
+                    ) . " </g:image_link>\n";
                     continue;
                 }
-                print "\t\t\t<g:additional_image_link>" . $okay->design->resize_modifier($image, 800, 800, false, $dir) . "
-         </g:additional_image_link>\n";
+                // print "\t\t\t<g:additional_image_link>" . $okay->design->resize_modifier($image, 800, 800, false, $dir) . " </g:additional_image_link>\n";
+                print "\t\t\t<g:additional_image_link>" . $okay->design->resize_modifier(
+                    $image,
+                    800,
+                    800,
+                    false,
+                    $dir,
+                    null,
+                    null,
+                    false,
+                    true
+                ) . " </g:additional_image_link>\n";
                 if ($i > 10 ) {
                     break;
                 }
@@ -177,8 +197,19 @@ foreach ( $products as $product ) {
 
 
     } else {
-        print "\t\t\t<g:image_link>" . $okay->design->resize_modifier($product->image, 800, 800) . "</g:image_link>
-         \n";
+        // print "\t\t\t<g:image_link>" . $okay->design->resize_modifier($product->image, 800, 800) . "</g:image_link>  \n";
+
+        print "\t\t\t<g:image_link>" . $okay->design->resize_modifier(
+            $product->image,
+            800,
+            800,
+            false,
+            null,
+            null,
+            null,
+            false,
+            true
+        ) . "</g:image_link>  \n";
     }
 
           $prev_product_id = $product->product_id;

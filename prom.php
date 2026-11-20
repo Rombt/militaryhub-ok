@@ -200,11 +200,11 @@ foreach ($products as $product) {
     };
 
 
-    print "\t\t\t<price>" . number_format($price, 2, '.', '') . "</price>\n";
+    print "\t\t\t<price>" . number_format(round($price, 0), 2, '.', '') . "</price>\n";
 
      //!! rmbt 
     if ($compare_price > $price) {
-        print "\t\t\t<oldprice>" . number_format($compare_price, 2, '.', '') . "</oldprice>\n";
+        print "\t\t\t<oldprice>" . number_format(round($compare_price, 0), 2, '.', '') . "</oldprice>\n";
     }
 
 

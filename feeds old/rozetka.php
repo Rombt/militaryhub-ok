@@ -706,7 +706,7 @@ if ($isDebug && false) {
         $okay->db->query(
             "
         SELECT v.id
-        FROM __variants v
+        FROM mh_variants v
         WHERE 
             1
             $whereRozetka

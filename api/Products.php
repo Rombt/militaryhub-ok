@@ -33,7 +33,6 @@ class Products extends Okay
             p.main_image_id,
             p.automatic_translation_done,
             p.bonuses,
-            p.new_arrival,
             $lang_sql->fields";
 
         if ($count === true) {
@@ -383,7 +382,6 @@ class Products extends Okay
                 p.main_image_id,
                 p.automatic_translation_done,
                 p.bonuses,
-                p.new_arrival,
                 $lang_sql->fields
             FROM __products AS p
             $lang_sql->join
@@ -401,7 +399,7 @@ class Products extends Okay
     /*Обновление товара*/
     public function update_product($id, $product)
     {
-        $product = (object)$this->normalize_product_fields($product);
+        $product = (object)$product;
 
         $result = $this->languages->get_description($product, 'product');
 
@@ -436,7 +434,7 @@ class Products extends Okay
             }
         }
 
-        $product = $this->normalize_product_fields($product);
+        $product = (object)$product;
         if (empty($product->created)) {
             $created = $this->db->placehold(", created=NOW()");
         }
@@ -1088,28 +1086,7 @@ class Products extends Okay
         return $titles[($num % 100 > 4 && $num % 100 < 20) ? 2 : $cases[min($num % 10, 5)]];
     }
 
-
-    //!! rmbt for militaryhub
-    private function normalize_product_fields($product)
-    {
-        $product = (object)$product;
-
-        $defaults = [
-        'bonuses'     => 0,
-        'new_arrival' => 0,
-        'main_order'  => 0,
-        ];
-
-        foreach ($defaults as $field => $default) {
-            if (isset($product->$field) === false) {
-                $product->$field = $default;
-            }
-        }
-
-        return $product;
-    }
-
-    //!! ModulesCore/ContentEngine/ProductsImage.php //!!
+    // ModulesCore/ContentEngine/ProductsImage.php //!!
     /**
      * удаляю дублирующие записи в БД которые создаются при перетягивании картинок в варианты  
      */

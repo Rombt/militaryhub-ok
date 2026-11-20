@@ -3,6 +3,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-ALTER TABLE `__referrals` ADD `value_referrer` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT '0.00' AFTER `value`;
+ALTER TABLE `mh_referrals` ADD `value_referrer` DECIMAL(10,2) UNSIGNED NOT NULL DEFAULT '0.00' AFTER `value`;
 
 COMMIT;

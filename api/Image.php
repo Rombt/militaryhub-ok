@@ -1,6 +1,6 @@
 <?php
 
-require_once('Okay.php');
+require_once 'Okay.php';
 use WebPConvert\WebPConvert;
 
 class Image extends Okay
@@ -17,14 +17,16 @@ class Image extends Okay
 
     /**
      * Создание превью изображения
-     * @param $filename файл с изображением (без пути к файлу)
-     * @param max_w максимальная ширина
-     * @param max_h максимальная высота
+     *
+     * @param  $filename файл с изображением (без пути к файлу)
+     * @param  max_w максимальная ширина
+     * @param  max_h максимальная высота
      * @return $string имя файла превью
      */
     public function resize($filename, $original_images_dir = null, $resized_images_dir = null)
     {
-        list($source_file, $width, $height, $set_watermark, $crop_params, $pseudoWebp) = $this->get_resize_params($filename);
+
+        list($source_file, $width, $height, $set_watermark, $crop_params, $pseudoWebp, $expand_canvas) = $this->get_resize_params($filename);
 
         $size = $width . 'x' . $height . ($set_watermark === true ? 'w' : '');
         if ($resized_images_dir === null || $resized_images_dir == $this->config->resized_images_dir) {
@@ -47,7 +49,9 @@ class Image extends Okay
             $original_file = $source_file;
         }
 
-        $resized_file = $this->add_resize_params($original_file, $width, $height, $set_watermark, $crop_params);
+        $resized_file = $this->add_resize_params(
+            $original_file, $width, $height, $set_watermark, $crop_params, false, $expand_canvas
+        );
 
         // Пути к папкам с картинками
         if ($original_images_dir && !$resized_images_dir) {
@@ -141,6 +145,7 @@ class Image extends Okay
         // пишемо в tmp → rename (атомарно)
         $tmp = $destination . '.tmp.' . getmypid();
 
+
         if ($this->config->resize_library == 'gregwar_image') {
             $this->image_gregwar_image($originals_dir . $original_file, $tmp, $width, $height, $watermark, $watermark_offet_x, $watermark_offet_y, $crop_params);
         } elseif ($this->config->resize_library == 'imagick' && class_exists('Imagick')) {
@@ -153,9 +158,39 @@ class Image extends Okay
         clearstatcache(true, $tmp);
         if (!is_file($tmp) || filesize($tmp) <= 0) {
             @unlink($tmp);
-            if ($lockFp) { flock($lockFp, LOCK_UN); fclose($lockFp); }
+            if ($lockFp) { flock($lockFp, LOCK_UN); fclose($lockFp); 
+            }
             return false;
         }
+
+        // Расширяем холст, если это специальный запрос Google-фида.
+        if ($expand_canvas) {
+            $canvasTmp = $destination . '.canvas.tmp.' . getmypid();
+
+            try {
+                $expanded = $this->expand_image_canvas(
+                    $tmp,
+                    $canvasTmp,
+                    505
+                );
+
+                if ($expanded) {
+                    $tmp = $canvasTmp;
+                }
+            } catch (\Throwable $e) {
+                @unlink($tmp);
+                @unlink($canvasTmp);
+
+                if ($lockFp) {
+                    flock($lockFp, LOCK_UN);
+                    fclose($lockFp);
+                }
+
+                throw $e;
+            }
+        }
+
+
 
         // атомарно підміняємо кінцевий файл
         @rename($tmp, $destination);
@@ -190,55 +225,87 @@ class Image extends Okay
         return $destination;
     }
 
-    /*Добавление параметров ресайза для изображения*/
-    public function add_resize_params($filename, $width = 0, $height = 0, $set_watermark = false, $crop_params = array(), $webp = false)
-    {
+    /* Добавление параметров ресайза для изображения */
+    public function add_resize_params(
+        $filename,
+        $width = 0,
+        $height = 0,
+        $set_watermark = false,
+        $crop_params = array(),
+        $webp = false,
+        $expand_canvas = false
+    ) {
         if ('.' != ($dirname = pathinfo($filename, PATHINFO_DIRNAME))) {
             $file = $dirname . '/' . pathinfo($filename, PATHINFO_FILENAME);
         } else {
             $file = pathinfo($filename, PATHINFO_FILENAME);
         }
+
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if ($width > 0 || $height > 0) {
-            $resized_filename = $file . '.' . ($width > 0 ? $width : '') . 'x' . ($height > 0 ? $height : '') . ($set_watermark ? 'w' : '');
+            $resized_filename = $file . '.' .
+            ($width > 0 ? $width : '') . 'x' .
+            ($height > 0 ? $height : '') .
+            ($set_watermark ? 'w' : '');
         } else {
-            $resized_filename = $file . ($set_watermark ? '.w' : '') . $ext;
+            $resized_filename = $file .
+            ($set_watermark ? '.w' : '') . $ext;
         }
 
-        if ($crop_params['x_pos'] && $crop_params['y_pos']) {
-            $resized_filename .= '.' . $crop_params['x_pos'] . '.' . $crop_params['y_pos'];
+        if (!empty($crop_params['x_pos']) && !empty($crop_params['y_pos'])) {
+            $resized_filename .= '.' .
+            $crop_params['x_pos'] . '.' .
+            $crop_params['y_pos'];
         }
+
+        if ($expand_canvas) {
+            $resized_filename .= 'c';
+        }
+
         $resized_filename .= '.' . $ext;
+
         if ($webp) {
             $resized_filename .= '.webp';
         }
+
         return $resized_filename;
     }
 
-    /*Выборка параметров изображения для ресайза*/
+    /* Выборка параметров изображения для ресайза */
     public function get_resize_params($filename)
     {
-        // Определаяем параметры ресайза
-        if (!preg_match('/(.+)\.([0-9]*)x([0-9]*)(w)?(\.(left|center|right)\.(top|center|bottom))?\.([^\.]+)(\.webp)?$/', $filename, $matches)) {
+        if (!preg_match('/(.+)\.([0-9]*)x([0-9]*)(w)?(\.(left|center|right)\.(top|center|bottom))?(c)?\.([^\.]+)(\.webp)?$/', $filename, $matches)) {
             return false;
         }
 
-        $file          = $matches[1];                 // имя запрашиваемого файла
-        $width         = $matches[2];                // ширина будущего изображения
-        $height        = $matches[3];               // высота будущего изображения
-        $set_watermark = $matches[4] == 'w'; // ставить ли водяной знак
-        $ext           = $matches[8];                  // расширение файла
-        $pseudoWebp    = !empty($matches[9]);   // признак что запрашивается webp, но оригинал в jpeg или png
+        $file          = $matches[1];
+        $width         = $matches[2];
+        $height        = $matches[3];
+        $set_watermark = $matches[4] == 'w';
+        $expand_canvas = !empty($matches[8]);
+        $ext           = $matches[9];
+        $pseudoWebp    = !empty($matches[10]);
 
-        // crop params
+        // Crop params
+        $crop_params = array();
+
         if (!empty($matches[5])) {
             $crop_params['x_pos'] = $matches[6];
             $crop_params['y_pos'] = $matches[7];
         }
 
-        return array($file . '.' . $ext, $width, $height, $set_watermark, $crop_params, $pseudoWebp);
+        return array(
+        $file . '.' . $ext,
+        $width,
+        $height,
+        $set_watermark,
+        $crop_params,
+        $pseudoWebp,
+        $expand_canvas
+        );
     }
+
 
     /*Загрузка изображения*/
     public function download_image($filename)
@@ -369,10 +436,11 @@ class Image extends Okay
 
     /**
      * Создание превью средствами gd
-     * @param $src_file исходный файл
-     * @param $dst_file файл с результатом
-     * @param max_w максимальная ширина
-     * @param max_h максимальная высота
+     *
+     * @param  $src_file исходный файл
+     * @param  $dst_file файл с результатом
+     * @param  max_w максимальная ширина
+     * @param  max_h максимальная высота
      * @return bool
      */
     private function image_constrain_gd($src_file, $dst_file, $max_w, $max_h, $watermark = null, $watermark_offet_x = 0, $watermark_offet_y = 0)
@@ -401,18 +469,18 @@ class Image extends Okay
 
         // Читаем изображение
         switch ($src_type) {
-            case 'image/jpeg':
-                $src_img = imageCreateFromJpeg($src_file);
-                break;
-            case 'image/gif':
-                $src_img = imageCreateFromGif($src_file);
-                break;
-            case 'image/png':
-                $src_img = imageCreateFromPng($src_file);
-                imagealphablending($src_img, true);
-                break;
-            default:
-                return false;
+        case 'image/jpeg':
+            $src_img = imageCreateFromJpeg($src_file);
+            break;
+        case 'image/gif':
+            $src_img = imageCreateFromGif($src_file);
+            break;
+        case 'image/png':
+            $src_img = imageCreateFromPng($src_file);
+            imagealphablending($src_img, true);
+            break;
+        default:
+            return false;
         }
 
         if (empty($src_img)) {
@@ -492,24 +560,25 @@ class Image extends Okay
 
         // Сохраняем изображение
         switch ($src_type) {
-            case 'image/jpeg':
-                return imageJpeg($dst_img, $dst_file, $quality);
-            case 'image/gif':
-                return imageGif($dst_img, $dst_file, $quality);
-            case 'image/png':
-                imagesavealpha($dst_img, true);
-                return imagePng($dst_img, $dst_file, $quality);
-            default:
-                return false;
+        case 'image/jpeg':
+            return imageJpeg($dst_img, $dst_file, $quality);
+        case 'image/gif':
+            return imageGif($dst_img, $dst_file, $quality);
+        case 'image/png':
+            imagesavealpha($dst_img, true);
+            return imagePng($dst_img, $dst_file, $quality);
+        default:
+            return false;
         }
     }
 
     /**
      * Создание превью средствами imagick
-     * @param $src_file исходный файл
-     * @param $dst_file файл с результатом
-     * @param max_w максимальная ширина
-     * @param max_h максимальная высота
+     *
+     * @param  $src_file исходный файл
+     * @param  $dst_file файл с результатом
+     * @param  max_w максимальная ширина
+     * @param  max_h максимальная высота
      * @return bool
      */
     private function image_constrain_imagick($src_file, $dst_file, $max_w, $max_h, $watermark = null, $watermark_offet_x = 0, $watermark_offet_y = 0)
@@ -590,10 +659,11 @@ class Image extends Okay
 
     /**
      * Вычисляет размеры изображения, до которых нужно его пропорционально уменьшить, чтобы вписать в квадрат $max_w x $max_h
-     * @param src_w ширина исходного изображения
-     * @param src_h высота исходного изображения
-     * @param max_w максимальная ширина
-     * @param max_h максимальная высота
+     *
+     * @param  src_w ширина исходного изображения
+     * @param  src_h высота исходного изображения
+     * @param  max_w максимальная ширина
+     * @param  max_h максимальная высота
      * @return array(w, h)
      */
     public function calc_contrain_size($src_w, $src_h, $max_w = 0, $max_h = 0)
@@ -620,24 +690,24 @@ class Image extends Okay
     {
         $buffer_len = 1024;
         if (!$fp1 = fopen(dirname(dirname(__FILE__)) . '/' . $fn1, 'rb')) {
-            return FALSE;
+            return false;
         }
 
         if (!$fp2 = fopen($fn2, 'rb')) {
             fclose($fp1);
-            return FALSE;
+            return false;
         }
 
-        $same = TRUE;
+        $same = true;
         while (!feof($fp1) and !feof($fp2)) {
             if (fread($fp1, $buffer_len) !== fread($fp2, $buffer_len)) {
-                $same = FALSE;
+                $same = false;
                 break;
             }
         }
 
         if (feof($fp1) !== feof($fp2)) {
-            $same = FALSE;
+            $same = false;
         }
 
         fclose($fp1);
@@ -729,4 +799,134 @@ class Image extends Okay
             }
         }
     }
+
+    
+    //!! rmbt
+
+    /**
+     * Расширяет холст изображения до минимального размера.
+     *
+     * Изображение не масштабируется и не обрезается.
+     * Исходный файл не изменяется.
+     *
+     * @param string $source      Абсолютный путь к исходному изображению
+     * @param string $destination Абсолютный путь для сохранения результата
+     * @param int    $min_size    Минимальный размер каждой стороны
+     *
+     * @return bool true — изображение обработано, false — изменения не требуются
+     *
+     * @throws RuntimeException
+     */
+    public function expand_image_canvas($source, $destination, $min_size = 505)
+    {
+
+        if (!is_file($source) || !is_readable($source)) {
+            throw new RuntimeException('Изображение не найдено или недоступно для чтения: ' . $source);
+        }
+
+        $image_info = getimagesize($source);
+
+        if ($image_info === false) {
+            throw new RuntimeException('Не удалось определить размеры изображения: ' . $source);
+        }
+
+        list($src_width, $src_height, $image_type) = $image_info;
+
+        if ($src_width >= $min_size && $src_height >= $min_size) {
+            return false;
+        }
+
+        if (!in_array($image_type, array(IMAGETYPE_JPEG, IMAGETYPE_PNG), true)) {
+            throw new RuntimeException('Неподдерживаемый формат изображения: ' . $source);
+        }
+
+        $dst_width = max($src_width, $min_size);
+        $dst_height = max($src_height, $min_size);
+
+        $dst_image = imagecreatetruecolor($dst_width, $dst_height);
+
+        if (!$dst_image) {
+            throw new RuntimeException('Не удалось создать новый холст.');
+        }
+
+        if ($image_type === IMAGETYPE_PNG) {
+            imagealphablending($dst_image, false);
+            imagesavealpha($dst_image, true);
+
+            $background = imagecolorallocatealpha($dst_image, 0, 0, 0, 127);
+        } else {
+            $background = imagecolorallocate($dst_image, 255, 255, 255);
+        }
+
+        imagefill($dst_image, 0, 0, $background);
+
+        $src_image = imagecreatefromstring(file_get_contents($source));
+
+        if (!$src_image) {
+            imagedestroy($dst_image);
+            throw new RuntimeException('Не удалось загрузить исходное изображение.');
+        }
+
+        $dst_x = (int) floor(($dst_width - $src_width) / 2);
+        $dst_y = (int) floor(($dst_height - $src_height) / 2);
+
+        imagecopy(
+            $dst_image,
+            $src_image,
+            $dst_x,
+            $dst_y,
+            0,
+            0,
+            $src_width,
+            $src_height
+        );
+
+        $dest_dir = dirname($destination);
+
+        if (!is_dir($dest_dir) && !mkdir($dest_dir, 0775, true) && !is_dir($dest_dir)) {
+            imagedestroy($src_image);
+            imagedestroy($dst_image);
+
+            throw new RuntimeException('Не удалось создать директорию: ' . $dest_dir);
+        }
+
+        $temp_file = tempnam($dest_dir, 'img_');
+
+        if ($temp_file === false) {
+            imagedestroy($src_image);
+            imagedestroy($dst_image);
+
+            throw new RuntimeException('Не удалось создать временный файл.');
+        }
+
+        $saved = false;
+
+        if ($image_type === IMAGETYPE_JPEG) {
+            $saved = imagejpeg($dst_image, $temp_file, 90);
+        } elseif ($image_type === IMAGETYPE_PNG) {
+            $saved = imagepng($dst_image, $temp_file, 6);
+        }
+
+        imagedestroy($src_image);
+        imagedestroy($dst_image);
+
+        if (!$saved) {
+            @unlink($temp_file);
+            throw new RuntimeException('Не удалось сохранить обработанное изображение.');
+        }
+
+        $permissions = fileperms($source);
+
+        if ($permissions !== false) {
+            @chmod($temp_file, $permissions & 0777);
+        }
+
+        if (!rename($temp_file, $destination)) {
+            @unlink($temp_file);
+            throw new RuntimeException('Не удалось сохранить обработанное изображение: ' . $destination);
+        }
+
+        return true;
+    }
+
 }

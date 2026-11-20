@@ -595,15 +595,15 @@ foreach (array_chunk(array_keys($productIds), 500) as $chunk) {
         print "\t\t<offer id=\"" . $variant_id . "\" available=\"" . $available . "\">\n";
         print "\t\t\t<url>" . htmlspecialchars($variant_url) . "</url>\n";
        
-        print "\t\t\t<price>" . number_format($price, 2, '.', '') . "</price>\n";
+        print "\t\t\t<price>" . number_format(round($price, 0), 2, '.', '') . "</price>\n";
        
         if (!empty($promo_price)) {
-            print "\t\t\t<promo_price>" . number_format($promo_price, 2, '.', '') . "</promo_price>\n";
+            print "\t\t\t<promo_price>" . number_format(round($promo_price, 0), 2, '.', '') . "</promo_price>\n";
         }       
 
         // !! rmbt
         if ($price_old > $price) {
-            print "\t\t\t<price_old>" . number_format($price_old, 2, '.', '') . "</price_old>\n";
+            print "\t\t\t<price_old>" . number_format(round($price_old, 0), 2, '.', '') . "</price_old>\n";
         }
 
         print "\t\t\t<currencyId>" . $curr->code . "</currencyId>\n";
@@ -669,7 +669,7 @@ if ($isDebug && false) {
         $okay->db->query(
             "
         SELECT v.id
-        FROM __variants v
+        FROM mh_variants v
         WHERE 
             1
             $whereRozetka

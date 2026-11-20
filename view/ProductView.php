@@ -5,12 +5,14 @@
  * Time: 12:42:28
  */
 
-require_once('View.php');
+require_once 'View.php';
 
-class ProductView extends View {
+class ProductView extends View
+{
 
     /*Отображение товара*/
-    public function fetch() {
+    public function fetch()
+    {
         $product_url = $this->request->get('product_url', 'string');
         $variant_id = $this->request->get('variant', 'integer');
         
@@ -57,7 +59,7 @@ class ProductView extends View {
             
             $size_translit = $this->translit_alpha($v->size);
             $sizes_ids[$size_translit] = $v->size;
-            if (!in_array($size_translit, array_keys($product->sizes[$color_translit]))) {
+            if (!in_array($size_translit, array_keys($product->sizes[$color_translit] ?? []))) {
                 $v->size_translit = $size_translit;
                 $product->sizes[$color_translit][$size_translit] = $v;
             }
@@ -160,7 +162,7 @@ class ProductView extends View {
 
             if ($this->settings->captcha_fastorder && !$this->validate->verify_captcha('captcha_fastorder', $captcha_code)) {
                 $this->design->assign('error', 'captcha');
-            } elseif (!$this->validate->is_name($order->name, true)){
+            } elseif (!$this->validate->is_name($order->name, true)) {
                 $this->design->assign('error', 'empty_name');
             } elseif (!$this->validate->is_phone($order->phone, true)) {
                 $this->design->assign('error', 'empty_phone');
@@ -171,7 +173,8 @@ class ProductView extends View {
                 $_SESSION['order_id'] = $order->id;
 
                 // Добавляем товары к заказу
-                $this->orders->add_purchase(array(
+                $this->orders->add_purchase(
+                    array(
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'variant_id' => $variant->id,
@@ -181,7 +184,8 @@ class ProductView extends View {
                     'amount' => 1,
                     'sku' => $variant->sku,
                     'units' => $variant->units,
-                ));
+                    )
+                );
 
                 // Если использовали реферал, увеличим количество его использований
                 if (!empty($_COOKIE['userRefererId'])) {

@@ -15,7 +15,7 @@ db_password = "pVxBoz7Mqkf2VAud"
 db_name = "db_sportfly"
 
 ;Префикс для таблиц
-db_prefix = __
+db_prefix = mh_
 
 ;Кодировка базы данных
 db_charset = utf8mb4

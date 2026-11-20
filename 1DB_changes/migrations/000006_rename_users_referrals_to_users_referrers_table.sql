@@ -3,6 +3,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-RENAME TABLE `__users_referrals` TO `__users_referrers`;
+RENAME TABLE `mh_users_referrals` TO `mh_users_referrers`;
 
 COMMIT;

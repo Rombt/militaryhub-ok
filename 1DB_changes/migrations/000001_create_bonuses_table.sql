@@ -3,7 +3,7 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-create table __users_bonuses
+create table mh_users_bonuses
 (
 	user_id BIGINT(20) not null,
 	object_id BIGINT(20) not null,
@@ -17,12 +17,12 @@ create table __users_bonuses
 );
 
 create index bonuses
-	on __users_bonuses (bonuses);
+	on mh_users_bonuses (bonuses);
 
 create index sms
-	on __users_bonuses (sms);
+	on mh_users_bonuses (sms);
 
 create index created
-	on __users_bonuses (created);
+	on mh_users_bonuses (created);
 
 COMMIT;

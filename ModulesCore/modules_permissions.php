@@ -11,5 +11,8 @@ return [
     'ProductsImage' => 'pages',
     'ProductsText' => 'pages',
     'BrandsManagement' => 'pages',
-    'BrandsManagement\BrandsManagement' => 'pages'
+    'BrandsManagement\BrandsManagement' => 'pages',
+    'ProductsImport' => 'pages',
+    'ProductsImport\ProductsImport' => 'pages',
+    'ModulesCore\ProductsImport\ProductsImport' => 'pages'
 ];

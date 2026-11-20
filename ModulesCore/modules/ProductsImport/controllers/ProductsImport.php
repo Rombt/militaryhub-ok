@@ -556,13 +556,15 @@ class ProductsImport extends Okay
          * Вывод страницы
          */
         $productImportStatus = $this->imageTransferRepository->findLastProductImport();
-
-        $this->design->assign(
-            'product_import_status',
-            $productImportStatus
-        );
-
-        $this->design->assign('rollback_run', $this->rollbackService->latest());
+        $latestRecordedRun = $this->rollbackService->latestRecorded();
+        $availableRun = $this->rollbackService->latest();
+        // The transfer table can still contain a status from an already
+        // reverted run. Do not present it as the current catalog state.
+        $lastImportWasRolledBack = $latestRecordedRun !== null
+            && $latestRecordedRun['state'] === 'rolled_back';
+        $this->design->assign('last_import_was_rolled_back', $lastImportWasRolledBack);
+        $this->design->assign('product_import_status', $lastImportWasRolledBack ? null : $productImportStatus);
+        $this->design->assign('rollback_run', $availableRun);
         $this->design->assign(
             'title',
             'Импорт товаров'

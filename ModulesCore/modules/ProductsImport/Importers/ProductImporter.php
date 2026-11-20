@@ -10,6 +10,7 @@ class ProductImporter
 {
     private ProductFlyRepository $flyRepository;
     private ProductMapRepository $mapRepository;
+    private array $warnings = [];
 
     public function __construct(
         ProductFlyRepository $flyRepository,
@@ -26,6 +27,7 @@ class ProductImporter
         array $featureValueMap,
         array $brandMap
     ): array {
+        $this->warnings = [];
         $sourceProductId = (int) $sourceProduct->id;
 
         $flyProductId = $this->mapRepository->findFlyProductId($sourceProductId);
@@ -67,6 +69,7 @@ class ProductImporter
         return [
             'fly_product_id' => $flyProductId,
             'status' => $status,
+            'warnings' => $this->warnings,
         ];
     }
 
@@ -95,9 +98,13 @@ class ProductImporter
         }
         $sourceBrandId = (int) $product->brand_id;
         if ($sourceBrandId > 0 && !isset($brandMap[$sourceBrandId])) {
-            throw new \RuntimeException('Не сопоставлен бренд ' . $sourceBrandId . ' товара ' . $product->id);
+            $this->warnings[] = [
+                'field' => 'brand_id',
+                'source_value' => $sourceBrandId,
+                'reason' => 'Не сопоставлен бренд; товар сохранён без назначения нового бренда',
+            ];
         }
-        $targetBrandId = $sourceBrandId ? $brandMap[$sourceBrandId] : 0;
+        $targetBrandId = $sourceBrandId > 0 ? ($brandMap[$sourceBrandId] ?? 0) : 0;
 
         return [
         'url' => $product->url,
@@ -140,11 +147,15 @@ class ProductImporter
         }
         $sourceBrandId = (int) $product->brand_id;
         if ($sourceBrandId > 0 && !isset($brandMap[$sourceBrandId])) {
-            throw new \RuntimeException('Не сопоставлен бренд ' . $sourceBrandId . ' товара ' . $product->id);
+            $this->warnings[] = [
+                'field' => 'brand_id',
+                'source_value' => $sourceBrandId,
+                'reason' => 'Не сопоставлен бренд; товар сохранён без назначения нового бренда',
+            ];
         }
-        $targetBrandId = $sourceBrandId ? $brandMap[$sourceBrandId] : 0;
+        $targetBrandId = $sourceBrandId > 0 ? ($brandMap[$sourceBrandId] ?? 0) : 0;
 
-        return [
+        $data = [
         'url' => $product->url,
         'brand_id' => $targetBrandId,
         'name' => $product->name,
@@ -163,14 +174,24 @@ class ProductImporter
         'special' => $product->special,
         'main_category_id' => $mainCategoryId,
         ];
+        if ($sourceBrandId > 0 && !isset($brandMap[$sourceBrandId])) {
+            // Do not erase an already correct brand on a temporary mapping failure.
+            unset($data['brand_id']);
+        }
+        return $data;
     }
 
     private function importCategories( Snapshot $snapshot, int $sourceProductId, int $flyProductId, array $categoryMap ): void
     {
-        // Сначала полностью очищаем старые связи товара с категориями.
-        $this->flyRepository->deleteProductCategories($flyProductId);
-
         $categoryLinks = $snapshot->getProductCategoryLinks($sourceProductId);
+        foreach ($categoryLinks as $link) {
+            if (!isset($categoryMap[(int)$link->category_id])) {
+                $this->warnings[] = ['field' => 'category_id', 'source_value' => (int)$link->category_id,
+                    'reason' => 'Категория не сопоставлена; существующие связи сохранены'];
+                return;
+            }
+        }
+        $this->flyRepository->deleteProductCategories($flyProductId);
 
         foreach ($categoryLinks as $categoryLink) {
             $sourceCategoryId = (int) $categoryLink->category_id;
@@ -199,12 +220,17 @@ class ProductImporter
         int $flyProductId,
         array $featureValueMap
     ): void {
-        // Полностью удаляем старые связи товара с характеристиками.
-        $this->flyRepository->deleteProductFeatureValues($flyProductId);
-
         $sourceValueIds = $snapshot->getProductFeatureValueIds(
             $sourceProductId
         );
+        foreach ($sourceValueIds as $valueId) {
+            if (!isset($featureValueMap[(int)$valueId])) {
+                $this->warnings[] = ['field' => 'feature_value_id', 'source_value' => (int)$valueId,
+                    'reason' => 'Значение характеристики не сопоставлено; существующие связи сохранены'];
+                return;
+            }
+        }
+        $this->flyRepository->deleteProductFeatureValues($flyProductId);
 
         foreach ($sourceValueIds as $sourceValueId) {
             $sourceValueId = (int) $sourceValueId;

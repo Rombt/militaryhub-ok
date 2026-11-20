@@ -241,6 +241,14 @@ class ImportRollbackService
 
     public function latest(): ?array
     {
+        // The newest journal entry may already have been rolled back.
+        // Return the newest pending run, but never skip an active/unknown run.
+        $rows = $this->rows("SELECT * FROM __rmbt_rollback_runs WHERE state <> 'rolled_back' ORDER BY id DESC LIMIT 1");
+        return $rows[0] ?? null;
+    }
+
+    public function latestRecorded(): ?array
+    {
         $rows = $this->rows("SELECT * FROM __rmbt_rollback_runs ORDER BY id DESC LIMIT 1");
         return $rows[0] ?? null;
     }
@@ -358,8 +366,27 @@ class ImportRollbackService
                 return $negative && $digits !== '0' ? '-' . $digits : $digits;
             }
         }
-        // MySQL BIT, DECIMAL, FLOAT, DOUBLE, text and binary are intentionally
-        // not converted to numeric PHP values (which can lose precision).
+        if (preg_match('/^(decimal|numeric|dec|fixed)\\b/', $type)) {
+            // Exact decimal comparison: no conversion to PHP float.
+            $string = (string)$value;
+            if (preg_match('/^([+-]?)([0-9]+)(?:\\.([0-9]+))?$/D', $string, $match)) {
+                $integer = ltrim($match[2], '0');
+                if ($integer === '') $integer = '0';
+                $fraction = rtrim($match[3] ?? '', '0');
+                $negative = $match[1] === '-' && ($integer !== '0' || $fraction !== '');
+                return ($negative ? '-' : '') . $integer .
+                    ($fraction !== '' ? '.' . $fraction : '');
+            }
+        }
+        if (preg_match('/^(float|double|real)\\b/', $type)) {
+            // These MySQL types are already approximate. Compare their
+            // numeric values, but do not use an epsilon that could conceal edits.
+            if (is_numeric($value)) {
+                $number = (float)$value;
+                if (is_finite($number)) return $number;
+            }
+        }
+        // BIT, text and binary remain distinct; NULL is handled above.
         return is_string($value) ? $value : (is_int($value) || is_float($value) ? (string)$value : $value);
     }
 

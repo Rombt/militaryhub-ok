@@ -56,7 +56,9 @@
         <div class="boxed rmbt-boxed">
             <div class="heading_box">Состояние Импорта</div>
 
-            {if !$product_import_status}
+            {if !empty($last_import_was_rolled_back)}
+                <p>Последний импорт отменён. Доступность отката предыдущего импорта показана кнопкой выше.</p>
+            {elseif !$product_import_status}
                 <p>Импорт ещё не выполнялся.</p>
 
             {elseif $product_import_status->product_import_status == 'running'

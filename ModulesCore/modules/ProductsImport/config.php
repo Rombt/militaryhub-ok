@@ -18,9 +18,9 @@ return [
         'source_category_id' => 250,
         'include_subcategories' => true,
         // 0 = все товары; иначе максимум указанное количество.
-        'product_limit' => 5,
+        'product_limit' => 100,
         // Пропустить указанное количество товаров после сортировки.
-        'product_offset' => 0,
+        'product_offset' => 100,
         // true = сначала новые по created, false = сначала старые.
         'newest_first' => true,
         // Только для локальной разработки: удаляет ВЕСЬ каталог.

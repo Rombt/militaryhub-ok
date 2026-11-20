@@ -107,20 +107,15 @@ class SafeDatabase extends \Database
             return $this->table($matches[1]);
         }, $args[0]);
 
-        try {
-            return parent::query(...$args);
-        } catch (\Error $e) {
-            if (strpos($e->getMessage(), 'mysqli_result object is already closed') === false) {
-                throw $e;
-            }
+        // Database::query() blindly calls free() on its previous $res.
+        // That result may already have been freed by another consumer.
+        // Drop the stale reference BEFORE entering the parent method.
+        // The parent will assign its fresh result to $res as usual, so
+        // Database::result(), results() and num_rows() remain compatible.
+        $property = new \ReflectionProperty(\Database::class, 'res');
+        $property->setAccessible(true);
+        $property->setValue($this, null);
 
-            // The failed parent query() did not execute SQL: it failed while
-            // releasing the result of the previous query.
-            $property = new \ReflectionProperty(\Database::class, 'res');
-            $property->setAccessible(true);
-            $property->setValue($this, null);
-
-            return parent::query(...$args);
-        }
+        return parent::query(...$args);
     }
 }
